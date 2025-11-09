@@ -176,4 +176,4 @@ MEDIA_URL = '/media/'
 # 租户名称
 # with open('school_name.txt', encoding='utf-8') as f:
 #     school_name = f.read()
-USER_NAME = 'XX学校'
+USER_NAME = 'XXXX中学'

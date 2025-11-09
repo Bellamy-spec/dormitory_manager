@@ -1,0 +1,15 @@
+{% extends "workload/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ task.month }}{{ task.grade_str }}年级课时量已填报老师</h2>
+<ul class="list-unstyled">
+    {% for record in records %}
+    <li><a href="{% url 'workload:show_record' record.id %}">{{ record.name }}</a></li>
+    {% endfor %}
+</ul>
+<p>
+    <a href="{% url 'workload:task_main' task.id %}">返回上一页</a> -
+    <a href="{% url 'workload:index' %}">返回主页</a>
+</p>
+{% endblock %}

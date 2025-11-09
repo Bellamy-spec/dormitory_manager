@@ -1,0 +1,25 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<table class="table table-hover table-bordered" style="width: 400px;">
+    <tr>
+        <th>准考证号</th>
+        <td>{{ student.exam_id }}</td>
+    </tr>
+    <tr>
+        <th>姓名</th>
+        <td>{{ student.name }}</td>
+    </tr>
+    <tr>
+        <th>考试科目</th>
+        <td>{{ student.subject }}</td>
+    </tr>
+    <tr>
+        <th>成绩</th>
+        <td>{{ score }}</td>
+    </tr>
+</table>
+<p><a href="{% url 'zzbm:index' %}">返回主页</a></p>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>选择学年</h3>
+<ul class="list-unstyled">
+    {% for ob in invests %}
+    <li><a href="{% url 'inv_manage' ob.id %}">{{ ob.school_year }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'advice' %}">返回上一页</a></p>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<p class="tip-color">{{ tip }}</p>
+{% for fn in fns %}
+<p><a href="/media/advice/{{ fn }}"><img src="/media/advice/{{ fn }}" width="500px"></a></p>
+{% endfor %}
+<p><a href="{% url 'teacher_list' inv.id %}">返回上一页</a></p>
+{% endblock %}

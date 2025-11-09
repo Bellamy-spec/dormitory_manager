@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h4>修改记录：</h4>
+<form role="form" action="{% url 'change' record.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>日期分组</label>
+        <select name="date_group">
+            {% for date in dates %}
+                {% if date == record.date_group_str %}
+                    <option value="{{ date }}" selected>{{ date }}</option>
+                {% else %}
+                    <option value="{{ date }}">{{ date }}</option>
+                {% endif %}
+            {% endfor %}
+        </select><br><br>
+        <label>宿舍号:</label>
+        <select name="dormitory">
+            {% for dorm in dorms %}
+                {% if dorm == record.dormitory %}
+                    <option value="{{ dorm }}" selected>{{ dorm }}</option>
+                {% else %}
+                    <option value="{{ dorm }}">{{ dorm }}</option>
+                {% endif %}
+            {% endfor %}
+        </select><br><br>
+        {{ form.as_p }}
+    </div>
+    <button name="submit" class="btn btn-primary">保存</button>
+</form>
+{% endblock %}

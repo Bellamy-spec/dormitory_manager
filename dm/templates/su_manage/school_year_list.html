@@ -1,0 +1,12 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>选择学年：</h3>
+<ul class="list-unstyled">
+    {% for sy in ncsys %}
+    <li><a href="{% url 'su_manage:member_list' sy.id 0 %}">{{ sy.name }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'su_manage:index' %}">返回首页</a></p>
+{% endblock %}

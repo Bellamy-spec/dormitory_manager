@@ -1,0 +1,35 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>节目&nbsp;&nbsp;<strong>{{ program.name }}</strong>&nbsp;&nbsp;的表演者</h2>
+<p>
+    <a href="{% url 'artday:show_program' program.id %}">返回上一页</a> -
+    <a href="{% url 'artday:index' %}">返回主页</a>
+</p>
+<table class="table">
+    <tr>
+        <th>班级</th>
+        <th>姓名</th>
+        {% if is_manager %}
+        <th>操作</th>
+        {% endif %}
+    </tr>
+    {% for performer in performers %}
+    <tr>
+        <td>{{ performer.class_belong }}</td>
+        <td>{{ performer.name }}</td>
+        {% if is_manager %}
+        <td><a href="{% url 'artday:delete_performer' performer.id %}"
+               class="btn btn-danger">删除</a></td>
+        {% endif %}
+    </tr>
+    {% empty %}
+    {% if is_manager %}
+    <tr><td colspan="3">暂无表演者</td></tr>
+    {% else %}
+    <tr><td colspan="2">暂无表演者</td></tr>
+    {% endif %}
+    {% endfor %}
+</table>
+{% endblock %}

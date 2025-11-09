@@ -1,0 +1,36 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>查看考生&nbsp;&nbsp;<strong>{{ st.name }}</strong>&nbsp;&nbsp;的报名信息</h2>
+{% if st.exam_id != '未分配' and st.task_belong.open_download  %}
+<a href="{% url 'zzbm:download_card' st.id st.pwd %}" class="btn btn-success"
+   style="margin-bottom: 10px;">下载准考证</a>
+{% endif %}
+{% if st.score != 'O' %}
+<a href="{% url 'zzbm:get_score' st.id st.pwd %}" class="btn btn-warning"
+   style="margin-bottom: 10px;">查看成绩</a>
+{% endif %}
+<table class="table table-bordered">
+    <tr>
+        <th>姓名</th>
+        <td>{{ st.name }}</td>
+        <th>性别</th>
+        <td>{{ st.gender }}</td>
+        <td rowspan="4"><img src="/media/{{ st.photo }}" width="147"></td>
+    </tr>
+    <tr>
+        <th>证件号码</th>
+        <td colspan="3">{{ st.id_number }}</td>
+    </tr>
+    <tr>
+        <th>手机号</th>
+        <td colspan="3">{{ st.phone_number }}</td>
+    </tr>
+    <tr>
+        <th>初中毕业学校</th>
+        <td colspan="3">{{ st.middle_school }}</td>
+    </tr>
+</table>
+<p><a href="{% url 'zzbm:task_main' st.task_belong.id %}">返回任务主页</a></p>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>运动员{{ athlete.num }}</h2>
+{% if first %}
+<h2 class="err-color">您的运动员口令是{{ athlete.pwd }}，请牢记</h2>
+{% endif %}
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>姓名</th>
+        <td>{{ athlete.name }}</td>
+        <th>班级</th>
+        <td>{{ athlete.class_and_grade }}</td>
+    </tr>
+    <tr>
+        <th>性别</th>
+        <td>{{ athlete.gender }}</td>
+        <th>已参与个人项目数</th>
+        <td>{{ athlete.n }}</td>
+    </tr>
+    <tr>
+        <th>年份</th>
+        <td>{{ athlete.year }}</td>
+    </tr>
+    <tr><th colspan="4">参与项目</th></tr>
+    {% for item in items %}
+    <tr>
+        <td colspan="2">{{ item.0 }}</td>
+        <td colspan="2">
+            <a href="{% url 'sport_meet:delete_item' athlete.id athlete.pwd item.1 0 athlete.year %}"
+               class="btn btn-danger"
+               onclick="return confirm('你确定要取消报名吗？')">取消报名</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'sport_meet:index' %}">返回主页</a> -
+    <a href="{% url 'sport_meet:put_name' %}">继续报名</a>
+</p>
+{% endblock %}

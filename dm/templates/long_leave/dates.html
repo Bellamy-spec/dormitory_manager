@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>选择日期查看</h2>
+<ul>
+    {% for date in dates %}
+    <li><a href="{% url 'long_leave:show_records' grade date|date:'Y-m-d' %}">
+        {{ date|date:'Y-m-d' }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'long_leave:grades' %}">返回上一页</a></p>
+{% endblock %}

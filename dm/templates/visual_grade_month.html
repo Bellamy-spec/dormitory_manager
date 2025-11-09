@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block visual %}
+<p><a href="/media/dorm_mtd/{{ fn }}"><img src="/media/dorm_mtd/{{ fn }}" width="1500px"></a></p>
+<input type="hidden" id="month" value="{{ month }}">
+<p>
+    <label>选择班级：</label>
+    <select id="cs">
+        {% for cs in cs_options %}
+        <option value="{{ cs.0 }}">{{ cs.1 }}</option>
+        {% endfor %}
+    </select>
+    <a id="active-link" class="btn btn-success" onclick="fill_link()">查看班级图表</a>
+</p>
+<p>
+    <a href="{% url 'month_together' %}">返回月总结主页</a> -
+    <a href="{% url 'settable_summary' %}">返回自定义时间段总结主页</a>
+</p>
+<script>
+    // 填充链接
+    function fill_link(){
+        // 前端读取参数
+        var cs_str = document.getElementById("cs").value;
+        var month_str = document.getElementById("month").value;
+
+        // 生成链接
+        var link = "/visual_class/".concat(cs_str).concat("/").concat(month_str).concat("/");
+
+        // 链接赋值
+        var link_button = document.getElementById("active-link");
+        link_button.href = link;
+    }
+</script>
+{% endblock %}

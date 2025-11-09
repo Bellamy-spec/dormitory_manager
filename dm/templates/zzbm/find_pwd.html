@@ -1,0 +1,14 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>找回报名序号</h2>
+<form role="form" action="{% url 'zzbm:find_pwd' task.id %}" method="post">
+    {% csrf_token %}
+    <input name="sfz" placeholder="请输入你的身份证号"><br><br>
+    <input name="em" placeholder="请输入你的邮箱"><br><br>
+    <button name="submit" type="submit" class="btn btn-primary">重置报名序号</button>
+</form>
+<p class="err-color">{{ err }}</p>
+<p><a href="{% url 'zzbm:que' task.id %}">返回</a></p>
+{% endblock %}

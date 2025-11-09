@@ -1,0 +1,17 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>节目列表</h2>
+{% if is_manager %}
+<p><a href="{% url 'artday:export_program' year %}" class="btn btn-info">导出节目单</a></p>
+{% endif %}
+<ul>
+    {% for program in programs reversed %}
+    <li><a href="{% url 'artday:show_program' program.id %}">{{ program }}</a></li>
+    {% empty %}
+    <li>暂无节目报名</li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'artday:index' %}">返回主页</a></p>
+{% endblock %}

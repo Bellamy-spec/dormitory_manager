@@ -1,0 +1,20 @@
+{% extends "workload/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'workload:send_up' task.id %}"
+      class="btn btn-success btn-lg btn-block">填报</a></p>
+<p><a href="{% url 'workload:teacher_list' task.id %}"
+      class="btn btn-warning btn-lg btn-block">查看已填报</a></p>
+{% if is_manager %}
+<h3 class="tip-color">{{ task.grade_str }}年级本月上课周数为{{ task.weeks }}</h3>
+<p><a href="{% url 'workload:export' task.id %}"
+      class="btn btn-info btn-lg btn-block">导出数据</a></p>
+<p><a href="{% url 'workload:change_weeks' task.id %}"
+      class="btn btn-primary btn-lg btn-block">更改上课周数</a></p>
+<p><a href="{% url 'workload:delete_task' task.id %}" onclick="return confirm('确定删除？')"
+      class="btn btn-danger btn-lg btn-block">删除此任务</a></p>
+{% endif %}
+<p><a href="{% url 'workload:index' %}">返回主页</a></p>
+{% endblock %}

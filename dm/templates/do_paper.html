@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3><strong>{{ inv.school_year }}宿舍管理满意度问卷调查</strong></h3>
+<form role="form" action="{% url 'do_paper' inv_str %}" method="post">
+    {% csrf_token %}
+    <p class="err-color">{{ err }}</p>
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary"
+            onclick="return confirm('提交后问卷不可修改，你确定要提交吗？')">提交</button>
+</form>
+<p id="grade-class" style="display:none;">{{ grade_class }}</p>
+<p id="class-dorm" style="display:none;">{{ class_dorm }}</p>
+<p id="class-dorm-boy" style="display:none;">{{ class_dorm_boy }}</p>
+<p id="class-dorm-girl" style="display:none;">{{ class_dorm_girl }}</p>
+<script>
+    function update_cs(){
+        // 获取选择的年级
+        var grade_num = document.getElementById("grade").value;
+        var grade = undefined;
+        switch(grade_num){
+            case "1": grade = "高一";
+            break;
+            case "2": grade = "高二";
+            break;
+            case "3": grade = "高三";
+            break;
+        }
+        // alert(grade);
+
+        // 取得年级班级对应字典
+        var gc_str = document.getElementById("grade-class").innerHTML;
+
+        // 单引号转为双引号
+        gc_str = gc_str.replace(/'/g, '"');
+
+        // 解析为可用的js对象
+        var gc_house = JSON.parse(gc_str);
+
+        // 获取班级列表
+        var gc_list = gc_house[grade];
+        // alert(gc_list);
+
+        // 更改班级选项
+        if(gc_list != undefined){
+            // 获取班级选项框
+            var gc_box = document.getElementById("gc");
+
+            // 须先清空所有选项
+            gc_box.options.length = 0;
+
+            for(var i = 0; i < gc_list.length; i++){
+                gc_box.options[i] = new Option(gc_list[i], gc_list[i]);
+            }
+        }
+        update_dorm();
+    }
+    function update_dorm(){
+        // 获取选择的班级
+        var gc = document.getElementById("gc").value;
+
+        // 获取选择的性别
+        var gender = document.getElementById("gender").value;
+
+        // 取得班级宿舍号对应字典
+        switch(gender){
+            case "": var dorm_str = document.getElementById("class-dorm").innerHTML;
+            break;
+            case "男": var dorm_str = document.getElementById("class-dorm-boy").innerHTML;
+            break;
+            case "女": var dorm_str = document.getElementById("class-dorm-girl").innerHTML;
+            break;
+        }
+
+        // 单引号转为双引号
+        dorm_str = dorm_str.replace(/'/g, '"');
+
+        // 解析为可用的js对象
+        var dorm_house = JSON.parse(dorm_str);
+
+        // 获取宿舍号列表
+        var dorm_list = dorm_house[gc];
+
+        // 更改宿舍号选项
+        if(dorm_list != undefined){
+            // 获取宿舍号选项框
+            var dorm_box = document.getElementById("dorm");
+
+            // 须先清空所有选项
+            dorm_box.options.length = 0;
+
+            for(var i = 0; i < dorm_list.length; i++){
+                dorm_box.options[i] = new Option(dorm_list[i], dorm_list[i]);
+            }
+        }
+    }
+</script>
+{% endblock %}

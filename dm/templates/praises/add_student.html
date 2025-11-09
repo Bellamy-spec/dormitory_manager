@@ -1,0 +1,49 @@
+{% extends "praises/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<form role="form" action="{% url 'praises:add_student' class_submit.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% for si in sub_idx %}
+    <label>{{ si.0 }}：</label>
+    <input type="number" name="sub{{ si.1 }}" style="width: 150px; margin-right: 20px">
+    {% if si.1 == 13 %}
+    <br>
+    {% endif %}
+    {% endfor %}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<div style="display:none;">
+    <p id="student-house">{{ student_house }}</p>
+    <p id="praise-house">{{ praise_house }}</p>
+</div>
+<p>
+    <a href="{% url 'praises:see_class' class_submit.id %}">返回上一页</a> -
+    <a href="{% url 'praises:index' %}">返回应用程序主页</a>
+</p>
+<script>
+    // 加载选项
+    function load_options(box_id, house_id){
+        // 找到选项下拉菜单
+        var box = document.getElementById(box_id);
+
+        // 获取选项列表对象
+        var house = document.getElementById(house_id).innerHTML;
+        var js_list = JSON.parse(house);
+
+        // 选项加入
+        for(var i = 0; i < js_list.length; i++){
+            box.options.add(new Option(js_list[i], js_list[i]));
+        }
+    }
+
+    // 加载学生选项
+    load_options("nm", "student-house");
+
+    // 加载奖项选项
+    load_options("praise_nm", "praise-house");
+</script>
+{% endblock %}

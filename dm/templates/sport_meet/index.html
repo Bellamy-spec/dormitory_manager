@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<table>
+    <tr>
+        <td><a href="{% url 'sport_meet:put_name' %}"
+               class="btn btn-success li2 btn-lg">报名项目</a></td>
+        <td><a href="{% url 'sport_meet:que' %}"
+               class="btn btn-info li2 btn-lg">已报名项目查看</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'sport_meet:class_login' %}"
+               class="btn btn-primary li2 btn-lg">班级登录</a></td>
+        {% if is_manager %}
+        <td><a href="{% url 'sport_meet:yl' %}"
+               class="btn btn-danger li2 btn-lg">后台管理</a></td>
+        {% endif %}
+    </tr>
+</table>
+{% if is_su %}
+<p><a href="{% url 'sport_meet:show' %}">查看报名记录</a></p>
+{% endif %}
+<h4 class="tip-color">使用说明：</h4>
+<p class="tip-color">1.学生报名，直接点击“报名项目”，填写完信息后提交，即可报名成功，自动跳转到运动员页面。
+    首次报名成功会提示运动员口令。</p>
+<p class="tip-color">2.点击“已报名项目查看”，选择年份，输入运动员编号和口令，即可查看该运动员所有已报名项目。</p>
+<p class="tip-color">3.班主任点击“班级登录”，选择年份和班级，输入班级口令，即可查看本班所有运动员和运动员的
+    已报名项目。还可进行更新运动员口令、取消报名、删除运动员等操作。</p>
+{% endblock %}

@@ -1,0 +1,541 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv=Content-Type  content="text/html; charset=gb2312" ><meta name=ProgId  content=Word.Document ><meta name=Generator  content="Microsoft Word 14" ><meta name=Originator  content="Microsoft Word 14" ><link rel=File-List  href="贝叶斯公式与人工智能.files/filelist.xml" ><title></title><!--[if gte mso 9]><xml><o:DocumentProperties><o:Author>19785</o:Author><o:LastAuthor>苏格拉底的麦穗</o:LastAuthor><o:Revision>1</o:Revision><o:Pages>3</o:Pages></o:DocumentProperties><o:CustomDocumentProperties><o:KSOProductBuildVer dt:dt="string" >2052-12.1.0.16929</o:KSOProductBuildVer><o:ICV dt:dt="string" >FDE84E8E90FD422AAE281E335761A4D3_13</o:ICV></o:CustomDocumentProperties></xml><![endif]--><!--[if gte mso 9]><xml><o:OfficeDocumentSettings></o:OfficeDocumentSettings></xml><![endif]--><!--[if gte mso 9]><xml><w:WordDocument><w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel><w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery><w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery><w:DocumentKind>DocumentNotSpecified</w:DocumentKind><w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing><w:PunctuationKerning></w:PunctuationKerning><w:View>Web</w:View><w:Compatibility><w:AdjustLineHeightInTable/><w:DontGrowAutofit/><w:BalanceSingleByteDoubleByteWidth/><w:DoNotExpandShiftReturn/><w:UseFELayout/></w:Compatibility><w:Zoom>0</w:Zoom></w:WordDocument></xml><![endif]--><!--[if gte mso 9]><xml><w:LatentStyles DefLockedState="false"  DefUnhideWhenUsed="true"  DefSemiHidden="true"  DefQFormat="false"  DefPriority="99"  LatentStyleCount="260" >
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  QFormat="true"  Name="Normal" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  QFormat="true"  Name="heading 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  QFormat="true"  Name="heading 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  QFormat="true"  Name="heading 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  QFormat="true"  Name="heading 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  QFormat="true"  Name="heading 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  QFormat="true"  Name="heading 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  QFormat="true"  Name="heading 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  QFormat="true"  Name="heading 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  QFormat="true"  Name="heading 9" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index 9" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toc 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toc 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toc 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toc 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toc 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toc 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toc 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toc 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toc 9" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Normal Indent" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="footnote text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="annotation text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="header" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="footer" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="index heading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  QFormat="true"  Name="caption" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="table of figures" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="envelope address" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="envelope return" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="footnote reference" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="annotation reference" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="line number" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="page number" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="endnote reference" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="endnote text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="table of authorities" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="macro" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="toa heading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Bullet" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Number" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Bullet 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Bullet 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Bullet 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Bullet 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Number 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Number 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Number 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Number 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  QFormat="true"  Name="Title" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Closing" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Signature" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  UnhideWhenUsed="false"  QFormat="true"  Name="Default Paragraph Font" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Body Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Body Text Indent" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Continue" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Continue 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Continue 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Continue 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="List Continue 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Message Header" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  QFormat="true"  Name="Subtitle" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Salutation" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Date" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Body Text First Indent" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Body Text First Indent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Note Heading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Body Text 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Body Text 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Body Text Indent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Body Text Indent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Block Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Hyperlink" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="FollowedHyperlink" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  QFormat="true"  Name="Strong" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  QFormat="true"  Name="Emphasis" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Document Map" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Plain Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="E-mail Signature" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Normal (Web)" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Acronym" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Address" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Cite" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Code" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Definition" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Keyboard" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Preformatted" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Sample" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Typewriter" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="HTML Variable" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  UnhideWhenUsed="false"  QFormat="true"  Name="Normal Table" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="annotation subject" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="No List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="1 / a / i" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="1 / 1.1 / 1.1.1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Article / Section" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Simple 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Simple 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Simple 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Classic 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Classic 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Classic 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Classic 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Colorful 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Colorful 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Colorful 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Columns 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Columns 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Columns 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Columns 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Columns 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Grid 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Grid 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Grid 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Grid 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Grid 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Grid 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Grid 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Grid 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table List 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table List 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table List 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table List 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table List 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table List 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table List 7" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table List 8" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table 3D effects 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table 3D effects 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table 3D effects 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Contemporary" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Elegant" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Professional" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Subtle 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Subtle 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Web 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Web 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Web 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Balloon Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Grid" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="0"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Table Theme" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Placeholder Text" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="No Spacing" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="60"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Shading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="61"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="62"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Grid" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="63"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="64"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="65"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="66"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="67"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="68"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="69"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="70"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Dark List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="71"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Shading" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="72"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful List" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="73"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Grid" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="60"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Shading Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="61"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light List Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="62"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Grid Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="63"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 1 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="64"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 2 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="65"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 1 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="List Paragraph" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Quote" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="99"  SemiHidden="false"  Name="Intense Quote" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="66"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 2 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="67"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 1 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="68"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 2 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="69"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 3 Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="70"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Dark List Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="71"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Shading Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="72"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful List Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="73"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Grid Accent 1" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="60"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Shading Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="61"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light List Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="62"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Grid Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="63"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 1 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="64"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 2 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="65"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 1 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="66"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 2 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="67"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 1 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="68"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 2 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="69"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 3 Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="70"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Dark List Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="71"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Shading Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="72"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful List Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="73"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Grid Accent 2" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="60"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Shading Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="61"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light List Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="62"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Grid Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="63"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 1 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="64"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 2 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="65"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 1 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="66"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 2 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="67"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 1 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="68"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 2 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="69"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 3 Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="70"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Dark List Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="71"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Shading Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="72"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful List Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="73"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Grid Accent 3" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="60"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Shading Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="61"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light List Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="62"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Grid Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="63"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 1 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="64"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 2 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="65"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 1 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="66"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 2 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="67"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 1 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="68"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 2 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="69"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 3 Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="70"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Dark List Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="71"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Shading Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="72"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful List Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="73"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Grid Accent 4" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="60"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Shading Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="61"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light List Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="62"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Grid Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="63"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 1 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="64"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 2 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="65"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 1 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="66"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 2 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="67"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 1 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="68"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 2 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="69"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 3 Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="70"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Dark List Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="71"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Shading Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="72"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful List Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="73"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Grid Accent 5" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="60"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Shading Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="61"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light List Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="62"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Light Grid Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="63"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 1 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="64"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Shading 2 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="65"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 1 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="66"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium List 2 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="67"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 1 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="68"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 2 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="69"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Medium Grid 3 Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="70"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Dark List Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="71"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Shading Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="72"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful List Accent 6" ></w:LsdException>
+<w:LsdException Locked="false"  Priority="73"  SemiHidden="false"  UnhideWhenUsed="false"  Name="Colorful Grid Accent 6" ></w:LsdException>
+</w:LatentStyles></xml><![endif]--><style>
+@font-face{
+font-family:"Times New Roman";
+}
+
+@font-face{
+font-family:"宋体";
+}
+
+@font-face{
+font-family:"Calibri";
+}
+
+@font-face{
+font-family:"Wingdings";
+}
+
+@font-face{
+font-family:"微软雅黑";
+}
+
+@font-face{
+font-family:"黑体";
+}
+
+@font-face{
+font-family:"楷体";
+}
+
+p.MsoNormal{
+mso-style-name:正文;
+mso-style-parent:"";
+margin:0pt;
+margin-bottom:.0001pt;
+mso-pagination:none;
+text-align:justify;
+text-justify:inter-ideograph;
+font-family:Calibri;
+mso-fareast-font-family:宋体;
+mso-bidi-font-family:'Times New Roman';
+font-size:10.5000pt;
+mso-font-kerning:1.0000pt;
+}
+
+span.10{
+font-family:Calibri;
+}
+
+span.msoIns{
+mso-style-type:export-only;
+mso-style-name:"";
+text-decoration:underline;
+text-underline:single;
+color:blue;
+}
+
+span.msoDel{
+mso-style-type:export-only;
+mso-style-name:"";
+text-decoration:line-through;
+color:red;
+}
+
+table.MsoNormalTable{
+mso-style-name:普通表格;
+mso-style-parent:"";
+mso-style-noshow:yes;
+mso-tstyle-rowband-size:0;
+mso-tstyle-colband-size:0;
+mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt;
+mso-para-margin:0pt;
+mso-para-margin-bottom:.0001pt;
+mso-pagination:widow-orphan;
+font-family:'Times New Roman';
+font-size:10.0000pt;
+mso-ansi-language:#0400;
+mso-fareast-language:#0400;
+mso-bidi-language:#0400;
+}
+@page{mso-page-border-surround-header:no;
+	mso-page-border-surround-footer:no;}@page Section0{
+margin-top:72.0000pt;
+margin-bottom:72.0000pt;
+margin-left:90.0000pt;
+margin-right:90.0000pt;
+size:595.3000pt 841.9000pt;
+layout-grid:15.6000pt;
+mso-header-margin:42.5500pt;
+mso-footer-margin:49.6000pt;
+}
+div.Section0{page:Section0;}</style></head><body style="tab-interval:21pt;text-justify-trim:punctuation;" ><!--StartFragment--><div class="Section0"  style="layout-grid:15.6000pt;" ><p class=MsoNormal ><span style="mso-spacerun:'yes';font-family:微软雅黑;mso-bidi-font-family:'Times New Roman';
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="微软雅黑" >【阅读与思考】</font></span><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="宋体" >（第</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >53</span><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="宋体" >页）</font></span><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="text-align:center;" ><span style="mso-spacerun:'yes';font-family:黑体;mso-bidi-font-family:'Times New Roman';
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="黑体" >贝叶斯公式与人工智能</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-bidi-font-family:'Times New Roman';
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >人工智能</font>(Artificial Intelligence, &nbsp;<font face="楷体" >缩写为</font><font face="Times New Roman" >AI)</font><font face="楷体" >是研究用于模拟和延伸人类智能的技术科学</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >目的是理解人类智能的实质，并制造以近似人类智能方式工作的机器，如机器人</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >、</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >语言识别</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >、</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >图像识别</font> </span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >、</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >自然语言处理</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >、</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >自动驾驶等．人工智能被认为是</font>21<font face="楷体" >世纪最重要的尖端科技之一，其理论和技术正在日益成熟</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >应用领域也在不断扩大．人工智能理论背后的一个基本原理就是本节的贝叶斯公式</font>.</span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >贝叶斯公式的思想最早出现于贝叶斯的论文《论有关机遇问题的求解》，</font> <font face="楷体" >发表于他去世后的</font>1763<font face="楷体" >年．后来法国数学家拉普拉斯</font><font face="Times New Roman" >(P.-S.Laplace</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >1749</span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >—</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >1827)<font face="楷体" >独立地发现了这个公式．统计学家经过长期的努力</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >发展出了以贝叶斯公式为基础的系统的推理和决策方法，称为贝叶斯方法．该方法的基本程序是首先确定先验概率</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >然后利用贝叶斯公式计算得到后验概率，使先验概率得到修正和校对</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >再根据后验概率作出推理和决策．下面用一个例子说明这种方法</font>.</span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >在一个抽奖游戏中，主持人从编号为</font>1</span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >2</span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >3<font face="楷体" >的三个外观相同的空箱子中随机选择一个，放入一件奖品，再将三个箱子关闭．主持人知道奖品在哪个箱子里</font><font face="Times New Roman" >. </font><font face="楷体" >游戏规则是主持人请抽奖人在三个箱子中选择一个，若奖品在此箱子里， 则奖品由抽奖人获得．抽奖人当然希望选中有奖品的箱子！</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >假定你是抽奖人，不妨设你选择了</font>1<font face="楷体" >号箱．在打开</font><font face="Times New Roman" >1</font><font face="楷体" >号箱之前，主持人先打开了另外两个箱子中的一个空箱子．按游戏规定，主持人只打开你的选择之外的空箱子，当两个都是空箱子时，他随机选择其中一个打开．不妨设主持人打开的是</font><font face="Times New Roman" >3</font><font face="楷体" >号箱．现在给你一次重新选择的机会，你是坚持选</font><font face="Times New Roman" >1</font><font face="楷体" >号箱，还是改选</font><font face="Times New Roman" >2</font><font face="楷体" >号箱？</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >显然，由于随机性，你无法保证一定能够成功选中有奖品的箱子．因此，要不要改变选择是个风险决策问题，应以得到奖品的概率最大为准则</font>.</span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >对于是否应改选</font>2<font face="楷体" >号箱，人们有如下几种不同的观点</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >：</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >(1)<font face="楷体" >三个箱子中有奖 品的概率都是</font></span><img width="33"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能809.png" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >, &nbsp;<font face="楷体" >不必换号； </font><font face="Times New Roman" >(2)</font><font face="楷体" >既然 </font><font face="Times New Roman" >3</font><font face="楷体" >号是空箱， 那么奖品在</font><font face="Times New Roman" >1</font><font face="楷体" >号箱</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >、</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >2<font face="楷体" >号箱中的概率都是</font></span><img width="33"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能850.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >不必换号；</font>(3)<font face="楷体" >奖品在</font><font face="Times New Roman" >1</font><font face="楷体" >号箱中的概率是</font></span><img width="33"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能871.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >当知道</font>3<font face="楷体" >号是空箱后，</font><font face="Times New Roman" >2</font><font face="楷体" >号箱中有奖品的概率就变为</font></span><img width="33"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能896.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >应该改选</font>2<font face="楷体" >号</font><font face="Times New Roman" >.</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >哪种观点是正确的呢？</font> <font face="楷体" >下面用两种方法进行分析：</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:黑体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="黑体" >分析</font></span><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:黑体;
+font-weight:bold;font-size:10.5000pt;mso-font-kerning:1.0000pt;" >1</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >：</font> <font face="楷体" >选择</font>1<font face="楷体" >号箱，其中有奖品的概率为</font></span><img width="33"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能950.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >无奖品的概率为</font></span><img width="33"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能959.png" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >. <font face="楷体" >主持人打开了无奖品的</font><font face="Times New Roman" >3</font><font face="楷体" >号箱，若决策是不换号，则你在</font><font face="Times New Roman" >1</font><font face="楷体" >号箱里有奖品的情况下得奖</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >成功的概率为</font></span><img width="33"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1007.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >；</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >若决策是换号，则你在</font>1<font face="楷体" >号箱里无奖品的情况下得奖</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >成功的概率为</font></span><img width="33"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1039.png" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >. <font face="楷体" >所以改选</font><font face="Times New Roman" >2</font><font face="楷体" >号是正确的决策</font><font face="Times New Roman" >.</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:黑体;mso-bidi-font-family:'Times New Roman';
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="黑体" >分析</font></span><b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-weight:bold;font-size:10.5000pt;mso-font-kerning:1.0000pt;" >2</span></b><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >：利用全概率公式和贝叶斯公式</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >可以从条件概率的角度进行分析</font>. <font face="楷体" >用</font></span><img width="86"  height="20"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1091.png" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >分别表示</font>1</span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >2</span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >3<font face="楷体" >号箱子里有奖品，用</font></span><img width="84"  height="20"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1110.png" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >分别表示主持人打开</font>1</span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >2</span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >3<font face="楷体" >号箱子．如上所述</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >你初次选择了</font>1<font face="楷体" >号箱．因为你在做选择时不知 道奖品在哪个箱子里，你的选择不影响奖品在三个箱子中的概率分配， 所以事件</font></span><img width="83"  height="20"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1191.png" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >的概率仍为</font></span><img width="33"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1197.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >此为先验概率．主持人打开</font>1<font face="楷体" >号箱之外的一个空箱子，有以下几种可能情况：</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >奖品在</font>1<font face="楷体" >号箱里，主持人可打开</font><font face="Times New Roman" >2</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >3<font face="楷体" >号箱，故</font></span><img width="107"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1255.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >；</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >奖品在</font>2<font face="楷体" >号箱里，主持人只能打开</font><font face="Times New Roman" >3</font><font face="楷体" >号箱，故</font></span><img width="108"  height="20"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1278.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >；</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >奖品在</font>3<font face="楷体" >号箱里，主持人只能打开</font><font face="Times New Roman" >2</font><font face="楷体" >号箱，故</font></span><img width="108"  height="20"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1301.png" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >.</span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >利用全概率公式，主持人打开</font>3<font face="楷体" >号箱的概率为</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><img width="260"  height="62"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1325.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><o:p>&nbsp;</o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >再根据贝叶斯公式，在</font>3<font face="楷体" >号箱打开的条件下</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >1<font face="楷体" >号箱和</font><font face="Times New Roman" >2</font><font face="楷体" >号箱里有奖品的条件概率分别为</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  align=center  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;text-align:center;" ><img width="190"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1367.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><img width="190"  height="41"  src="贝叶斯公式与人工智能.files/贝叶斯公式与人工智能1369.png" ><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >这两个条件概率是后验概率，它们修正了前面的先验概率．通过比较后验概率不难发现，改选</font>2<font face="楷体" >号箱是正确的决策．现在想一想，观点</font><font face="Times New Roman" >(1)</font><font face="楷体" >和观点</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="Times New Roman" >(</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" >2)<font face="楷体" >错在哪里？</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >前面分析</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="Times New Roman" >1</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >给出的方法简单直接，也比较容易理解，但是分析</font>2<font face="楷体" >中基于贝叶斯公式的方法具有更广泛的适用性．事实上， 只要把三个箱子改为四个或更多， 主持人还是每次打开一个空箱子，此时再用分析 </font><font face="Times New Roman" >1</font><font face="楷体" >中的方法就比较复杂了．利用贝叶斯公式的方法可以发现</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，对</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >于上述多个箱子的抽奖游戏，在你第</font>1<font face="楷体" >次选择后， 当主持人打开此外的一个空箱子，并给你重新选择的机会时，你同样可以通过改变选择提高成功的概率．而且，假如在你第</font><font face="Times New Roman" >2</font><font face="楷体" >次选择后，主持人又打开此外的一个空箱子，并再次给你重新选择的机会时，你仍然应该改变自己的选择， 以</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >获得更大的成功概率．因此，这个策略也适用于多次选择的情况</font>.</span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >事实上，在上述多次选择的游戏中，主持人每打开一个空箱子都提供了新的有用信息，抽奖人需要不断根据这些信息，利用贝叶斯公式计算出（新的）后验概率，并据此修正自己的选择以提高成功的概率．这种不断改进和校正决策的过程非常近似于人类的学习和思维模式，也是贝叶斯方法许多应用的关键．正是由于这个特点，贝叶斯方法在人工智能领域发挥了非常重要的作用</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >已经成为学习型人工智能的理论基础</font>.</span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >曾经被人们津津乐道的围棋人工智能系统阿尔法狗</font>(AlphaGo)<font face="楷体" >系列就是学习型人工智能成功应用的典型例子．在战胜人类高手之前</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >阿尔法狗结合人类自古以来积累的数百万部棋谱，进行了几个月的自我学习训练，最终超越了世界顶尖棋手</font>. <font face="楷体" >作为阿尔法狗的升级版，阿尔法狗零</font><font face="Times New Roman" >(AlphaGo Zero)</font><font face="楷体" >则不再需要人类积累的围棋数据，它通过自我博弈进行学习．经过几天的训练后</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >阿尔法狗零就轻松地击败了此前所有版本的阿尔法狗．阿尔法狗零之所以有如此强大的自学能力，是因为采用了一种叫做强化学习的新模式．它从一个对围棋技术一无所知的神经网络开始，结合一个强力搜索算法，在自我对弈中调整升级，循环往复，不断提高，在几天内就走完了人类几千年的围棋历史，并探索出了不少新的招法和策略．人们认为</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >围棋人工智能系统象征着计算机技术已进入人工智能的新信息技术时代，其特征就是大数</font> <font face="楷体" >据、大计算、大决策，三位一体．贝叶斯方法在当今最先进的科技领域中扮演着重要角色，你是否感到非常神奇？是否觉得现在的学习很有意义？</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="text-indent:21.0000pt;mso-char-indent-count:2.0000;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >请你上网查阅有关资料</font></span><span style="mso-spacerun:'yes';font-family:楷体;mso-ascii-font-family:'Times New Roman';
+mso-hansi-font-family:'Times New Roman';mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;
+mso-font-kerning:1.0000pt;" ><font face="楷体" >，</font></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><font face="楷体" >进一步了解人工智能方面的最新发展</font>.</span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:楷体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal  style="mso-pagination:widow-orphan;text-align:left;" ><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><br clear=all style='page-break-before:always'></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;
+font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></p><p class=MsoNormal ><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;
+mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p>&nbsp;</o:p></span></p></div><!--EndFragment--></body></html>

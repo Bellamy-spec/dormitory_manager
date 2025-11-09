@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<form role="form" action="{% url 'sep_add_one' year %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'sep_see' year %}">返回上一页</a></p>
+{% endblock %}

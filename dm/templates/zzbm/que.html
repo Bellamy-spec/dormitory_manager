@@ -1,0 +1,15 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>已报名考生查看：</h3>
+<form role="form" action="{% url 'zzbm:que' task.id %}" method="post">
+    {% csrf_token %}
+    <input name="id-number" placeholder="请输入你的身份证号"><br><br>
+    <input name="nm" placeholder="请输入你的姓名">
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">确认</button>
+</form>
+<!--<p>忘记报名序号？<a href="{% url 'zzbm:find_pwd' task.id %}">点我重置</a></p>-->
+<p><a href="{% url 'zzbm:task_main' task.id %}">返回</a></p>
+{% endblock %}

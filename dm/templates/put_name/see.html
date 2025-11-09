@@ -1,0 +1,32 @@
+{% extends "put_name/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>活动 “ <strong>{{ ac.name }}</strong> ” 已报名情况</h2>
+<p>已报名人数：{{ ac.num }}</p>
+<p>已报名详情：</p>
+<table class="table table-bordered table-bordered">
+  <tr>
+    <th>科室</th>
+    <th>姓名</th>
+    <th>手机号</th>
+    <th>报名时间</th>
+    <th>操作</th>
+  </tr>
+  {% for part in parts %}
+  <tr>
+    <td>{{ part.department }}</td>
+    <td>{{ part.name }}</td>
+    <td>{{ part.phone_number }}</td>
+    <td>{{ part.date_added|date:'Y-m-d H:i:s' }}</td>
+    <td><a href="{% url 'put_name:cancel' part.id %}">取消报名</a></td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">暂无人报名</td></tr>
+  {% endfor %}
+</table>
+<p>
+  <a href="{% url 'put_name:look' ac.id %}">返回上一页</a> -
+  <a href="{% url 'put_name:index' %}">返回主页</a>
+</p>
+{% endblock %}

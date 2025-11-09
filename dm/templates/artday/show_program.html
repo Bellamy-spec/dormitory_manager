@@ -1,0 +1,59 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>节目&nbsp;&nbsp;<strong>{{ program.name }}</strong>&nbsp;&nbsp;的详细信息</h2>
+<table class="table">
+    <tr>
+        <th>节目名称</th>
+        <td>{{ program.name }}</td>
+    </tr>
+    <tr>
+        <th>表演形式</th>
+        <td>{{ program.tp }}</td>
+    </tr>
+    <tr>
+        <th>节目负责人姓名</th>
+        <td>{{ program.owner }}</td>
+    </tr>
+    <tr>
+        <th>节目负责人所在班级</th>
+        <td>{{ program.owner_class }}</td>
+    </tr>
+    <tr>
+        <th>节目负责人联系方式</th>
+        <td>{{ program.owner_phone }}</td>
+    </tr>
+    <tr>
+        <th>需要话筒个数</th>
+        <td>{{ program.mac_nums }}</td>
+    </tr>
+    <tr>
+        <th>节目简介</th>
+        <td>{{ program.desc }}</td>
+    </tr>
+    <tr>
+        <th>备注</th>
+        <td>{{ program.etc }}</td>
+    </tr>
+    <tr>
+        <th>操作</th>
+        <td>
+            <a href="{% url 'artday:see_performer' program.id %}" class="btn btn-info">
+                查看表演者</a>
+            <a href="{% url 'artday:add_performer' program.id %}" class="btn btn-success">
+                增加表演者</a>
+            {% if is_manager %}
+            <a href="{% url 'artday:edit_program' program.id program.sec %}" class="btn btn-warning">
+                修改</a>
+            <a href="{% url 'artday:delete_program' program.id 'a' %}" class="btn btn-danger">
+                删除</a>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<p>
+    <a href="{% url 'artday:program_list' program.year %}">返回上一页</a> -
+    <a href="{% url 'artday:index' %}">返回主页</a>
+</p>
+{% endblock %}

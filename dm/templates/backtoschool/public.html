@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>发布新的返校情况统计任务：</h3>
+<form role="form" action="{% url 'backtoschool:public' %}" method="post">
+    {% csrf_token %}
+    选择返校日期：<input type="date" name="dt" /><br>
+    选择年级：
+    <input type="checkbox" name="grade1" value="1" />高一
+    <input type="checkbox" name="grade2" value="2" />高二
+    <input type="checkbox" name="grade3" value="3" />高三<br/>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">发布</button>
+</form>
+<p><a href="{% url 'backtoschool:index' %}">返回主页</a></p>
+{% endblock %}

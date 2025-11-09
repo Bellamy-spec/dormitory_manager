@@ -1,0 +1,7 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ msg }}</h3>
+<p><a href="{% url 'artday:year_main' year %}">查看当年艺术节报名情况</a></p>
+{% endblock %}

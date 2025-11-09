@@ -1,0 +1,17 @@
+{% extends "club_info/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<ul class="list-unstyled">
+    <li><a href="{% url 'club_info:add_club' %}"
+           class="btn btn-default btn-lg btn-block">新建社团</a></li><br>
+    <li><a href="{% url 'club_info:add_member' %}"
+           class="btn btn-success btn-lg btn-block">录入成员</a></li><br>
+    <li><a href="{% url 'club_info:see' %}"
+           class="btn btn-primary btn-lg btn-block">信息查看与管理</a></li><br>
+    {% if is_manager %}
+    <li><a class="btn btn-info btn-lg btn-block">数据导出</a></li><br>
+    {% endif %}
+</ul>
+{% endblock %}

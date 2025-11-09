@@ -1,0 +1,10 @@
+{% extends "math_culture/base.html" %}
+
+{% block mobile %}
+<h3>{{ title }}</h3>
+<ul>
+    {% for pic in pics %}
+    <li><a href="{{ pic.1 }}">{{ pic.0 }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

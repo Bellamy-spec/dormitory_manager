@@ -1,0 +1,12 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>更改{{ task.year }}中招美术加试报名任务截止日期</h2>
+<form role="form" action="{% url 'zzbm:change_date' task.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">确认更改</button>
+</form>
+<p><a href="{% url 'zzbm:task_manage' task.id %}">返回任务管理页</a></p>
+{% endblock %}

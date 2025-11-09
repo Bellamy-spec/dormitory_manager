@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'long_leave:look' %}" class="btn btn-lg btn-block btn-info">查看</a></p>
+{% if is_manager %}
+<p><a href="{% url 'long_leave:manage' %}" class="btn btn-lg btn-block btn-success">管理</a></p>
+{% endif %}
+<p><a href="{% url 'long_leave:index_out' %}">返回上一页</a></p>
+{% endblock %}

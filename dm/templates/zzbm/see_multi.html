@@ -1,0 +1,37 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>查看已导入考生</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>准考证号</th>
+        <th>姓名</th>
+        <th>身份证号</th>
+        <th>性别</th>
+        <th>手机号</th>
+        <th>初中毕业学校</th>
+        <th>选考科目</th>
+        <th>操作</th>
+    </tr>
+    {% for st in sts %}
+    <tr>
+        <td>{{ st.exam_id }}</td>
+        <td>{{ st.name }}</td>
+        <td>{{ st.id_number }}</td>
+        <td>{{ st.gender }}</td>
+        <td>{{ st.phone_number }}</td>
+        <td>{{ st.middle_school }}</td>
+        <td>{{ st.subject }}</td>
+        <td>
+            <a href="{% url 'zzbm:change_info' st.id %}" class="btn btn-warning">修改信息</a>
+            <a href="{% url 'zzbm:delete_st' st.id 0 %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除考生</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="8" class="tip-color">暂无已导入的考生信息</td></tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'zzbm:task_main' task.id %}">返回任务主页</a></p>
+{% endblock %}

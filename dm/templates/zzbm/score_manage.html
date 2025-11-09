@@ -1,0 +1,77 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<p class="tip-color">{{ tip }}
+    <a href="{% url 'zzbm:download_temp' task.id %}" class="btn btn-success"
+       style="margin-left: 50px;">下载成绩模板</a>
+</p>
+<form role="form" action="{% url 'zzbm:write_score' task.id %}" method="post"
+      enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="确定上传" class="btn btn-warning" style="margin-top: 10px;">
+</form>
+<p class="err-color">{{ err }}
+    {% if have_button %}
+    <a href="{% url 'zzbm:download_error' err_id %}" class="btn btn-info"
+       style="margin-left: 30px;" id="bt">查看错误详情（60秒之内有效）</a>
+    {% endif %}
+</p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>考场号</th>
+        <th>座位号</th>
+        <th>准考证号</th>
+        <th>姓名</th>
+        <th>成绩</th>
+        <th>备注</th>
+    </tr>
+    {% for ob in students %}
+    <tr>
+        <td>{{ ob.room }}</td>
+        <td>{{ ob.seat }}</td>
+        <td>{{ ob.exam_id }}</td>
+        <td>{{ ob.name }}</td>
+        <td>{{ ob.score }}</td>
+        {% if ob.miss %}
+        <td>缺考</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'zzbm:task_manage' task.id %}">返回上一页</a> -
+    <a href="{% url 'zzbm:task_main' task.id %}">返回任务主页</a> -
+    <a href="{% url 'zzbm:index' %}">返回主页</a>
+</p>
+<script>
+    var ele = document.getElementById("bt");
+
+    // 要倒计时的时长
+    var s = 60;
+
+    function countDown(){
+        // 更新显示
+        ele.innerHTML = "查看错误详情（".concat(String(s)).concat("秒之内有效）");
+
+        // 倒计时结束
+        if(s <= 0){
+            // 按钮删除
+            ele.remove();
+
+            // 清除计时器
+            clearInterval(t);
+            return;
+        }
+
+        s--;
+    }
+
+    // 1秒变化一次
+    var t = setInterval(countDown, 1000);
+</script>
+{% endblock %}

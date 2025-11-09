@@ -1,0 +1,23 @@
+{% extends "cm_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>班会检查情况月总结</h2>
+<table class="table table-bordered">
+  <tr>
+    <th>月份\年级</th>
+    <th>高一</th>
+    <th>高二</th>
+    <th>高三</th>
+  </tr>
+  {% for ym in yml %}
+  <tr>
+    <td>{{ ym }}</td>
+    <td><a href="{% url 'cm_eva:mt' 1 ym %}" class="btn btn-success">进入查看</a></td>
+    <td><a href="{% url 'cm_eva:mt' 2 ym %}" class="btn btn-success">进入查看</a></td>
+    <td><a href="{% url 'cm_eva:mt' 3 ym %}" class="btn btn-success">进入查看</a></td>
+  </tr>
+  {% endfor %}
+</table>
+<p><a href="{% url 'cm_eva:index' %}">返回主页</a>
+{% endblock %}

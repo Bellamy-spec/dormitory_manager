@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>选择年级</h2>
+<ul class="list-unstyled">
+    {% for grade in grades %}
+    <li><a href="{% url 'long_leave:dates' grade.1 %}"
+           class="btn btn-primary btn-lg btn-block">{{ grade.0 }}</a></li><br>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'long_leave:daily' %}">返回上一页</a></p>
+{% endblock %}

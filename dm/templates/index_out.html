@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+{% load static %}
+<h1>{{ hello }}</h1>
+<table>
+    <tr>
+        <td><a href="{% url 'index' %}"
+               class="btn btn-primary btn-lg li2">宿舍管理系统</a></td>
+        <td><a href="{% url 'backtoschool:index' %}"
+               class="btn btn-info li2 btn-lg">返校情况统计</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'classclean:index' %}"
+               class="btn btn-success li2 btn-lg">班级卫生记分系统</a></td>
+    <!--    <li><a href="{% url 'late:index' %}"-->
+    <!--           class="btn btn-warning btn-block btn-lg">迟到记录</a></li><br>-->
+        <td><a href="{% url 'long_leave:index_out' %}"
+               class="btn btn-warning li2 btn-lg">请假与在校学生管理</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'artday:index' %}" style="background-color:#DD33DD; color:#FFFFFF;"
+               class="btn btn-default btn-lg li2">艺术节报名</a></td>
+        <td><a href="{% url 'sport_meet:index' %}" style="background-color:#DD33DD; color:#FFFFFF;"
+               class="btn btn-default btn-lg li2">运动会个人项目报名</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'cm_eva:index' %}" class="btn btn-success li2 btn-lg">班会评价系统</a></td>
+        <td><a href="{% url 'exercise_eva:index' %}"
+               class="btn btn-warning li2 btn-lg">课间操评价系统</a></td>
+    </tr>
+    <tr>
+        <td colspan="2"><a href="{% url 'praises:index' %}" class="btn btn-default btn-lg li1"
+               style="background-color:#AA7711; color:#FFFFFF;">期末评优评先上报</a></td>
+    </tr>
+    <tr>
+        <td colspan="2"><a href="{% url 'see_leave' 0 %}" class="btn btn-default btn-lg li1"
+               style="background-color:#22BBAA; color:#FFFFFF; white-space:normal;">
+            查看请假不在校学生（实验功能，加载较慢，如须使用请耐心等待，如失败可重试）</a></td>
+    </tr>
+    {% if su %}
+    <tr>
+        <td><a href="{% url 'su_manage:index' %}"
+               class="btn btn-primary btn-lg li2">学生会管理系统</a></td>
+        <td><a href="{% url 'user_manage' %}" class="btn btn-info btn-lg li2">用户管理</a></td>
+    </tr>
+    <tr>
+        <td colspan="2"><a href="{% url 'captcha_manage' %}" class="btn btn-success btn-lg li1">
+            验证码管理</a></td>
+    </tr>
+    {% endif %}
+</table>
+<img class="img-responsive" src="{% static weekday %}"><br>
+{% endblock %}

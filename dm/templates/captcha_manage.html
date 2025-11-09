@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h3>验证码管理</h3>
+<p class="tip-color">共收集到{{ n }}个验证码</p>
+<table class="table table-bordered">
+    <tr>
+        <th>验证码图像</th>
+        <th>对应字符</th>
+        <th>操作</th>
+        <th>验证码图像</th>
+        <th>对应字符</th>
+        <th>操作</th>
+        <th>验证码图像</th>
+        <th>对应字符</th>
+        <th>操作</th>
+    </tr>
+    {% for cap in cb %}
+    <tr>
+        <td>
+            <img src="data:image/png;base64,{{ cap.0.0 }}">
+        </td>
+        <td>{{ cap.0.1 }}</td>
+        <td><a class="btn btn-danger">删除</a></td>
+        <td>
+            <img src="data:image/png;base64,{{ cap.1.0 }}">
+        </td>
+        <td>{{ cap.1.1 }}</td>
+        <td><a class="btn btn-danger">删除</a></td>
+        {% if cap.2.0 %}
+        <td>
+            <img src="data:image/png;base64,{{ cap.2.0 }}">
+        </td>
+        <td>{{ cap.2.1 }}</td>
+        <td><a class="btn btn-danger">删除</a></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'index_out' %}">返回上一页</a></p>
+{% endblock %}

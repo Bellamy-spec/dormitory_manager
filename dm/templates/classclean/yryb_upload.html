@@ -1,0 +1,33 @@
+{% extends "base_no_login.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>仪容仪表检查记录</h2>
+<p><strong>日期：</strong>{{ date }}</p>
+<p><strong>班级：</strong>{{ cag }}</p>
+<form role="form" action="{% url 'classclean:yryb_upload' gc %}" method="post" id="fm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>
+        <label>烫发、染发者：</label><br>
+        {% for st in st_list %}
+        <input type="checkbox" name="{{ st.1.2 }}" value="{{ st.0 }}">{{ st.1.0 }}
+        {% if st.1.1 %}
+        <br>
+        {% endif %}
+        {% endfor %}
+    </p>
+    <p>
+        <label>佩戴首饰者：</label><br>
+        {% for st in st_list %}
+        <input type="checkbox" name="{{ st.1.3 }}" value="{{ st.0 }}">{{ st.1.0 }}
+        {% if st.1.1 %}
+        <br>
+        {% endif %}
+        {% endfor %}
+    </p>
+    <p class="tip-color">如无仪容仪表不合格者，直接点提交即可</p>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+{% endblock %}

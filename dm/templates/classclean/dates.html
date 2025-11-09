@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<ul>
+    {% for date in dates reversed %}
+        {% if date == today %}
+        <li><a href="{% url 'classclean:look' grade date %}">今日</a></li>
+        {% else %}
+        <li><a href="{% url 'classclean:look' grade date %}">{{ date }}</a></li>
+        {% endif %}
+    {% empty %}
+        <li>暂无记录</li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'classclean:index' %}">返回主页</a></p>
+{% endblock %}

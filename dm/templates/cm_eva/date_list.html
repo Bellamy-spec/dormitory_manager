@@ -1,0 +1,12 @@
+{% extends "cm_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>选择日期：</h3>
+<ul class="list-unstyled">
+    {% for ds in dl %}
+    <li><a href="{% url 'cm_eva:day' ds %}">{{ ds }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'cm_eva:index' %}">返回主页</a></p>
+{% endblock %}

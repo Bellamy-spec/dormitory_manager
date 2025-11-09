@@ -1,0 +1,92 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<form role="form" action="{% url 'su_manage:edit_member' school_year.id member_id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary" onclick="get_result()">提交</button>
+</form>
+<div style="display: none;">
+    <p id="di">{{ di }}</p>
+    <p id="dw">{{ dw }}</p>
+    <p id="to_show">{{ to_show }}</p>
+</div>
+<p><a href="{% url 'su_manage:member_list' school_year.id 0 %}">返回上一页</a></p>
+<script>
+// 加载文档时的默认操作
+del_stop();
+set_check();
+show_check();
+
+// 根据所选部门设置两个复选框可选状态
+function set_check(){
+    // 获取选中的部门名称
+    var dep = document.getElementById("dp").value;
+    // alert(dep);
+
+    // 获取部门承担课间操工作字典
+    var dw_str = document.getElementById("dw").innerHTML;
+    var dw_house = JSON.parse(dw_str);
+    // alert(dw_house[dep]);
+
+    // 不上早操复选框
+    // var wa1_box = document.getElementById("wa1");
+    // wa1_box.disabled = !dw_house[dep][0];
+    // if(!dw_house[dep][0]){
+    //     wa1_box.checked = false;
+    // }
+
+    // 不上课间操复选框
+    var wa2_box = document.getElementById("wa2");
+    wa2_box.disabled = !dw_house[dep];
+    if(!dw_house[dep]){
+        wa2_box.checked = false;
+    }
+}
+
+// 删除停用选项
+function del_stop(){
+    // 获取停用部门列表
+    var di_str = document.getElementById("di").innerHTML;
+    var di_list = JSON.parse(di_str);
+    // alert(di_list);
+
+    // 获取下拉菜单和选项
+    var dp_box = document.getElementById("dp");
+    var options = dp_box.getElementsByTagName("option");
+    // alert(options.length);
+
+    // 逐项判断、删除（逐项删除必须逆序进行）
+    for(var i = options.length - 1; i > -1; i--){
+        if(di_list.includes(Number(options[i].value))){
+            dp_box.options.remove(i);
+        }
+    }
+}
+
+// 自动勾选为“是”的选项
+function show_check(){
+    // 获取要显示的布尔值列表
+    var to_show_str = document.getElementById("to_show").innerHTML;
+    var to_show_house = JSON.parse(to_show_str);
+    // alert(to_show_house);
+
+    // 复选框状态赋值
+    // document.getElementById("wa1").checked = to_show_house[0];
+    document.getElementById("wa2").checked = to_show_house[0];
+}
+
+// 进一步处理复选框勾选情况
+function get_result(){
+    // var wa1_box = document.getElementById("wa1");
+    var wa2_box = document.getElementById("wa2");
+
+    // 确保复选框的disabled状态与checked状态完全保持对立
+    // wa1_box.disabled = !wa1_box.checked;
+    wa2_box.disabled = !wa2_box.checked;
+}
+</script>
+{% endblock %}

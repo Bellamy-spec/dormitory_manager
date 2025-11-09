@@ -1,0 +1,26 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ year }}年节目口令信息</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>节目名称</th>
+        <th>节目负责人</th>
+        <th>节目口令</th>
+        <th>操作</th>
+    </tr>
+    {% for ob in programs %}
+    <tr>
+        <td>{{ ob.name }}</td>
+        <td>{{ ob.owner }}</td>
+        <td>{{ ob.sec }}</td>
+        <td>
+            <a href="{% url 'artday:update_program_sec' ob.id %}" class="btn btn-warning">更新口令</a> -
+            <a href="{% url 'artday:delete_program' ob.id 'b' %}" class="btn btn-danger">删除</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'artday:year_main' year %}">返回上一页</a></p>
+{% endblock %}

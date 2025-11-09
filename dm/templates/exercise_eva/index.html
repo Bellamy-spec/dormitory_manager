@@ -1,0 +1,16 @@
+{% extends "exercise_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+{% if is_manager %}
+<p><a href="{% url 'exercise_eva:short_abst_manage' %}"
+      class="btn btn-warning btn-lg btn-block">短假学生管理</a></p>
+{% endif %}
+<p><a href="{% url 'exercise_eva:score_dates' %}"
+      class="btn btn-info btn-lg btn-block">选择日期查看</a></p>
+<p><a href="{% url 'exercise_eva:mt_main' %}"
+      class="btn btn-success btn-lg btn-block">月总结</a></p>
+<p><a href="{% url 'exercise_eva:eco_dates' %}"
+      class="btn btn-warning btn-lg btn-block">节能情况查看</a></p>
+{% endblock %}

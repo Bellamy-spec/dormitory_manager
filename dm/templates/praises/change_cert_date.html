@@ -1,0 +1,15 @@
+{% extends "praises/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>修改{{ task.title }}的证书日期</h2>
+<form role="form" action="{% url 'praises:change_cert_date' task.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">确定修改</button>
+</form>
+<p>
+    <a href="{% url 'praises:see_task' task.id %}">返回上一页</a> -
+    <a href="{% url 'praises:index' %}">返回应用程序主页</a>
+</p>
+{% endblock %}

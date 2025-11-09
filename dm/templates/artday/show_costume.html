@@ -1,0 +1,67 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>服装&nbsp;&nbsp;<strong>{{ costume.name }}</strong>&nbsp;&nbsp;的详细信息</h2>
+<table class="table">
+    <tr>
+        <th>服装名称</th>
+        <td>{{ costume.name }}</td>
+    </tr>
+    <tr>
+        <th>服装模特</th>
+        <td>{{ costume.mt }}</td>
+    </tr>
+    <tr>
+        <th>模特所属班级</th>
+        <td>{{ costume.mt_class }}</td>
+    </tr>
+    <tr>
+        <th>联络人姓名</th>
+        <td>{{ costume.owner }}</td>
+    </tr>
+    <tr>
+        <th>联络人所在班级</th>
+        <td>{{ costume.owner_class }}</td>
+    </tr>
+    <tr>
+        <th>联络人联系方式</th>
+        <td>{{ costume.owner_phone }}</td>
+    </tr>
+    <tr>
+        <th>服装简介</th>
+        <td>{{ costume.desc }}</td>
+    </tr>
+    <tr>
+        <th>设计图纸</th>
+        <td>
+            {% if have_pic %}
+            <a href="/media/{{ costume.drawing }}">
+                <img src="/media/{{ costume.drawing }}" width="300px">
+            </a>
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>操作</th>
+        <td>
+            <a href="{% url 'artday:see_designer' costume.id %}" class="btn btn-info">
+                查看设计师</a>
+            <a href="{% url 'artday:add_designer' costume.id %}" class="btn btn-success">
+                增加设计师</a>
+            {% if is_manager %}
+            <a href="{% url 'artday:edit_costume' costume.id costume.sec %}" class="btn btn-warning">
+                修改</a>
+            <a href="{% url 'artday:delete_costume' costume.id 'a' %}" class="btn btn-danger">
+                删除</a>
+            <a href="{% url 'artday:set_num' costume.id %}" class="btn btn-primary">
+                设置编号</a>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+<p>
+    <a href="{% url 'artday:costume_list' costume.year %}">返回上一页</a> -
+    <a href="{% url 'artday:index' %}">返回主页</a>
+</p>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>设置考场人数：</h3>
+<form role="form" action="{% url 'zzbm:set_len' task.id %}" method="post">
+    {% csrf_token %}
+    <input name="ml" type="number" min="30" max="60" value="{{ task.max_len }}">
+    <button name="submit" type="submit" class="btn btn-primary">确定</button>
+    <p class="err-color">{{ err }}</p>
+</form>
+<p><a href="{% url 'zzbm:task_manage' task.id %}">返回上一页</a></p>
+{% endblock %}

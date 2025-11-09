@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<table class="table">
+    <tr>
+        <th>班级</th>
+        <th>德育处评分</th>
+        <th>卫生部评分</th>
+        <th>总分</th>
+    </tr>
+    {% for dt in data %}
+    <tr>
+        <td>{{ dt.0 }}</td>
+        <td>{{ dt.1.0 }}</td>
+        <td>{{ dt.1.1 }}</td>
+        <td>{{ dt.1.2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'classclean:mt_main' %}">返回月总结主页</a></p>
+{% endblock %}

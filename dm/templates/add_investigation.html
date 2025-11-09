@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>发布新的调查任务</h3>
+<form role="form" action="{% url 'add_investigation' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">发布</button>
+</form>
+<p><a href="{% url 'advice' %}">返回上一页</a></p>
+{% endblock %}

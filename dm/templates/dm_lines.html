@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>{{ year }}年宿舍搬迁轨迹</h2>
+<p><a href="{% url 'add_dm_line' year %}" class="btn btn-default">新增宿舍搬迁轨迹</a></p>
+<table class="table table-bordered">
+    <tr><th colspan="3">高一转新高二</th></tr>
+    <tr>
+        <th>原宿舍</th>
+        <th>新宿舍</th>
+        <th>操作</th>
+    </tr>
+    {% for on in old_new_1 %}
+    <tr>
+        <td>{{ on.0 }}</td>
+        <td>{{ on.1 }}</td>
+        <td><a href="{% url 'del_dm_line' year 0 on.0 %}" class="btn btn-danger">删除</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<table class="table table-bordered">
+    <tr><th colspan="3">高二转新高三</th></tr>
+    <tr>
+        <th>原宿舍</th>
+        <th>新宿舍</th>
+        <th>操作</th>
+    </tr>
+    {% for on in old_new_2 %}
+    <tr>
+        <td>{{ on.0 }}</td>
+        <td>{{ on.1 }}</td>
+        <td><a href="{% url 'del_dm_line' year 1 on.0 %}" class="btn btn-danger">删除</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'dm_lines_main' %}">返回上一页</a> -
+    <a href="{% url 'index' %}">返回宿舍管理主页</a>
+</p>
+{% endblock %}

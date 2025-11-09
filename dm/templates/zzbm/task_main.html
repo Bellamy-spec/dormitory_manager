@@ -1,0 +1,50 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+{% if condition1 %}
+<h3 class="err-color">{{ tip1 }}</h3>
+{% endif %}
+{% if condition2 %}
+<h3 class="err-color">{{ tip2 }}</h3>
+{% endif %}
+<table>
+    <tr>
+        {% if task.active %}
+        <td><a href="{% url 'zzbm:put_name' task.id %}"
+               class="btn btn-success btn-lg li2">报名美术测试</a></td>
+        {% endif %}
+        <td><a href="{% url 'zzbm:que' task.id %}"
+               class="btn btn-warning btn-lg li2">查看我的报名</a></td>
+    </tr>
+    {% if is_manager %}
+    <tr>
+        <td><a href="{% url 'zzbm:task_manage' task.id %}"
+               class="btn btn-info btn-lg li2">后台管理</a></td>
+        <td><a href="{% url 'zzbm:delete_task' task.id %}"
+               class="btn btn-danger btn-lg li2"
+               onclick="return confirm('若删除任务，该任务下所有已报名考生将一并删除，你确定要删除吗？')">
+            删除任务</a></td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td><a href="{% url 'zzbm:get_score_input' task.id %}"
+               style="background-color:#DD33DD; color:#FFFFFF;"
+               class="btn btn-default btn-lg li2">查询成绩</a></td>
+        <td><a href="{% url 'zzbm:get_in' task.id %}"
+               style="background-color:#33DDDD; color:#FFFFFF;"
+               class="btn btn-default btn-lg li2">核对信息</a></td>
+    </tr>
+    {% if is_operator %}
+    <tr>
+        <td><a href="{% url 'zzbm:multi_export' task.id %}"
+               class="btn btn-primary btn-lg li2">批量导入考生</a></td>
+        <td><a href="{% url 'zzbm:see_multi' task.id %}"
+               style="background-color:#AADD33; color:#FFFFFF;"
+               class="btn btn-default btn-lg li2">查看已导入的考生</a></td>
+    </tr>
+    {% endif %}
+</table>
+<p><a href="{% url 'zzbm:index' %}">返回主页</a></p>
+{% endblock %}

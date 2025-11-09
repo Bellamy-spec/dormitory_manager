@@ -1,0 +1,14 @@
+{% extends "praises/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+{% if is_manager %}
+<p><a href="{% url 'praises:public_task' %}" class="btn btn-default">发布新的上报任务</a></p>
+{% endif %}
+<ul class="list-unstyled">
+    {% for task in tasks %}
+    <li><a href="{% url 'praises:see_task' task.id %}">{{ task.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

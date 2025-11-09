@@ -1,0 +1,19 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>修改{{ costume.num }}号服装&nbsp;&nbsp;<strong>{{ costume.name }}</strong>&nbsp;&nbsp;的信息</h2>
+<form role="form" action="{% url 'artday:change_costume' sec %}" method="post"
+      enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">保存</button>
+</form>
+<p><a href="{% url 'artday:index' %}">返回主页</a></p>
+<script>
+    // 隐藏不必要的元素
+    document.getElementById("drawing-clear_id").type = "hidden";
+    var lbs = document.getElementsByTagName("label");
+    lbs[lbs.length - 1].style = "display:none";
+</script>
+{% endblock %}

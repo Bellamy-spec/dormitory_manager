@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>应到人数</th>
+        <td>{{ cs.total }}&nbsp;&nbsp;&nbsp;&nbsp;
+            {% if is_operator %}
+            <a href="{% url 'long_leave:change_total' cs.id %}" class="btn btn-default">更改</a>
+            {% endif %}
+        </td>
+        <th>实到人数</th>
+        <td>{{ cs.come }}</td>
+    </tr>
+    <tr><th colspan="4">请假不在校学生&nbsp;&nbsp;&nbsp;&nbsp;
+        {% if is_operator %}
+        <a href="{% url 'long_leave:add_st' cs.id %}" class="btn btn-default">╋新增</a>
+        {% endif %}
+    </th></tr>
+    <tr>
+        <th>姓名</th>
+        <th colspan="2">请假原因</th>
+        <th>操作</th>
+    </tr>
+    {% for abst in absts %}
+    <tr>
+        <td>{{ abst.name }}</td>
+        <td colspan="2">{{ abst.reason }}</td>
+        <td>
+            {% if is_operator %}
+            <a href="{% url 'long_leave:delete_st' abst.id %}"
+               onclick="return confirm('确定删除？')">删除</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">没有学生请假</td></tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'long_leave:show_records' cs.grade_num cs.date|date:'Y-m-d' %}">
+    返回上一页</a></p>
+{% endblock %}

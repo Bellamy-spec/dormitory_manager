@@ -1,0 +1,16 @@
+{% extends "workload/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<form role="form" action="{% url 'workload:change_weeks' task.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary"
+            onclick="return confirm('确定更改？')">提交</button>
+</form>
+<p>
+    <a href="{% url 'workload:task_main' task.id %}">返回上一页</a> -
+    <a href="{% url 'workload:index' %}">返回主页</a>
+</p>
+{% endblock %}

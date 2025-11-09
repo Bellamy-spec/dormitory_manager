@@ -1,0 +1,30 @@
+{% extends "workload/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+{% if is_manager %}
+<p><a href="{% url 'workload:public' %}" class="btn btn-default">发布新的课时量统计任务</a></p>
+{% endif %}
+<h3>选择年级和月份</h3>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th></th>
+        <th>高一</th>
+        <th>高二</th>
+        <th>高三</th>
+    </tr>
+    {% for tm in task_month reversed %}
+    <tr>
+        <th>{{ tm.0 }}</th>
+        {% for tk in tm.1 %}
+            {% if tk %}
+            <td><a href="{% url 'workload:task_main' tk.id %}">进入填报</a></td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

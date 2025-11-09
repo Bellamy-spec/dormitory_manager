@@ -1,0 +1,124 @@
+{% extends "workload/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'workload:delete_record' record.id %}" class="btn btn-danger"
+      onclick="return confirm('确定删除？')">删除此记录</a></p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>姓名</th>
+        <td>{{ record.name }}</td>
+        <th>所教学科</th>
+        <td>{{ record.subject }}</td>
+    </tr>
+    <tr>
+        <th>所教年级</th>
+        <td>{{ record.grade }}</td>
+        <th>所教班级</th>
+        <td>{{ record.css_format }}</td>
+    </tr>
+    <tr>
+        <th>周教案数</th>
+        <td>{{ record.week_plans }}</td>
+        <th>周课时数</th>
+        <td>{{ record.week_lessons }}</td>
+    </tr>
+    <tr>
+        <th>月教案数</th>
+        <td>{{ record.month_plans }}</td>
+        <th>月课时数</th>
+        <td>{{ record.month_lessons }}</td>
+    </tr>
+    <tr>
+        <th>早辅导次数</th>
+        <td>{{ record.morning_lessons }}</td>
+        <th>晚自习次数</th>
+        <td>{{ record.evening_lessons }}</td>
+    </tr>
+    <tr>
+        <th>是否班主任</th>
+        {% if record.headteacher %}
+        <td>是</td>
+        {% else %}
+        <td>否</td>
+        {% endif %}
+        <th>班级人数</th>
+        {% if record.headteacher %}
+        <td>{{ record.headteacher_n }}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>是否年级长</th>
+        {% if record.grade_master %}
+        <td>是</td>
+        {% else %}
+        <td>否</td>
+        {% endif %}
+        <th>年级人数</th>
+        {% if record.grade_master %}
+        <td>{{ record.grade_master_n }}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>是否备课组长</th>
+        {% if record.small_master %}
+        <td>是</td>
+        {% else %}
+        <td>否</td>
+        {% endif %}
+        <th>备课组人数</th>
+        {% if record.small_master %}
+        <td>{{ record.small_master_n }}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>是否教研组长</th>
+        {% if record.big_master %}
+        <td>是</td>
+        {% else %}
+        <td>否</td>
+        {% endif %}
+        <th>教研组人数</th>
+        {% if record.big_master %}
+        <td>{{ record.big_master_n }}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+    </tr>
+</table>
+<table class="table table-hover table-bordered">
+    <tr><td colspan="5">代课情况&nbsp;&nbsp;
+        <a href="{% url 'workload:add_sub' record.id %}" class="btn btn-default">添加</a>
+    </td></tr>
+    <tr>
+        <th>被代课教师</th>
+        <th>代课班级</th>
+        <th>代课节数</th>
+        <th>代课时间</th>
+        <th>操作</th>
+    </tr>
+    {% for ob in sbl %}
+    <tr>
+        <td>{{ ob.sub_teacher }}</td>
+        <td>{{ ob.sub_class }}</td>
+        <td>{{ ob.sub_lessons }}</td>
+        <td>{{ ob.sub_time }}</td>
+        <td><a href="{% url 'workload:delete_sub' ob.id %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">无</td></tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'workload:teacher_list' record.month.id %}">返回上一页</a> -
+    <a href="{% url 'workload:index' %}">返回主页</a>
+</p>
+{% endblock %}

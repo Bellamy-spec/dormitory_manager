@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>报名运动项目</h2>
+<form role="form" action="{% url 'sport_meet:put_name' %}" method="post" style="font-size: 18px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p class="tip-color">请同学们遵守报名秩序，不要给别的同学恶意报名！</p>
+<p><a href="{% url 'sport_meet:index' %}">返回主页</a></p>
+<div style="display:none;">
+    <p id="st-house">{{ st_house }}</p>
+</div>
+<script>
+    // 加载学生选项下拉菜单
+    function load_name(){
+        // 获取已选择的班级
+        var gc = document.getElementById("gc").value;
+
+        // 获取存放班级-学生的对象
+        var st_house = document.getElementById("st-house").innerHTML;
+        var gc_st = JSON.parse(st_house);
+
+        // 根据班级取得学生列表
+        var st_list = gc_st[gc];
+        // alert(st_list);
+
+        // 取得学生选项下拉菜单元素
+        var st_box = document.getElementById("nm");
+
+        // 添加之前先清空
+        st_box.options.length = 0;
+
+        // 添加选项
+        for(var i = 0; i < st_list.length; i++){
+            st_box.options.add(new Option(st_list[i], st_list[i]));
+        }
+    }
+
+    // 默认先执行一次
+    load_name();
+</script>
+{% endblock %}

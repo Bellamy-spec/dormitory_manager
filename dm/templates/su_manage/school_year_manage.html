@@ -1,0 +1,24 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>学年管理</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>学年名称</th>
+        <th>学年代号</th>
+        <th>开始日期</th>
+        <th>截止日期</th>
+        <th>操作</th>
+    </tr>
+    {% for school_year in school_years %}
+    <tr>
+        <td>{{ school_year.name }}</td>
+        <td>{{ school_year.code }}</td>
+        <td>{{ school_year.start_date|date:'Y-m-d' }}</td>
+        <td>{{ school_year.end_date|date:'Y-m-d' }}</td>
+        <td><a href="{% url 'su_manage:edit_sy' school_year.id %}" class="btn btn-warning">修改起止日期</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

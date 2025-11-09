@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h4>新增扣分记录：</h4>
+<form role="form" action="{% url 'add' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>宿舍号:</label>
+        <select name="dormitory" id="dormitory" onchange="del_bed()">
+            {% for dorm in dorms %}
+            <option value="{{ dorm }}">{{ dorm }}</option>
+            {% endfor %}
+        </select><br><br>
+        {{ form.as_p }}
+    </div>
+    <div style="display:none;">
+        <p id="empty-bed">{{ empty_bed }}</p>
+    </div>
+    <button name="submit" class="btn btn-primary">提交</button>
+</form>
+<script>
+    // 填充所有床铺选项
+    function full_bed(){
+        // 先清空所有选项
+        // alert(0);
+        var bed_box = document.getElementById("bed");
+        while(bed_box.options.length > 0){
+            bed_box.remove(0);
+        }
+
+        // 填充公共区域
+        bed_box.options.add(new Option("公共区域", 0));
+
+        // 依次填充1~8床
+        for(var j = 1; j < 9; j++){
+            var b = String(j).concat("号床");
+            bed_box.options.add(new Option(b, j));
+        }
+    }
+
+    // 删除空床铺选项
+    function del_bed(){
+        // 默认填充所有床铺号
+        full_bed();
+        // alert(0);
+
+        // 获取当前选中宿舍号
+        var dorm = document.getElementById("dormitory").value;
+        // alert(dorm);
+
+        // 获取存放空床铺的对象
+        var empty_bed_house_str = document.getElementById("empty-bed").innerHTML;
+        empty_bed_house_str = empty_bed_house_str.replace(/'/g, '"');
+        var empty_bed_house = JSON.parse(empty_bed_house_str);
+        var empty_bed = empty_bed_house[dorm];
+        // alert(empty_bed);
+
+        // 删除空床铺选项
+        var bed_box = document.getElementById("bed");
+        for(var i = 0; i < empty_bed.length; i++){
+            bed_box.remove(empty_bed[i]);
+        }
+    }
+
+    // 加载页面时先执行一遍删除空床铺操作
+    del_bed();
+</script>
+{% endblock %}

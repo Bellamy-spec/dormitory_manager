@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<table class="table table-bordered">
+    <tr>
+        <th>学生姓名</th>
+        <td>{{ st.name }}</td>
+    </tr>
+    <tr>
+        <th>身份证号</th>
+        <td>{{ st.id_number }}</td>
+    </tr>
+    <tr>
+        <th>班级</th>
+        <td>{{ st.gc }}（{{ rgc }}）</td>
+    </tr>
+    <tr>
+        <th>宿舍</th>
+        <td>{{ st.dorm }}</td>
+    </tr>
+    <tr>
+        <th>床铺号</th>
+        <td>{{ st.bed }}</td>
+    </tr>
+    {% if code_link %}
+    <tr>
+        <th>家长群二维码</th>
+        <td><img src="/media/sep_code/{{ code_link }}.png"></td>
+    </tr>
+    {% endif %}
+</table>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>新增课间操长假学生</h2>
+<form role="form" action="{% url 'long_leave:add' %}" method="post">
+    {% csrf_token %}
+    <input type="text" id="searcher" placeholder="输入以搜索……" onkeyup="search_filter()">
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <div style="display:none;">
+        <p id="st-house">{{ st_house }}</p>
+        <p id="all-students">{{ all_students }}</p>
+        <p id="lg">{{ lg }}</p>
+        <p id="st-gc">{{ st_gc }}</p>
+    </div>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p>
+    <a href="{% url 'long_leave:manage' %}">返回上一页</a> -
+    <a href="{% url 'long_leave:index' %}">返回主页</a>
+</p>
+<script>
+// 默认加载所有学生姓名
+load_all();
+
+// 填充姓名下拉选择框
+function fill_name(st_list){
+    var name_input = document.getElementById("name");
+
+    // 清空已有选项（初始化下拉框）
+    name_input.length = 0;
+
+    for(var i = 0; i < st_list.length; i++){
+        name_input.options.add(new Option(st_list[i], st_list[i]));
+    }
+}
+
+// 加载所有学生姓名
+function load_all(){
+    // 获取学生列表
+    var all_students_str = document.getElementById("all-students").innerHTML;
+    all_students_str = all_students_str.replace(/'/g, '"');
+    var all_students = JSON.parse(all_students_str);
+    // alert(all_students);
+
+    fill_name(all_students);
+}
+
+// 根据所选班级填充学生姓名下拉选择列表
+function reload_students(){
+    // 获取所选班级
+    var gc = document.getElementById("gc").value;
+    if(gc == ""){
+        // 未选择班级，加载所有学生
+        load_all();
+    }
+    else{
+        // 获取年级
+        var grade = gc.slice(0, 2);
+        // alert(grade);
+
+        // 获取逻辑年级
+        var lg_house_str = document.getElementById("lg").innerHTML;
+        lg_house_str = lg_house_str.replace(/'/g, '"');
+        var lg_house = JSON.parse(lg_house_str);
+        var logic_grade = lg_house[grade];
+        // alert(logic_grade);
+
+        // 合成班级字符串
+        var cs = gc.slice(2)
+        if(cs.length < 3){
+            // 补位
+            cs = "0".concat(cs);
+        }
+        var lgc = logic_grade.concat(cs);
+        // alert(lgc);
+
+        // 获取学生列表
+        var st_house_str = document.getElementById("st-house").innerHTML;
+        st_house_str = st_house_str.replace(/'/g, '"');
+        var st_house = JSON.parse(st_house_str);
+        var st_list = st_house[lgc];
+        // alert(st_list);
+
+        fill_name(st_list);
+    }
+}
+
+// 根据选择的学生确定所在班级
+function config_gc(){
+    var gc_box = document.getElementById("gc");
+    // alert(gc_box.value);
+    var st = document.getElementById("name").value;
+
+    // 加载字典
+    var st_gc_house_str = document.getElementById("st-gc").innerHTML;
+    st_gc_house_str = st_gc_house_str.replace(/'/g, '"');
+    var st_gc_house = JSON.parse(st_gc_house_str);
+    // alert(st_gc_house);
+
+    // 确定班级列表
+    gc_list = st_gc_house[st];
+    // alert(gc_list[0]);
+
+    // 填充班级选项下拉列表
+    if(gc_box.value == ""){
+        gc_box.value = gc_list[0];
+    }
+}
+
+// 下拉选项中搜索姓名
+function search_filter(){
+    // 姓名选择框已赋值
+    var given = false;
+
+    var filter = document.getElementById("searcher").value;
+    // alert(filter);
+    var name_box = document.getElementById("name");
+    for(k = 0; k < name_box.options.length; k++){
+        option = name_box.options[k];
+        text = option.text;
+        // alert(text);
+        if(text.indexOf(filter) > -1){
+            option.style.display = "";
+
+            // 赋值
+            if(! given){
+                name_box.value = text;
+                given = true;
+            }
+        }
+        else{
+            option.style.display = "none";
+        }
+    }
+    // 赋空值
+    if(! given){
+        name_box.value = "";
+    }
+}
+</script>
+{% endblock %}

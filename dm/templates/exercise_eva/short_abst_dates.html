@@ -1,0 +1,12 @@
+{% extends "exercise_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>选择日期</h2>
+<ul class="list-unstyled">
+  {% for date in dates %}
+  <li><a href="{% url 'exercise_eva:date_short_abst' date %}">{{ date }}</a></li>
+  {% endfor %}
+</ul>
+<p><a href="{% url 'exercise_eva:short_abst_manage' %}">返回上一页</a></p>
+{% endblock %}

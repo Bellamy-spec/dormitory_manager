@@ -1,0 +1,43 @@
+{% extends "cars_id/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<a href="{% url 'cars_id:export' %}" class="btn btn-info">导出数据</a>
+<a href="{% url 'cars_id:download' %}" class="btn btn-warning">导出数据（含手机号）</a>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>车主姓名</th>
+        <th>人员类别</th>
+        <th>手机号</th>
+        <th>车1牌照</th>
+        <th>车1是否新能源</th>
+        <th>车2牌照</th>
+        <th>车2是否新能源</th>
+        <th>提交时间</th>
+        <th>操作</th>
+    </tr>
+    {% for car in cars %}
+    <tr>
+        <td>{{ car.name }}</td>
+        <td>{{ car.tp }}</td>
+        <td>{{ car.phone_number }}</td>
+        <td>{{ car.car1 }}</td>
+        {% if car.is_new_energy1 %}
+        <td>是</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td>{{ car.car2 }}</td>
+        {% if car.is_new_energy2 %}
+        <td>是</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td>{{ car.datetime_added|date:'Y-m-d H:i:s' }}</td>
+        <td><a href="{% url 'cars_id:delete' car.id %}"
+               onclick="return confirm('确定删除？')">删除</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

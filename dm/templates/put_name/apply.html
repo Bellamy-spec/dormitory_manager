@@ -1,0 +1,16 @@
+{% extends "put_name/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>活动 “ <strong>{{ ac.name }}</strong> ” 报名</h2>
+<form role="form" action="{% url 'put_name:apply' ac.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">报名</button>
+</form>
+<p>
+    <a href="{% url 'put_name:look' ac.id %}">返回上一页</a> -
+    <a href="{% url 'put_name:index' %}">返回主页</a>
+</p>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>当前请假不在校学生</h3>
+<table class="table table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>姓名</th>
+        <th>请假类型</th>
+    </tr>
+    {% for leave_student in leave_students %}
+    <tr>
+        <td>{{ leave_student.0 }}</td>
+        <td>{{ leave_student.1 }}</td>
+        <td>{{ leave_student.2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'index_out' %}">返回</a></p>
+{% endblock %}

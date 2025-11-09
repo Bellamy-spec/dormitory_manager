@@ -1,0 +1,33 @@
+{% extends "put_name/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>{{ ac.name }}</h2>
+<h4 class="tip-color">{{ ac.owner }}发布于{{ ac.date_added|date:'Y-m-d H:i' }}</h4>
+<table class="table">
+  <tr>
+    <th>活动时间</th>
+    <td>{{ ac_date }}</td>
+  </tr>
+  <tr>
+    <th>活动地点</th>
+    <td>{{ ac.place }}</td>
+  </tr>
+  <tr>
+    <th>活动简介</th>
+    <td>{{ ac.desc }}</td>
+  </tr>
+</table>
+<p>
+  {% if ac.active %}
+  <a  href="{% url 'put_name:apply' ac.id %}" class="btn btn-primary btn-lg">我要报名参加</a>
+  {% else %}
+  活动已结束报名
+  {% endif %}
+  <a href="{% url 'put_name:see' ac.id %}" class="btn btn-lg btn-info">查看报名情况</a>
+  {% if is_manager %}
+  <a href="{% url 'put_name:manage' ac.id %}" class="btn btn-success btn-lg">活动管理</a>
+  {% endif %}
+</p>
+<p><a href="{% url 'put_name:index' %}">返回主页</a></p>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>查看运动员</h2>
+<form role="form" action="{% url 'sport_meet:que' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>选择年份：</label>
+        <select name="year">
+            {% for y in yl %}
+            <option value="{{ y }}">{{ y }}</option>
+            {% endfor %}
+        </select><br>
+        <input name="num" placeholder="请输入运动员编号"><br><br>
+        <input name="pwd" type="password" placeholder="请输入运动员口令"><br>
+    </div>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">查看</button>
+</form>
+<p><a href="{% url 'sport_meet:index' %}">返回主页</a></p>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>新增班级卫生扣分记录</h2>
+<form role="form" action="{% url 'classclean:add' %}" method="post">
+    {% csrf_token %}
+    请选择日期：<input type="date" name="dt" /><br>
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p class="err-color">{{ err }}</p>
+<p><a href="{% url 'classclean:index' %}">返回主页</a></p>
+<script>
+function show_selection(){
+    var grade = document.getElementById("grade").value;
+    var cs_box = document.getElementById("cs");
+    for(var i = 1; i < 13; i++){
+        var cs = cs_box.options[i].value;
+        cs_box.options[i].innerHTML = grade + cs + "班";
+    }
+}
+function fill_area(){
+    var cs = document.getElementById("cs").value;
+    var area = document.getElementById("area");
+    var base_area = ["教室", "画室", "走廊"];
+    var special_area = [
+        "1～2西楼梯",
+        "1～2东楼梯",
+        "2～3西楼梯",
+        "2～3东楼梯",
+        "3～4西楼梯",
+        "3～4东楼梯",
+        "4～5西楼梯",
+        "4～5东楼梯",
+        "二层西窗",
+        "二层东窗",
+        "三层西窗",
+        "三层东窗",
+        "四层西窗",
+        "四层东窗",
+        "二层南北空地",
+        "三层南北空地",
+    ]
+    switch(cs){
+        case "": var area_list = base_area.concat(special_area);
+        break;
+        case "1": var area_list = base_area.concat(["二层西窗", "1～2西楼梯"]);
+        break;
+        case "2": var area_list = base_area.concat(["2～3西楼梯"]);
+        break;
+        case "3": var area_list = base_area.concat(["二层南北空地"]);
+        break;
+        case "4": var area_list = base_area.concat(["二层东窗"]);
+        break;
+        case "5": var area_list = base_area.concat(["三层西窗", "3～4西楼梯"]);
+        break;
+        case "6": var area_list = base_area.concat(["1～2东楼梯"]);
+        break;
+        case "7": var area_list = base_area.concat(["2～3东楼梯"]);
+        break;
+        case "8": var area_list = base_area.concat(["三层东窗", "三层南北空地"]);
+        break;
+        case "9": var area_list = base_area.concat(["四层西窗", "4～5西楼梯"]);
+        break;
+        case "10": var area_list = base_area.concat(["3～4东楼梯"]);
+        break;
+        case "11": var area_list = base_area.concat(["4～5东楼梯"]);
+        break;
+        case "12": var area_list = base_area.concat(["四层东窗"]);
+        break;
+    }
+    // alert(typeof cs);
+
+    // 需要先清空所有选项
+    area.options.length = 0
+
+    for(var i = 0; i < area_list.length; i++){
+        area.options[i] = new Option(area_list[i], area_list[i]);
+    }
+}
+function select_cs(){
+    // 根据卫生区选择班级
+    var area = document.getElementById("area").value;
+    var cs_box = document.getElementById("cs");
+    switch(area){
+        // case "": cs_box.options[0].selected = true;
+        // break;
+        // case "教室": cs_box.options[0].selected = true;
+        // break;
+        // case "画室": cs_box.options[0].selected = true;
+        // break;
+        // case "走廊": cs_box.options[0].selected = true;
+        // break;
+        case "1～2西楼梯": cs_box.options[1].selected = true;
+        break;
+        case "2～3西楼梯": cs_box.options[2].selected = true;
+        break;
+        case "3～4西楼梯": cs_box.options[5].selected = true;
+        break;
+        case "4～5西楼梯": cs_box.options[9].selected = true;
+        break;
+        case "1～2东楼梯": cs_box.options[6].selected = true;
+        break;
+        case "2～3东楼梯": cs_box.options[7].selected = true;
+        break;
+        case "3～4东楼梯": cs_box.options[10].selected = true;
+        break;
+        case "4～5东楼梯": cs_box.options[11].selected = true;
+        break;
+        case "二层西窗": cs_box.options[1].selected = true;
+        break;
+        case "三层西窗": cs_box.options[5].selected = true;
+        break;
+        case "四层西窗": cs_box.options[9].selected = true;
+        break;
+        case "二层东窗": cs_box.options[4].selected = true;
+        break;
+        case "三层东窗": cs_box.options[8].selected = true;
+        break;
+        case "四层东窗": cs_box.options[12].selected = true;
+        break;
+        case "二层南北空地": cs_box.options[3].selected = true;
+        break;
+        case "三层南北空地": cs_box.options[8].selected = true;
+        break;
+    }
+}
+
+// 如果存在年级，则自动填充班级
+if(document.getElementById("grade").value){
+    show_selection();
+}
+
+// 如果存在选中班级，则自动填充区域
+// alert(document.getElementById("cs").value);
+if(Number(document.getElementById("cs").value) > 0){
+    fill_area();
+}
+</script>
+{% endblock %}

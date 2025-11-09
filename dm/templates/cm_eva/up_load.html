@@ -1,0 +1,18 @@
+{% extends "cm_eva/base_no_login.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>班会评分</h2>
+<p><strong>日期：</strong>{{ date }}</p>
+<p><strong>班级：</strong>{{ cag }}</p>
+<form role="form" action="{% url 'cm_eva:up_load' gc %}" method="post" id="fm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <label>班会纪律问题:</label><br>
+    {% for desc in descs %}
+    <input type="checkbox" name="{{ desc.0 }}" value="{{ desc.0 }}">{{ desc.1 }}<br>
+    {% endfor %}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+{% endblock %}

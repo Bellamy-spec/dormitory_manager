@@ -1,0 +1,46 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>更改{{ school_year.name }}课间操工作人员</h2>
+<p><a href="{% url 'su_manage:cw_temp' %}" class="btn btn-info">下载模板</a></p>
+<form role="form" action="{% url 'su_manage:config_worker' school_year.id %}" method="post"
+      enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="确定上传" class="btn btn-warning" style="margin-top: 10px;">
+</form>
+<p class="err-color">{{ err }}
+    {% if have_button %}
+    <a href="{% url 'su_manage:download_error' err_id %}" class="btn btn-info"
+       style="margin-left: 30px;" id="bt">查看错误详情（60秒之内有效）</a>
+    {% endif %}
+</p>
+<p><a href="{% url 'su_manage:member_list' school_year.id 0 %}" class="btn btn-primary">完成</a></p>
+<script>
+    var ele = document.getElementById("bt");
+
+    // 要倒计时的时长
+    var s = 60;
+
+    function countDown(){
+        // 更新显示
+        ele.innerHTML = "查看错误详情（".concat(String(s)).concat("秒之内有效）");
+
+        // 倒计时结束
+        if(s <= 0){
+            // 按钮删除
+            ele.remove();
+
+            // 清除计时器
+            clearInterval(t);
+            return;
+        }
+
+        s--;
+    }
+
+    // 1秒变化一次
+    var t = setInterval(countDown, 1000);
+</script>
+{% endblock %}

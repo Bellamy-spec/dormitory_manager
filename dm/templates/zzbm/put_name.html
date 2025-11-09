@@ -1,0 +1,15 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<form role="form" action="{% url 'zzbm:put_name' task.id %}" method="post"
+      enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary"
+            onclick="return confirm('提交后数据不可修改，是否确定提交？')">提交</button>
+</form>
+<p><a href="{% url 'zzbm:task_main' task.id %}">返回</a></p>
+{% endblock %}

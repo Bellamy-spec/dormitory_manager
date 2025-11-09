@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p class="tip-color">必须保证新宿舍为空宿舍，既无宿管老师又没有入住学生，否则将搬迁失败。
+    如存在重叠，须分两次操作，先将重叠的宿舍搬入空宿舍。</p>
+<p><a href="{% url 'sep_cd_temp' year %}" class="btn btn-info">下载模板</a></p>
+<form role="form" action="{% url 'sep_cd' year %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="确定上传" class="btn btn-warning" style="margin-top: 10px;">
+</form>
+<ul class="err-color list-unstyled">
+    {% for err in errs %}
+    <li>{{ err }}</li>
+    {% endfor %}
+</ul>
+{% if have_button %}
+<a href="{% url 'download_error' err_id %}" class="btn btn-info"
+   style="margin-left: 30px;" id="bt">导出提示信息（60秒之内有效）</a>
+{% endif %}
+<p><a href="{% url 'sep_see' year %}">返回上一页</a></p>
+<script>
+    var ele = document.getElementById("bt");
+
+    // 要倒计时的时长
+    var s = 60;
+
+    function countDown(){
+        // 更新显示
+        ele.innerHTML = "查看错误详情（".concat(String(s)).concat("秒之内有效）");
+
+        // 倒计时结束
+        if(s <= 0){
+            // 按钮删除
+            ele.remove();
+
+            // 清除计时器
+            clearInterval(t);
+            return;
+        }
+
+        s--;
+    }
+
+    // 1秒变化一次
+    var t = setInterval(countDown, 1000);
+</script>
+{% endblock %}

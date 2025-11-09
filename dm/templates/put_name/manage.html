@@ -1,0 +1,52 @@
+{% extends "put_name/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>活动管理</h2>
+<table class="table">
+  <tr>
+    <th>活动名称</th>
+    <td>{{ ac.name }}</td>
+  </tr>
+  <tr>
+    <th>活动时间</th>
+    <td>{{ ac_date }}</td>
+  </tr>
+  <tr>
+    <th>活动地点</th>
+    <td>{{ ac.place }}</td>
+  </tr>
+  <tr>
+    <th>活动简介</th>
+    <td>{{ ac.desc }}</td>
+  </tr>
+  <tr>
+    <th>活动状态</th>
+    {% if ac.active %}
+    <td>报名进行中</td>
+    {% else %}
+    {% if ac.out_of_date %}
+    <td>已过期</td>
+    {% else %}
+    <td>报名已结束</td>
+    {% endif %}
+    {% endif %}
+  </tr>
+</table>
+<ul class="list-unstyled">
+  {% if deep and not ac.out_of_date %}
+  {% if ac.active %}
+  <li><a href="{% url 'put_name:sted' ac.id %}" class="btn btn-lg btn-block btn-default">
+    结束报名</a></li><br>
+  {% else %}
+  <li><a href="{% url 'put_name:sted' ac.id %}" class="btn btn-lg btn-block btn-default">
+    恢复报名</a></li><br>
+  {% endif %}
+  <li><a href="{% url 'put_name:edit' ac.id %}" class="btn btn-lg btn-block btn-warning">
+    修改活动内容</a></li><br>
+  {% endif %}
+  <li><a href="{% url 'put_name:delete' ac.id %}" class="btn btn-lg btn-block btn-danger">
+    删除活动</a></li><br>
+</ul>
+<p><a href="{% url 'put_name:index' %}">返回主页</a></p>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block large %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'add' %}">新增记录</a></p>
+<p><a href="{% url 'index' %}">返回首页</a></p>
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>所属班级</th>
+            <th>所属年级</th>
+            <th>宿舍号</th>
+            <th>床铺</th>
+            <th>学生</th>
+            <th>时间类型</th>
+            <th>问题类型</th>
+            <th>具体情况</th>
+            <th>日期分组</th>
+            <th>生成时间</th>
+            <th>记录人</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ob in records reversed %}
+        <tr>
+            <td>{{ ob.class_and_grade }}</td>
+            <td>{{ ob.grade }}</td>
+            <td>{{ ob.dormitory }}</td>
+            <td>{{ ob.bed }}</td>
+            <td>{{ ob.student }}</td>
+            <td>{{ ob.tm }}</td>
+            <td>{{ ob.tp }}</td>
+            <td>{{ ob.reason }}</td>
+            <td>{{ ob.date_group_str }}</td>
+            <td>{{ ob.date_added|date:'Y-m-d H:i:s' }}</td>
+            <td>{{ ob.owner }}</td>
+            {% if ob.owner == user or is_manager %}
+            <td>
+                <a href="{% url 'delete' ob.id %}"
+                   onclick="return confirm('确定删除？')">删除</a> -
+                <a href="{% url 'change' ob.id %}">修改</a>
+            </td>
+            {% else %}
+            <td></td>
+            {% endif %}
+        </tr>
+        {% empty %}
+        <tr><td colspan="10">暂无扣分记录</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

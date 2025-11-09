@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<div id="fm" style="display:block">
+    <form role="form" action="{% url 'backtoschool:add_absent' cs.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <datalist id="st-list">
+            {% for st in st_list %}
+            <option value="{{ st }}">{{ st }}</option>
+            {% endfor %}
+        </datalist>
+        <button name="submit" class="btn btn-primary">保存请假学生</button>
+    </form>
+    <p class="err-color">{{ err }}</p>
+</div>
+<p>
+    <a href="{% url 'backtoschool:edit' cs.id 'a' %}">返回上一页</a> -
+    <a href="{% url 'backtoschool:index' %}">返回主页</a>
+</p>
+{% endblock %}

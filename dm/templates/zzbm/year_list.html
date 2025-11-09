@@ -1,0 +1,12 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>选择年份查看：</h3>
+<ul class="list-unstyled">
+    {% for task in tasks_before %}
+    <li><a href="{% url 'zzbm:task_main' task.id %}">{{ task.year }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'zzbm:index' %}">返回主页</a></p>
+{% endblock %}

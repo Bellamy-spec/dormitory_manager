@@ -1,0 +1,14 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<form role="form" action="{% url 'zzbm:get_score_input' task.id %}" method="post">
+    {% csrf_token %}
+<!--    <input name="exam-id" placeholder="请输入你的准考证号"><br><br>-->
+    <input name="id-number" placeholder="请输入你的身份证号">
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">查询</button>
+</form>
+<p><a href="{% url 'zzbm:task_main' task.id %}">返回任务主页</a></p>
+{% endblock %}

@@ -1,0 +1,7 @@
+.idea\
+venv\
+test\
+*.pyc
+*.txt
+dm/db.sqlite3
+dm/nohup.out

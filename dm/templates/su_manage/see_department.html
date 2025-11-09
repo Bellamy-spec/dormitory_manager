@@ -1,0 +1,37 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>所有部门</h2>
+<p><a href="{% url 'su_manage:index' %}">返回首页</a></p>
+{% for department in departments %}
+<table class="table table-bordered">
+  <tr>
+    <th>部门名称</th>
+    <td>{{ department.name }}</td>
+  </tr>
+  <tr>
+    <th>部门负责人</th>
+    <td>{{ department.master_str }}</td>
+  </tr>
+<!--  <tr>-->
+<!--    <th>是否承担早操工作</th>-->
+<!--    {% if department.work_abst1 %}-->
+<!--    <td>是</td>-->
+<!--    {% else %}-->
+<!--    <td>否</td>-->
+<!--    {% endif %}-->
+<!--  </tr>-->
+  <tr>
+    <th>是否承担课间操工作</th>
+    {% if department.work_abst2 %}
+    <td>是</td>
+    {% else %}
+    <td>否</td>
+    {% endif %}
+  </tr>
+  <tr><th colspan="2">部门介绍：</th></tr>
+  <tr><td colspan="2">{{ department.desc }}</td></tr>
+</table>
+{% endfor %}
+{% endblock %}

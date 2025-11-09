@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>时间段</th>
+        <th>问题区域</th>
+        <th>扣分分值</th>
+        <th>具体情况</th>
+        <th>记录人</th>
+        <th>操作</th>
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td>{{ record.class_and_grade }}</td>
+        <td>{{ record.tm }}</td>
+        <td>{{ record.area }}</td>
+        <td>{{ record.decrease }}</td>
+        <td>{{ record.reason }}</td>
+        <td>{{ record.owner }}</td>
+        {% if user == record.owner %}
+        <td><a href="{% url 'classclean:delete' record.id %}"
+               onclick="return confirm('确定删除？')">删除</a></td>
+        {% else %}
+        <td></td>
+        {% endif %}
+    </tr>
+    {% empty %}
+    <tr><td colspan="7">没有相关记录</td></tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'classclean:index' %}">返回主页</a></p>
+<p><a href="{% url 'classclean:dates' grade %}">返回上一页</a></p>
+{% endblock %}

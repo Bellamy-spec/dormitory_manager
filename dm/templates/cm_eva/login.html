@@ -1,0 +1,22 @@
+{% extends "cm_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>用户登录</h2>
+<form role="form" action="{% url 'cm_eva:login' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <input name="username" type="text" placeholder="请输入用户名"><br><br>
+        <input name="password" type="password" placeholder="请输入密码">
+<!--        <p>-->
+<!--            <input name="char" type="radio" id="teacher" value="teacher">-->
+<!--            <label for="teacher">我是教师管理员</label>-->
+<!--            <input name="char" type="radio" id="student" value="student">-->
+<!--            <label for="student">我是学生干部</label>-->
+<!--        </p>-->
+    </div>
+    {{ err }}<br>
+    <button name="submit" type="submit" class="btn btn-default">登录</button><br><br>
+</form>
+<p><a href="{% url 'cm_eva:index' %}">返回首页</a></p>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "workload/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<form role="form" action="{% url 'workload:send_up' task.id %}" method="post">
+    {% csrf_token %}
+    <label>所教班级：</label><br>
+    <input type="checkbox" name="c1" value="1班" />1班
+    <input type="checkbox" name="c2" value="2班" />2班
+    <input type="checkbox" name="c3" value="3班" />3班
+    <input type="checkbox" name="c4" value="4班" />4班
+    <input type="checkbox" name="c5" value="5班" />5班
+    <input type="checkbox" name="c6" value="6班" />6班<br/>
+    <input type="checkbox" name="c7" value="7班" />7班
+    <input type="checkbox" name="c8" value="8班" />8班
+    <input type="checkbox" name="c9" value="9班" />9班
+    <input type="checkbox" name="c10" value="10班" />10班
+    <input type="checkbox" name="c11" value="11班" />11班
+    <input type="checkbox" name="c12" value="12班" />12班<br/>
+    {{ form.as_p }}
+    <p class="tip-color" style="display: none;" id="sw"></p>
+    <input type="checkbox" name="check1" value="1" id="check1"
+           onclick="load_input(1)"/>是否班主任
+    <input type="number" name="val1" style="display:none;" id="val1"
+           placeholder="请输入班级人数"><br>
+    <input type="checkbox" name="check2" value="2" id="check2"
+           onclick="load_input(2)"/>是否年级长
+    <input type="number" name="val2" style="display:none;" id="val2"
+           placeholder="请输入年级人数"><br>
+    <input type="checkbox" name="check3" value="3" id="check3"
+           onclick="load_input(3)"/>是否备课组长
+    <input type="number" name="val3" style="display:none;" id="val3"
+           placeholder="请输入备课组人数"><br>
+    <input type="checkbox" name="check4" value="4" id="check4"
+           onclick="load_input(4)"/>是否教研组长
+    <input type="number" name="val4" style="display:none;" id="val4"
+           placeholder="请输入教研组人数"><br>
+    <p class="err-color">{{ err }}
+    {% if link_id %}
+    <a href="{% url 'workload:show_record' link_id %}">查看详情</a>
+    {% endif %}
+    </p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+    <p class="tip-color">提交过后可添加代课情况</p>
+</form>
+<p><a href="{% url 'workload:index' %}">返回主页</a></p>
+<div>
+    <input type="hidden" id="weeks" value="{{ task.weeks }}">
+    <input type="hidden" id="grade" value="{{ task.grade_str }}">
+</div>
+<script>
+    // 加载或隐藏输入框
+    function load_input(i){
+        // 查找输入框
+        var id = "val".concat(String(i));
+        var ele = document.getElementById(id);
+
+        // 查找按钮
+        var id_check = "check".concat(String(i));
+        var ele_check = document.getElementById(id_check);
+
+        // alert(ele_check.checked);
+        if(ele_check.checked){
+            ele.style.display = "block";
+        }
+        else{
+            ele.style.display = "none";
+        }
+    }
+
+    // 根据所填周教案数给出提示信息
+    function show_weeks(){
+        var wp_box = document.getElementById("wp");
+        var wl_box = document.getElementById("wl");
+        // var csn_box = document.getElementById("csn");
+        var sw_box = document.getElementById("sw");
+        if(wp_box.value && wl_box.value){
+            // 获取该年级本月上课周数
+            var weeks = document.getElementById("weeks").value;
+
+            // 获取班级数
+            // var csn = csn_box.value.split("/").length;
+
+            // 计算周教案数、周课时数、月教案数、月课时数
+            var wp = wp_box.value;
+            var wl = wl_box.value;
+            var mp = wp * weeks;
+            var ml = wl * weeks;
+
+            // 获取年级
+            var gd = document.getElementById("grade").value;
+
+            // 生成提示信息
+            var msg = gd.concat("年级本月上课周数为").concat(weeks);
+
+            // 加入周课时数
+            // msg = msg.concat(csn.toString()).concat("\n本月周课时数为").concat(wl.toString());
+
+            // 加入月教案数和月课时数
+            msg = msg.concat("\n您的月教案数为").concat(mp.toString());
+            msg = msg.concat("\n月课时数为").concat(ml.toString());
+
+            alert("信息确认：\n".concat(msg));
+            sw_box.style.display = "block";
+            sw_box.innerHTML = msg;
+        }
+        else{
+            sw_box.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}

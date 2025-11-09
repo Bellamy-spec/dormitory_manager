@@ -1,0 +1,8 @@
+{% extends "math_culture/base.html" %}
+
+{% block mobile %}
+<h3>{{ title }}</h3>
+<p><a href="{% url 'math_culture:book' %}" class="btn btn-success btn-block btn-lg">课本素材分类</a></p>
+<p><a href="{% url 'math_culture:share_index' %}" class="btn btn-info btn-block btn-lg">素材共享平台</a></p>
+<p><a href="{% url 'math_culture:index' %}">返回主页</a></p>
+{% endblock %}

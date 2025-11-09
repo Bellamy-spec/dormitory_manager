@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'teachers:load' %}" class="btn btn-info">导出教师信息数据</a></p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>登录账号</th>
+        <th>证件类型</th>
+        <th>证件号码</th>
+        <th>提交时间</th>
+        <th>操作</th>
+    </tr>
+    {% for teacher in teachers %}
+    <tr>
+        <td>{{ teacher.name }}</td>
+        <td>{{ teacher.gender }}</td>
+        <td>{{ teacher.id_number }}</td>
+        <td>{{ teacher.card_type }}</td>
+        <td>{{ teacher.id_number }}</td>
+        <td>{{ teacher.datetime_added|date:'Y-m-d H:i:s' }}</td>
+        <td><a href="{% url 'teachers:delete' teacher.id %}">删除</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7">暂无教师提交</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

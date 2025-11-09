@@ -1,0 +1,9 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>错误提示：</h3>
+<p>系统中已存在{{ year }}年中招美术加试报名任务，不可重复发布。如需重新发布，要先删除已存在的任务</p>
+<p><a href="{% url 'zzbm:task_main' task.id %}">查看详情</a></p>
+<p><a href="{% url 'zzbm:index' %}">返回主页</a></p>
+{% endblock %}

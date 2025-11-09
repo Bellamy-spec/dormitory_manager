@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>用户管理</h2>
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>用户名（唯一标识）</th>
+    <th>用户称呼</th>
+    <th>最近登录时间</th>
+    <th>备注</th>
+    <th>操作</th>
+  </tr>
+  {% for user in users %}
+  <tr>
+    <td>{{ user.0.username }}</td>
+    <td>{{ user.0.last_name }}</td>
+    <td>{{ user.0.last_login|date:'Y-m-d H:i:s' }}</td>
+    {% if user.1 %}
+    <td>学生用户</td>
+    {% else %}
+    <td></td>
+    {% endif %}
+    <td><a href="{% url 'reset_pwd' user.0.id %}" class="btn btn-primary"
+           onclick="return confirm('确定重置密码？')">重置密码</a></td>
+  </tr>
+  {% endfor %}
+</table>
+<p><a href="{% url 'index_out' %}">返回主页</a></p>
+{% endblock %}

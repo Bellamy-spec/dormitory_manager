@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+{% load static %}
+<h1>{{ hello }}</h1>
+<!--<img class="img-responsive" src="{% static weekday %}"><br>-->
+<ul class="list-unstyled">
+    <li><a href="{% url 'grades' %}" class="btn btn-primary btn-lg btn-block">
+        分年级查看</a></li><br>
+    <li><a href="{% url 'month_together' %}" class="btn btn-primary btn-lg btn-block">
+		    月总结</a></li><br>
+    <li><a href="{% url 'settable_summary' %}" class="btn btn-primary btn-lg btn-block">
+        自定义时间段总结</a></li><br>
+    {% if user.is_authenticated %}
+    {% if user.username == 'zz106dyc' %}
+    <li><a href="{% url 'records' %}" class="btn btn-primary btn-lg btn-block">
+        查看所有宿舍扣分记录</a></li><br>
+    {% endif %}
+    <li><a href="{% url 'dates' %}" class="btn btn-primary btn-lg btn-block">
+        按日期查看</a></li><br>
+    <li><a href="{% url 'add' %}" class="btn btn-primary btn-lg btn-block">
+        新增宿舍扣分记录</a></li><br>
+    {% endif %}
+    {% if is_manager %}
+    <li><a href="{% url 'advice' %}" class="btn btn-primary btn-lg btn-block">
+        宿舍管理满意度调查</a></li><br>
+    <li><a href="{% url 'sep_class' %}" class="btn btn-primary btn-lg btn-block">
+        分班分寝</a></li><br>
+    <li><a href="{% url 'dm_power' %}" class="btn btn-success btn-lg btn-block">
+        宿舍管理权限分配</a></li><br>
+    <li><a href="{% url 'dm_lines_main' %}" class="btn btn-warning btn-lg btn-block">
+        搬宿舍轨迹查看与管理</a></li><br>
+    {% endif %}
+</ul>
+<p><a href="{% url 'index_out' %}">返回导航页</a></p>
+{% endblock %}

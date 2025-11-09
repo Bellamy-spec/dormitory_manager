@@ -1,0 +1,15 @@
+{% extends "math_culture/base.html" %}
+
+{% block content %}
+<h3>素材共享平台</h3>
+<p><a href="{% url 'math_culture:add' %}" class="btn btn-default">╋我要上传素材</a></p>
+{% if is_manager %}
+<p><a href="{% url 'math_culture:share_manage' %}" class="btn btn-danger">管理素材</a></p>
+{% endif %}
+<ul>
+    <li><a href="{% url 'math_culture:line_index' 1 %}">函数主线</a></li>
+    <li><a href="{% url 'math_culture:line_index' 2 %}">几何与代数主线</a></li>
+    <li><a href="{% url 'math_culture:line_index' 3 %}">概率与统计主线</a></li>
+    <li><a href="{% url 'math_culture:line_index' 4 %}">数学建模主线</a></li>
+</ul>
+{% endblock %}

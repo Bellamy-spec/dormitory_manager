@@ -1,0 +1,41 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<form role="form" action="{% url 'zzbm:set_time' task.id %}" method="post">
+    {% csrf_token %}
+    <p>
+        <label>第一场：</label>
+        <input name="dt" type="datetime-local" min="{{ min }}" max="{{ max }}"
+               value="{{ task.format_start_time }}"/>
+    </p>
+    <p>
+        <label>第二场：</label>
+        <input name="dt_1" type="datetime-local" min="{{ min }}" max="{{ max }}"
+               value="{{ task.format_start_time_1 }}"/>
+    </p>
+    <p>
+        <label>第三场：</label>
+        <input name="dt_2" type="datetime-local" min="{{ min }}" max="{{ max }}"
+               value="{{ task.format_start_time_2 }}"/>
+    </p>
+    <p>
+        <label>第四场：</label>
+        <input name="dt_3" type="datetime-local" min="{{ min }}" max="{{ max }}"
+               value="{{ task.format_start_time_3 }}"/>
+    </p>
+    <p>
+        <label>第五场：</label>
+        <input name="dt_4" type="datetime-local" min="{{ min }}" max="{{ max }}"
+               value="{{ task.format_start_time_4 }}"/>
+    </p>
+    <p>
+        <label>第六场：</label>
+        <input name="dt_5" type="datetime-local" min="{{ min }}" max="{{ max }}"
+               value="{{ task.format_start_time_5 }}"/>
+    </p>
+    <button name="submit" type="submit" class="btn btn-primary">确定</button>
+</form>
+<p><a href="{% url 'zzbm:task_manage' task.id %}">返回上一页</a></p>
+{% endblock %}

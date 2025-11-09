@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<p>
+    <a href="{% url 'export_fs' grade_num start_date_str total_days %}" class="btn btn-info">导出总结</a> -
+    <a href="{% url 'show_fs' grade_num start_date_str total_days %}" class="btn btn-warning">查看总结</a> -
+    <a href="{% url 'visual_fs' grade_num start_date_str total_days %}" class="btn btn-success">查看统计图表</a>
+</p>
+<p><a href="{% url 'settable_summary' %}">返回上一页</a></p>
+{% endblock %}

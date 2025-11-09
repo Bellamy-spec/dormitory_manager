@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'index' %}">返回首页</a></p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>月份\年级</th>
+        {% for grade in grades %}
+            <th>{{ grade.1 }}</th>
+        {% endfor %}
+    </tr>
+    {% for ym in ym_before %}
+    <tr>
+        <th>{{ ym.0 }}</th>
+        {% for grade in grades %}
+            <td>
+                <a href="{% url 'export_monthtogether' grade.0 ym.1 %}"
+                   class="btn btn-info">导出月总结</a>
+                <a href="{% url 'show_monthtogether' grade.0 ym.1 %}"
+                   class="btn btn-warning">查看月总结</a>
+                <a href="{% url 'visual_monthtogether' grade.0 ym.1 %}"
+                   class="btn btn-success">查看统计图表</a>
+            </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    <tr>
+        <th>{{ ym_now.0 }}</th>
+        {% for grade in grades %}
+            <td>
+                <a href="{% url 'export_monthtogether' grade.0 ym_now.1 %}"
+                   class="btn btn-info">导出月总结</a>
+                <a href="{% url 'show_monthtogether' grade.0 ym_now.1 %}"
+                   class="btn btn-warning">查看月总结</a>
+                <a href="{% url 'visual_monthtogether' grade.0 ym_now.1 %}"
+                   class="btn btn-success">查看统计图表</a>
+            </td>
+        {% endfor %}
+    </tr>
+</table>
+{% endblock %}

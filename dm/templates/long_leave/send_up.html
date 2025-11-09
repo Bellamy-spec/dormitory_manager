@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>上报班级人数信息</h2>
+<form role="form" action="{% url 'long_leave:send_up' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <div style="display:none;">
+        <p id="cs-house">{{ cs_house }}</p>
+        <p id="cs-house-reverse">{{ cs_house_reverse }}</p>
+        <p id="cs-str">{{ cs_str }}</p>
+        <p id="tt">{{ total }}</p>
+        <p id="st-house">{{ st_house }}</p>
+        <p id="lg">{{ lg }}</p>
+    </div>
+    {% if have_link %}
+    <p><a href="{% url 'long_leave:show_cs' cs.id %}">查看详情</a></p>
+    {% endif %}
+    <label>请假学生：</label>
+    <a class="btn btn-default" onclick="load_add()">╋新增</a>
+    <a id="load-last" class="btn btn-info" onclick="load_last()">一键载入上次请假学生</a><br>
+    <div id="st-box">
+        {% for student in absts %}
+        <div id="{{ student.4 }}">
+            <input name="{{ student.2 }}" id="{{ student.2 }}"
+                   placeholder="姓名" value="{{ student.0 }}"
+                   style="width:100px; margin-right:4px; margin-bottom:10px;">
+            <input name="{{ student.3 }}" id="{{ student.3 }}"
+                   placeholder="请假原因" value="{{ student.1 }}"
+                   style="width:200px; margin-bottom:10px; margin-right:4px;">
+            <a id="{{ student.6 }}" class="btn btn-danger"
+               onclick="{{ student.5 }}">删除</a>
+        </div>
+        {% endfor %}
+    </div>
+    <p id="tip" class="tip-color" style="display:none">注意：请假原因不能为空，否则提交无效</p>
+    <input id="count" name="count" value="{{ ct }}" type="hidden">
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'long_leave:daily' %}">返回上一页</a></p>
+<script>
+var i = document.getElementById("count").value;
+// alert(i);
+
+if(i > 0){
+    // 显示提示
+    document.getElementById("tip").style = "display:block";
+}
+
+var tt = document.getElementById("tt").innerHTML;
+if(tt > 0){
+    // 填充应到人数
+    document.getElementById("total").value = tt;
+}
+
+// 加载页面时先删除13班选项
+document.getElementById("cs").remove(13);
+
+var gc_str = document.getElementById("cs-str").innerHTML
+
+if(gc_str != "0-0"){
+    // 加载字符串-年级对应字典
+    var cs_house_reverse_str = document.getElementById("cs-house-reverse").innerHTML;
+    cs_house_reverse_str = cs_house_reverse_str.replace(/'/g, '"');
+    var cs_house_reverse = JSON.parse(cs_house_reverse_str);
+
+    // 取得年级、班级
+    var gc = cs_house_reverse[gc_str];
+    var gd = gc.substring(0, 2);
+
+    cs_box = document.getElementById("cs");
+    for(var ci = 1; ci < 13; ci++){
+        var cs = cs_box.options[ci].value;
+        cs_box.options[ci].innerHTML = gd.concat(cs);
+    }
+
+    // 年级、班级默认选项
+    document.getElementById("grade").value = gd;
+    cs_box.value = gc.slice(2);
+}
+
+function load_add(){
+    // alert(i);
+
+    // 获取选中年级
+    var grade = document.getElementById("grade").value;
+
+    // 加载添加请假学生的输入框
+    var st_box = document.getElementById("st-box");
+    // alert(grade);
+    // 高一年级上报学生输入框升级为下拉菜单
+    var lg_house_str = document.getElementById("lg").innerHTML;
+
+    // 单引号转为双引号
+    lg_house_str = lg_house_str.replace(/'/g, '"');
+    // alert(lg_house_str);
+
+    // 获取逻辑年级
+    var lg_house = JSON.parse(lg_house_str);
+    var logic_grade = lg_house[grade];
+
+    // 合成班级字符串
+    var cs = document.getElementById("cs").value;
+    if(cs.length < 3){
+        // 补位
+        cs = "0".concat(cs);
+    }
+    var lgc = logic_grade.concat(cs);
+
+    // 获取学生列表
+    var st_house_str = document.getElementById("st-house").innerHTML;
+    st_house_str = st_house_str.replace(/'/g, '"');
+    var st_house = JSON.parse(st_house_str);
+    var st_list = st_house[lgc];
+    // alert(lgc);
+
+    // 创建下拉菜单
+    var st_name = document.createElement("select");
+
+    // 添加选项
+    for(var k = 0; k < st_list.length; k++){
+        st_name.options.add(new Option(st_list[k], st_list[k]));
+    }
+
+    var st_reason = document.createElement("input");
+    st_name.name = "name".concat(String(i));
+    st_name.id = "name".concat(String(i));
+    st_name.placeholder = "姓名";
+    st_name.style = "width:100px; margin-right:10px; margin-bottom:10px;";
+    st_reason.name = "reason".concat(String(i));
+    st_reason.id = "reason".concat(String(i));
+    st_reason.placeholder = "请假原因";
+    st_reason.style = "width:200px; margin-bottom:10px; margin-right:10px;";
+
+    // 新增自删除按钮
+    var del_button = document.createElement("a");
+    del_button.id = "del".concat(String(i));
+    del_button.setAttribute("class", "btn btn-danger");
+    del_button.setAttribute("onclick", "del(".concat(String(i)).concat(")"));
+    del_button.innerHTML = "删除";
+
+    // 新增中级节点
+    var d_box = document.createElement("div");
+    d_box.id = "d".concat(String(i));
+    d_box.appendChild(st_name);
+    d_box.appendChild(st_reason);
+    d_box.appendChild(del_button);
+
+    // 中级节点加入
+    st_box.appendChild(d_box);
+
+    // 显示提示
+    document.getElementById("tip").style = "display:block";
+
+    // 载入请假学生个数
+    // alert(i);
+    i++;
+    document.getElementById("count").value = i;
+    // alert(i);
+}
+function show_selection(){
+    var grade = document.getElementById("grade").value;
+    var cs_box = document.getElementById("cs");
+
+    // 如年级选择为高三，则添加13班选项
+    if(grade == "高三"){
+        cs_box.options.add(new Option(grade.concat("13班"), "13班"));
+    }
+    else{
+        cs_box.options.remove(13);
+    }
+
+    for(var ci = 1; ci < 13; ci++){
+        var cs = cs_box.options[ci].value;
+        cs_box.options[ci].innerHTML = grade.concat(cs);
+    }
+}
+function load_last(){
+    // 获取班级信息库
+    var cs_house_str = document.getElementById("cs-house").innerHTML;
+
+    // 单引号转为双引号
+    cs_house_str = cs_house_str.replace(/'/g, '"');
+
+    var cs_house = JSON.parse(cs_house_str);
+    // alert(cs_house);
+
+    // 获取选中年级、班级
+    var grade = document.getElementById("grade").value;
+    var cs = document.getElementById("cs").value;
+
+    // 合成班级
+    var gc = grade.concat(cs);
+    var gc_str = cs_house[gc];
+
+    // 获取输入应到人数
+    var total = document.getElementById("total").value;
+    if(total == ""){
+        total = "0";
+    }
+    // alert(total);
+
+    if(gc_str == undefined){
+        document.getElementById("load-last").href = "javascript:void(0)";
+    }
+    else{
+        document.getElementById("load-last").href = "/long_leave/get_last/"
+        .concat(gc_str).concat("/").concat(total).concat("/");
+    }
+}
+function del(idx){
+    // 取出要删除的元素
+    var id_str = "d".concat(String(idx));
+    var ele = document.getElementById(id_str);
+
+    // 执行删除
+    ele.remove();
+
+    // 大于idx的索引值全部减1
+    for(var j = idx + 1; j < i; j++){
+        // 中级节点id值减1
+        var d_id = "d".concat(String(j));
+        var d_ele = document.getElementById(d_id);
+        d_ele.id = "d".concat(String(j - 1));
+
+        // 姓名输入框id和name值减1
+        var name_id = "name".concat(String(j));
+        var name_ele = document.getElementById(name_id);
+        name_ele.id = "name".concat(String(j - 1));
+        name_ele.name = "name".concat(String(j - 1));
+
+        // 请假原因输入框id和name值减1
+        var reason_id = "reason".concat(String(j));
+        var reason_ele = document.getElementById(reason_id);
+        reason_ele.id = "reason".concat(String(j - 1));
+        reason_ele.name = "reason".concat(String(j - 1));
+
+        // 删除按钮id和onclick值减1
+        var del_id = "del".concat(String(j));
+        var del_ele = document.getElementById(del_id);
+        del_ele.id = "del".concat(String(j - 1));
+        del_ele.setAttribute("onclick", "del(".concat(String(j - 1)).concat(")"));
+    }
+
+    // 请假学生个数减1
+    i--;
+    document.getElementById("count").value = i;
+}
+</script>
+{% endblock %}

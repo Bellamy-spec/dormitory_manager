@@ -1,0 +1,27 @@
+{% extends "cars_id/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>查询车牌信息</h2>
+<form role="form" action="{% url 'cars_id:que' %}" method="post">
+    {% csrf_token %}
+    <input name="car_id" type="text" placeholder="请输入车牌号">
+    <button name="submit" type="submit" class="btn btn-primary">查询</button>
+</form>
+{% if has_msg %}
+    <p>{{ tip_msg }}</p>
+    {% if car_msg %}
+    <table class="table table-bordered">
+        <tr>
+            <th>车主姓名：</th>
+            <td>{{ car_msg.0 }}</td>
+        </tr>
+        <tr>
+            <th>联系电话：</th>
+            <td>{{ car_msg.1 }}</td>
+        </tr>
+    </table>
+    {% endif %}
+{% endif %}
+<a href="{% url 'cars_id:index' %}">返回首页</a>
+{% endblock %}

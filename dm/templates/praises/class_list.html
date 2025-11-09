@@ -1,0 +1,40 @@
+{% extends "praises/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ task.title }}已上报班级</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>班级</th>
+        {% for praise_name in praise_list %}
+        <th>{{ praise_name }}</th>
+        {% endfor %}
+        {% if is_operator %}
+        <th>操作</th>
+        {% endif %}
+    </tr>
+    {% for data_line in data_list %}
+    <tr>
+        <td>{{ data_line.0.gc }}</td>
+        {% for praise_str in data_line.1 %}
+        <td>{{ praise_str }}</td>
+        {% endfor %}
+        {% if is_operator %}
+        <td>
+            <a href="{% url 'praises:export_class_cert' data_line.0.id %}"
+               class="btn btn-success">批量导出电子获奖证书</a> -
+            <a href="{% url 'praises:see_class' data_line.0.id %}" class="btn btn-warning">继续上报/修改</a>
+            {% if is_manager %}
+             - <a href="{% url 'praises:delete_class' data_line.0.id %}" class="btn btn-danger"
+                  onclick="return confirm('删除班级后，该班级所有获奖学生信息将一并删除。确定要删除吗？')">删除</a>
+            {% endif %}
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'praises:see_task' task.id %}">返回上一页</a> -
+    <a href="{% url 'praises:index' %}">返回应用程序主页</a>
+</p>
+{% endblock %}

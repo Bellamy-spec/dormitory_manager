@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>选择日期</h2>
+<ul>
+    {% if has_grade %}
+<!--        <li><a href="{% url 'grade_all' grade %}">全部</a></li>-->
+        {% for date in dates reversed %}
+            <li><a href="{% url 'show_records' grade date.2 %}">{{ date.1 }}</a></li>
+        {% endfor %}
+    {% else %}
+        {% for date in dates reversed %}
+            <li>
+                <a href="{% url 'records_by_date' date.0.year date.0.month date.0.day %}">
+                    {{ date.1 }}</a>
+            </li>
+        {% empty %}
+            <li>暂无记录</li>
+        {% endfor %}
+    {% endif %}
+
+</ul>
+<p><a href="{% url 'index' %}">返回首页</a></p>
+{% endblock %}

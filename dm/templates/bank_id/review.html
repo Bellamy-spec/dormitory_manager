@@ -1,0 +1,46 @@
+{% extends "bank_id/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>查看银行卡信息</h2>
+<p><a href="{% url 'bank_id:export' %}" class="btn btn-info">导出当前页数据</a></p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>姓名</th>
+        <th>监考考点</th>
+        <th>身份证号</th>
+        <th>银行卡号</th>
+        <th>所属银行</th>
+        <th>提交时间</th>
+        <th>操作</th>
+    </tr>
+    {% for ob in records %}
+    <tr>
+        <td>{{ ob.name }}</td>
+        <td>{{ ob.work_point }}</td>
+        <td>{{ ob.id_number }}</td>
+        <td>{{ ob.bank_id }}</td>
+        <td>{{ ob.bank_tp }}</td>
+        <td>{{ ob.datetime_added|date:'Y-m-d H:i:s' }}</td>
+        <td><a href="{% url 'bank_id:delete' ob.id %}" class="btn btn-danger"
+            onclick="del_sure()">删除</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7">暂无信息</td></tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'bank_id:index' %}">返回主页</a></p>
+<script>
+    function del_sure(){
+        const ans = confirm("确认删除？");
+        if(ans){
+            alert("删除成功");
+            return true;
+        }
+        else{
+            event.preventDefault();
+            return false;
+        }
+    }
+</script>
+{% endblock %}

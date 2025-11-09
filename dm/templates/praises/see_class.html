@@ -1,0 +1,89 @@
+{% extends "praises/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+{% if active %}
+<p>
+    <a class="btn btn-warning" onclick="show_temp_add()">模板批量添加</a> -
+    <a href="{% url 'praises:add_student' class_submit.id %}" class="btn btn-success">单个添加</a>
+</p>
+{% endif %}
+<div id="temp-add" style="display:none;">
+    <p><a href="{% url 'praises:download_temp' class_submit.task_belong.id %}"
+          class="btn btn-info">下载获奖学生名单文件模板</a></p>
+    <form role="form" action="{% url 'praises:see_class' class_submit.id %}" method="post"
+          enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="确定上传" class="btn btn-warning" style="margin-top: 10px;">
+    </form>
+</div>
+<p class="err-color">{{ err }}
+    {% if have_button %}
+    <a href="{% url 'download_error' err_id %}" class="btn btn-info"
+       style="margin-left: 30px;" id="bt">查看错误详情（60秒之内有效）</a>
+    {% endif %}
+</p>
+<table class="table table-bordered">
+    <tr>
+        <th>姓名</th>
+        <th>奖项</th>
+        <th>操作</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.name }}</td>
+        <td>{{ student.praise_name }}</td>
+        <td>
+            <a href="{% url 'praises:download_cert' student.id %}" class="btn btn-success">下载电子获奖证书</a>
+            {% if active %}
+             - <a href="{% url 'praises:delete_student' student.id %}"
+                  class="btn btn-danger" onclick="return confirm('确定删除？')">删除</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'praises:class_list' class_submit.task_belong.id %}">返回上一页</a> -
+    <a href="{% url 'praises:index' %}">返回应用程序主页</a>
+</p>
+<script>
+    // 显示模板批量添加部分
+    function show_temp_add(){
+        var temp_add = document.getElementById("temp-add");
+        if(temp_add.style.display == "none"){
+            temp_add.style.display = "block";
+        }
+        else{
+            temp_add.style.display = "none";
+        }
+    }
+
+    var ele = document.getElementById("bt");
+
+    // 要倒计时的时长
+    var s = 60;
+
+    function countDown(){
+        // 更新显示
+        ele.innerHTML = "查看错误详情（".concat(String(s)).concat("秒之内有效）");
+
+        // 倒计时结束
+        if(s <= 0){
+            // 按钮删除
+            ele.remove();
+
+            // 清除计时器
+            clearInterval(t);
+            return;
+        }
+
+        s--;
+    }
+
+    // 1秒变化一次
+    var t = setInterval(countDown, 1000);
+</script>
+{% endblock %}

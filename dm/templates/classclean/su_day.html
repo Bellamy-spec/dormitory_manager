@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>学生会卫生部检查结果</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>日期</th>
+        <th>班级</th>
+        <th>卫生得分</th>
+        <th>卫生问题</th>
+        {% if is_manager %}
+        <th>检查人</th>
+        <th>提交时间</th>
+        <th>操作</th>
+        {% endif %}
+    </tr>
+    {% for score in scores %}
+    <tr>
+        <td>{{ score.date_added|date:'Y年m月d日' }}</td>
+        <td>{{ score.class_and_grade }}</td>
+        <td>{{ score.score }}</td>
+        <td>{{ score.desc }}</td>
+        {% if is_manager %}
+        <td>{{ score.owner_show }}</td>
+        <td>{{ score.datetime_added|date:'Y-m-d H:i:s' }}</td>
+        <td><a href="{% url 'classclean:del_score' score.id %}"
+               class="btn btn-danger">删除</a></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'classclean:su_dl' %}">返回上一页</a> -
+    <a href="{% url 'classclean:index' %}">返回应用主页</a>
+</p>
+{% endblock %}

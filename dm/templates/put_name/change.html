@@ -1,0 +1,13 @@
+{% extends "put_name/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>请填写以下活动信息：</h2>
+<form role="form" action="{% url 'put_name:edit' ac.id %}" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <p class="err-color">{{ err }}</p>
+  <button name="submit" type="submit" class="btn btn-primary">重新发布</button>
+</form>
+<p><a href="{% url 'put_name:index' %}">返回主页</a></p>
+{% endblock %}

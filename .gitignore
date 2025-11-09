@@ -2,7 +2,7 @@
 venv/
 test/
 dm/math_culture/
-dm/media/math_culture/
+dm/media/
 *.pyc
 *.txt
 dm/db.sqlite3

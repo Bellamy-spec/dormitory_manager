@@ -1,6 +1,8 @@
-.idea\
-venv\
-test\
+.idea/
+venv/
+test/
+dm/math_culture/
+dm/media/math_culture/
 *.pyc
 *.txt
 dm/db.sqlite3

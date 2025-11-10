@@ -1,0 +1,7 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h4>你的报名序号已重置并发送到邮箱{{ em }}，请注意查收。</h4>
+<p><a href="{% url 'zzbm:que' task.id %}">返回登录</a></p>
+{% endblock %}

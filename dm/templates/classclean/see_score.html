@@ -1,0 +1,23 @@
+{% extends "base_no_login.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<table class="table table-bordered">
+    <tr>
+        <th>日期</th>
+        <td>{{ score.date_added|date:'Y年m月d日' }}</td>
+    </tr>
+    <tr>
+        <th>班级</th>
+        <td>{{ score.class_and_grade }}</td>
+    </tr>
+    <tr>
+        <th>卫生得分</th>
+        <td>{{ score.score }}</td>
+    </tr>
+    <tr>
+        <th>卫生问题</th>
+        <td>{{ score.desc }}</td>
+    </tr>
+</table>
+{% endblock %}

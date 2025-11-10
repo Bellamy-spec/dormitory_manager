@@ -1,0 +1,12 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>修改节目&nbsp;&nbsp;<strong>{{ program.name }}</strong>&nbsp;&nbsp;</h2>
+<form role="form" action="{% url 'artday:edit_program' program.id program.sec %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">保存</button>
+</form>
+<p><a href="{% url 'artday:index' %}">返回主页</a></p>
+{% endblock %}

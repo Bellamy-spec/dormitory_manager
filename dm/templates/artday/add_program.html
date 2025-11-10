@@ -1,0 +1,23 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>报名节目表演</h2>
+<p class="tip-color">{{ tip }}</p>
+<form role="form" action="{% url 'artday:add_program' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'artday:index' %}">返回主页</a></p>
+<script>
+    // 找到要插入换行的元素
+    var etc_area = document.getElementById("id_etc");
+    var desc_area = document.getElementById("id_desc");
+    // alert(etc_area);
+
+    // 在前面插入换行
+    etc_area.parentNode.insertBefore(document.createElement("br"), etc_area);
+    desc_area.parentNode.insertBefore(document.createElement("br"), desc_area);
+</script>
+{% endblock %}

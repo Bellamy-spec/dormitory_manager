@@ -1,0 +1,38 @@
+{% extends "exercise_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ dt }}课间操短假学生</h2>
+{% if cur %}
+<p>
+    <a href="{% url 'exercise_eva:load_short_abst' %}" class="btn btn-info">登记课间操短假学生</a> -
+    <a href="{% url 'exercise_eva:short_abst_dates' %}" class="btn btn-success">查看以往日期</a>
+</p>
+{% endif %}
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>姓名</th>
+        <th>登记人</th>
+        <th>操作</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.class_and_grade }}</td>
+        <td>{{ student.name }}</td>
+        {% if student.owner %}
+        <td>{{ student.owner_show }}</td>
+        {% else %}
+        <td>教师管理员</td>
+        {% endif %}
+        <td><a href="{% url 'exercise_eva:del_short_abst' student.id %}"
+               class="btn btn-danger" onclick="return confirm('确定删除？')">删除</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% if cur %}
+<p><a href="{% url 'exercise_eva:index' %}">返回应用程序主页</a></p>
+{% else %}
+<p><a href="{% url 'exercise_eva:short_abst_dates' %}">返回日期选择页</a></p>
+{% endif %}
+{% endblock %}

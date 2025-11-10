@@ -1,0 +1,13 @@
+{% extends "math_culture/base.html" %}
+
+{% block mobile %}
+<h3>课本素材分类</h3>
+<ul>
+    <li><a href="{% url 'math_culture:chapter_list' 1 %}">必修一</a></li>
+    <li><a href="{% url 'math_culture:chapter_list' 2 %}">必修二</a></li>
+    <li><a href="{% url 'math_culture:chapter_list' 3 %}">选择性必修一</a></li>
+    <li><a href="{% url 'math_culture:chapter_list' 4 %}">选择性必修二</a></li>
+    <li><a href="{% url 'math_culture:chapter_list' 5 %}">选择性必修三</a></li>
+    <li><a href="{% url 'math_culture:chapter_list' 6 %}">综合</a></li>
+</ul>
+{% endblock %}

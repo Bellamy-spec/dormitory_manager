@@ -1,0 +1,8 @@
+{% extends "cm_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'cm_eva:date_list' %}" class="btn btn-info btn-lg btn-block">选择日期查看</a></p>
+<p><a href="{% url 'cm_eva:mt_main' %}" class="btn btn-success btn-lg btn-block">月总结</a></p>
+{% endblock %}

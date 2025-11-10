@@ -1,0 +1,12 @@
+{% extends "workload/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>添加代课数据</h2>
+<form role="form" action="{% url 'workload:add_sub' record.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'workload:show_record' record.id %}">返回上一页</a></p>
+{% endblock %}

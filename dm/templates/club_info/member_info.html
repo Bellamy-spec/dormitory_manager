@@ -1,0 +1,24 @@
+{% extends "club_info/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>&nbsp;&nbsp;<strong>{{ club.name }}</strong>&nbsp;&nbsp;社团成员信息</h2>
+<p><a href="{% url 'club_info:see' %}">返回上一页</a></p>
+<table class="table">
+    <tr>
+        <th>角色</th>
+        <th>姓名</th>
+        <th>操作</th>
+    </tr>
+    {% for member in members reversed %}
+    <tr>
+        <td>{{ member.tp }}</td>
+        <td>{{ member.name }}</td>
+        {% if is_manager %}
+        <td><a href="{% url 'club_info:delete_member' member.id %}"
+               class="btn btn-danger">删除</a></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

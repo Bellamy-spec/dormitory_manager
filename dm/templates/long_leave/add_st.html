@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>{{ title }}</h2>
+<form role="form" action="{% url 'long_leave:add_st' cs.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <datalist id="st-list">
+        {% for st in st_list %}
+        <option value="{{ st }}">{{ st }}</option>
+        {% endfor %}
+    </datalist>
+    <button name="submit" type="submit" class="btn btn-primary">保存</button>
+</form>
+{% endblock %}

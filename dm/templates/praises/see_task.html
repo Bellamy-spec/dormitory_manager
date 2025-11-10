@@ -1,0 +1,80 @@
+{% extends "praises/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p>
+    <a href="{% url 'praises:class_list' task.id %}" class="btn btn-success">已提交班级</a>
+    {% if is_manager %}
+     - <a href="{% url 'praises:change_cert_date' task.id %}" class="btn btn-info">修改证书日期</a>
+     - <a href="{% url 'praises:change_active' task.id %}" class="btn btn-warning">{{ btn_name }}</a>
+     - <a href="{% url 'praises:delete_task' task.id %}" class="btn btn-danger"
+          onclick="return confirm('所有已填报数据将一并删除，你确定要删除吗？')">删除任务</a>
+    {% endif %}
+</p>
+{% if is_manager %}
+<p>
+    <a href="{% url 'praises:export_task_xlsx' task.id %}" class="btn btn-default"
+       style="background-color:#DD33DD; color:#FFFFFF;">导出各班获奖名单</a> -
+    <a href="{% url 'praises:export_print_temp' task.id %}" class="btn btn-default"
+       style="background-color:#AA7711; color:#FFFFFF;">导出证书打印模板</a>
+</p>
+{% endif %}
+<table class="table">
+    <tr>
+        <th>证书日期</th>
+        <td>{{ task.cert_date|date:'Y-m-d' }}</td>
+    </tr>
+    <tr>
+        <th>奖项名称</th>
+        <th>各班人数限制</th>
+    </tr>
+    {% for kv in imd %}
+    <tr>
+        <td>{{ kv.0 }}</td>
+        <td>{{ kv.1.2 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% if task.active and is_operator %}
+<p><a href="{% url 'praises:download_temp' task.id %}" class="btn btn-info">下载获奖学生名单文件模板</a></p>
+<form role="form" action="{% url 'praises:see_task' task.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p class="err-color">{{ err }}
+    {% if have_button %}
+    <a href="{% url 'download_error' err_id %}" class="btn btn-info"
+       style="margin-left: 30px;" id="bt">查看错误详情（60秒之内有效）</a>
+    {% endif %}
+</p>
+{% endif %}
+<p><a href="{% url 'praises:index' %}">返回应用程序主页</a></p>
+<script>
+    var ele = document.getElementById("bt");
+
+    // 要倒计时的时长
+    var s = 60;
+
+    function countDown(){
+        // 更新显示
+        ele.innerHTML = "查看错误详情（".concat(String(s)).concat("秒之内有效）");
+
+        // 倒计时结束
+        if(s <= 0){
+            // 按钮删除
+            ele.remove();
+
+            // 清除计时器
+            clearInterval(t);
+            return;
+        }
+
+        s--;
+    }
+
+    // 1秒变化一次
+    var t = setInterval(countDown, 1000);
+</script>
+{% endblock %}

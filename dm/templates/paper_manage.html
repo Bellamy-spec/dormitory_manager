@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block large %}
+<h2>{{ title }}</h2>
+<p class="tip-color">分值对应说明：5-非常满意；4-满意；3-一般；2-不满意；1-极不满意.</p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>问卷编号</th>
+        <th>性别</th>
+        <th>班级</th>
+        <th>宿舍号</th>
+        <th>宿管老师</th>
+        <th>题目1</th>
+        <th>题目2</th>
+        <th>题目3</th>
+        <th>题目4</th>
+        <th>题目5</th>
+        <th>题目6</th>
+        <th>题目7</th>
+        <th>题目8</th>
+        <th>题目9</th>
+        <th>题目10</th>
+        <th>题目11</th>
+        <th>题目12</th>
+        <th>题目13</th>
+        <th>题目14</th>
+        <th>提交时间</th>
+        <th>操作</th>
+    </tr>
+    {% for paper in papers %}
+    <tr>
+        <td>{{ paper.num_name }}</td>
+        <td>{{ paper.gender }}</td>
+        <td>{{ paper.gc }}</td>
+        <td>{{ paper.dorm }}</td>
+        <td>{{ paper.teacher }}</td>
+        <td>{{ paper.t1 }}</td>
+        <td>{{ paper.t2 }}</td>
+        <td>{{ paper.t3 }}</td>
+        <td>{{ paper.t4 }}</td>
+        <td>{{ paper.t5 }}</td>
+        <td>{{ paper.t6 }}</td>
+        <td>{{ paper.t7 }}</td>
+        <td>{{ paper.t8 }}</td>
+        <td>{{ paper.t9 }}</td>
+        <td>{{ paper.t10 }}</td>
+        <td>{{ paper.t11 }}</td>
+        <td>{{ paper.t12 }}</td>
+        <td>{{ paper.t13 }}</td>
+        <td>{{ paper.t14 }}</td>
+        <td>{{ paper.datetime_added|date:'Y-m-d H:i:s' }}</td>
+        <td><a href="{% url 'delete_paper' paper.id %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除问卷</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'inv_manage' inv.id %}">返回上一页</a>
+{% endblock %}

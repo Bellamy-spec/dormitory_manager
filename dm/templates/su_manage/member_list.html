@@ -1,0 +1,91 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ school_year.name }}学生会成员</h2>
+{% if management %}
+<p>
+    <a href="{% url 'su_manage:edit_member' school_year.id 0 %}" class="btn btn-default">添加新成员</a> -
+    <a href="{% url 'su_manage:output_pwd' school_year.id %}" class="btn btn-info">导出检查码</a> -
+    <a href="{% url 'su_manage:config_worker' school_year.id %}" class="btn btn-success">更改课间操检查工作人员</a>
+</p>
+{% endif %}
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>职务</th>
+        <th>代号</th>
+        <th>姓名</th>
+        <th>所在班级</th>
+        <th>工作职责</th>
+<!--        <th>是否不上早操</th>-->
+        <th>是否课间操工作人员</th>
+        {% if management %}
+        <th>检查码</th>
+        {% if is_super %}
+        <th>账号信息</th>
+        {% endif %}
+        <th>操作</th>
+        {% endif %}
+    </tr>
+    {% for member in members %}
+    <tr>
+        <td>{{ member.call }}</td>
+        <td>{{ member.code }}</td>
+        <td>{{ member.name }}</td>
+        <td>{{ member.class_and_grade }}</td>
+        <td>{{ member.main_work }}</td>
+<!--        {% if member.work_abst1 %}-->
+<!--        <td>是</td>-->
+<!--        {% else %}-->
+<!--        <td>否</td>-->
+<!--        {% endif %}-->
+        {% if member.work_abst2 %}
+        <td>是</td>
+        {% else %}
+        <td>否</td>
+        {% endif %}
+        {% if management %}
+        {% if member.department in management %}
+        <td>{{ member.pwd }}</td>
+        {% if is_super %}
+        {% if member.user_info %}
+        <td>{{ member.user_info }}</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        {% endif %}
+        <td id="op{{ member.id }}">
+            <a href="{% url 'su_manage:edit_member' school_year.id member.id %}" class="btn btn-warning">修改</a> -
+            <a href="{% url 'su_manage:up_member' member.id %}" class="btn btn-info">更新检查码</a> -
+            {% if is_super and member.level %}
+            {% if member.user_info %}
+            <a href="{% url 'su_manage:sp' member.id %}" class="btn btn-primary"
+               onclick="return confirm('确定重置密码？')">重置密码</a> -
+            <a href="{% url 'su_manage:del_user' member.id %}" class="btn btn-warning">注销账号</a> -
+            {% else %}
+            <a href="{% url 'su_manage:add_user' member.id %}" class="btn btn-success">创建账号</a> -
+            {% endif %}
+            {% endif %}
+            <a href="{% url 'su_manage:delete_member' member.id %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除</a>
+        </td>
+        {% else %}
+        <td></td>
+        <td></td>
+        {% endif %}
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'su_manage:index' %}">返回首页</a></p>
+<input type="hidden" id="id-box" value="{{ member_id }}">
+<script>
+    // 页面滚动
+    var ele_id = "op".concat(document.getElementById("id-box").value);
+    var ele = document.getElementById(ele_id);
+    if(ele){
+        // alert("页面即将滚动");
+        ele.scrollIntoView({behavior: "auto", block: "start", inline: "end"});
+    }
+</script>
+{% endblock %}

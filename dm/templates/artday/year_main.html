@@ -1,0 +1,32 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<table>
+    <tr>
+        <td><a href="{% url 'artday:program_list' year %}"
+               class="btn btn-info li2 btn-lg">查看节目报名情况</a></td>
+        <td><a href="{% url 'artday:costume_list' year %}"
+               class="btn btn-danger li2 btn-lg">查看服装报名情况</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'artday:program_sec_input' year %}"
+               class="btn btn-warning li2 btn-lg">修改节目信息</a></td>
+        <td><a href="{% url 'artday:costume_sec_input' year %}"
+               class="btn btn-success li2 btn-lg">修改服装信息</a></td>
+    </tr>
+    {% if is_manager %}
+    <tr>
+        <td><a href="{% url 'artday:see_program_sec' year %}"
+               class="btn btn-primary li2 btn-lg">查看节目口令</a></td>
+        <td><a href="{% url 'artday:see_costume_sec' year %}"
+               class="btn btn-info li2 btn-lg">查看服装口令</a></td>
+    </tr>
+    {% endif %}
+</table>
+<p>
+    <a href="{% url 'artday:years' %}">返回上一页</a> -
+    <a href="{% url 'artday:index' %}">返回主页</a>
+</p>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "club_info/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>新建社团</h2>
+<form role="form" action="{% url 'club_info:add_club' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'club_info:index' %}">返回主页</a></p>
+{% endblock %}

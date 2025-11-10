@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>选择年份</h3>
+<ul>
+    {% for year in years %}
+    <li><a href="{% url 'dm_lines' year %}">{{ year }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'index' %}">返回宿舍管理主页</a></p>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>选择年份</h3>
+<ul>
+    {% for y in yl %}
+    <li><a href="{% url 'sport_meet:admin' y %}">{{ y }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'sport_meet:index' %}">返回应用程序主页</a></p>
+{% endblock %}

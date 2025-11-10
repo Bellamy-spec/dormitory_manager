@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<table class="table table-hover table-bordered">
+  <tr>
+    <th>班级</th>
+    <th>早上迟到</th>
+    <th>中午迟到</th>
+    <th>迟到人次</th>
+    <th>操作</th>
+  </tr>
+  {% for cs in css %}
+  <tr>
+    <td>{{ cs.class_and_grade }}</td>
+    <td>{{ cs.late_students_am }}</td>
+    <td>{{ cs.late_students_pm }}</td>
+    <td>{{ cs.late_num }}</td>
+    <td>
+      {% if is_manager %}
+        {% if late_only %}
+        <a href="{% url 'late:show' cs.id 'a' %}" class="btn btn-default">
+          增加或删除迟到学生</a>
+        {% else %}
+        <a href="{% url 'late:show' cs.id 'b' %}" class="btn btn-default">
+          增加或删除迟到学生</a>
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<p><a href="{% url 'late:dates' %}">返回上一页</a></p>
+<p><a href="{% url 'late:index' %}">返回主页</a></p>
+{% endblock %}

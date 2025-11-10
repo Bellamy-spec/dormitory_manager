@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<h3>请假学生情况：</h3>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>宿舍</th>
+        <th>请假原因及预计返校时间</th>
+        <th>操作</th>
+    </tr>
+    {% for student in absents %}
+    <tr>
+        <td>{{ student.name }}</td>
+        <td>{{ student.gender }}</td>
+        <td>{{ student.dorm }}</td>
+        <td>{{ student.reason }}</td>
+        <td><a href="{% url 'backtoschool:delete_student' student.id %}"
+               onclick="return confirm('确定删除？')">删除</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">没有学生请假</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
+{% block content %}
+<button class="btn btn-default" onclick="load_add()">╋新增请假学生</button>
+<a href="{% url 'backtoschool:add_last' cs.id %}" class="btn btn-info">载入上次请假学生</a><br><br>
+<div id="fm" style="display:none">
+    <form role="form" action="{% url 'backtoschool:add_absent' cs.id %}" method="post">
+        {% csrf_token %}
+        {{ form2.as_p }}
+        <datalist id="st-list">
+            {% for st in st_list %}
+            <option value="{{ st }}">{{ st }}</option>
+            {% endfor %}
+        </datalist>
+        <button name="submit" class="btn btn-success">保存请假学生</button>
+    </form>
+    <p class="err-color">{{ err }}</p>
+</div>
+<form role="form" action="{% url 'backtoschool:edit' cs.id 'a' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" class="btn btn-primary">提交班级数据</button>
+</form>
+<p class="err-color">{{ err }}</p>
+<p>
+    <a href="{% url 'backtoschool:task' cs.task.id %}">返回上一页</a> -
+    <a href="{% url 'backtoschool:index' %}">返回主页</a>
+</p>
+<script>
+function load_add(){
+    document.getElementById("fm").style = "display:block";
+}
+</script>
+{% endblock %}

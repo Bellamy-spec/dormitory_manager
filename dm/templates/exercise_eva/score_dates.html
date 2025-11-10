@@ -1,0 +1,12 @@
+{% extends "exercise_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>选择课间操评价日期</h2>
+<ul>
+    {% for dt in dates %}
+    <li><a href="{% url 'exercise_eva:see_score' dt %}">{{ dt }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'exercise_eva:index' %}">返回应用程序主页</a></p>
+{% endblock %}

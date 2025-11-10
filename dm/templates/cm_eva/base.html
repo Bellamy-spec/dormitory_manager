@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.4.1-dist/css/bootstrap.css">
+    <script src="/static/plugins/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{% static 'logo.png' %}" type="image/png">
+    <title>{% block ht %}郑州市第106高级中学班会评价系统{% endblock %}</title>
+    <style type="text/css">
+        .d1{width: 500px; margin: 0 auto; font-size: 20px;}
+        .d2{font-size: 20px; background: #EEEEEE;}
+        .d3{font-size: 20px; background: #EEEEEE; width: 2000px;}
+        .d4{font-size: 20px;}
+        .d5{font-size: 20px; width: 600px; margin: 0 auto;}
+        .th{border-top: 200px #199fff solid; border-left: 200px #ff8838 solid;}
+        .err-color{color: #FF0000;}
+        .tip-color{color: #999999;}
+        .mobile{width: 400px; margin: 0 auto; font-size: 20px;}
+        .li2{width: 230px; margin-right: 20px; margin-bottom: 20px}
+        .li1{width: 480px; margin-bottom: 20px}
+        .icp{background: #EEEEEE; margin: 0 auto; width: 400px; text-align: center;
+            align-items: center;}
+    </style>
+</head>
+<body>
+    <div class="d2">
+        {% block table %}{% endblock %}
+    </div>
+    <div class="d3">
+        {% block large %}{% endblock %}
+    </div>
+    <div class="d1">
+        {% block content %}{% endblock %}
+    </div>
+    <div class="mobile">
+        {% block mobile %}{% endblock %}
+    </div>
+    <div class="d4">
+        {% block visual %}{% endblock %}
+    </div>
+    <div class="d5">
+        {% block visual_mobile %}{% endblock %}
+    </div>
+    <div class="d1">
+        {% if user.is_authenticated %}
+        <p>
+            {{ user.username }}已登录-<a href="{% url 'cm_eva:set_pwd' %}">修改密码</a>
+            -<a href="{% url 'cm_eva:logout' %}">退出登录</a>
+        </p>
+        {% else %}
+        <p><a href="{% url 'cm_eva:login' %}">管理员登录</a></p>
+        {% endif %}
+    </div>
+    <!--    放置ICP备案号-->
+    <div class="icp">
+        <h5>
+            <img src="/static/images/beian.png" width="18px">
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41010202003377"
+               target="_blank">豫公网安备41010202003377号</a>&nbsp;
+            <a href="https://beian.miit.gov.cn" target="_blank">豫ICP备2024095294号-2</a>
+        </h5>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<p>
+    <a href="{% url 'show_gender_records' grade_num date_str 'boy' %}">只看男寝</a> -
+    <a href="{% url 'show_gender_records' grade_num date_str 'girl' %}">只看女寝</a> -
+    <a href="{% url 'show_records' grade_num date_str %}">查看全部</a>
+</p>
+<p>
+    {% if gender %}
+    <a href="{% url 'download_gender' grade_num date_str gender %}" class="btn btn-info">
+        导出当前页数据</a>
+    {% else %}
+    <a href="{% url 'download' grade_num date_str %}" class="btn btn-info">
+        导出当前页数据</a>
+    {% endif %}
+</p>
+<p><a href="{% url 'index' %}">返回首页</a></p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>时间类型</th>
+        <th>所属班级</th>
+        <th>宿舍号</th>
+        <th>床铺</th>
+        <th>问题类型</th>
+        <th>具体情况</th>
+    </tr>
+    {% for ob in records %}
+    <tr>
+        <td>{{ ob.tm }}</td>
+        <td>{{ ob.class_and_grade }}</td>
+        <td>{{ ob.dormitory }}</td>
+        <td>{{ ob.bed_area }}</td>
+        <td>{{ ob.tp }}</td>
+        <td>{{ ob.reason }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">暂无扣分记录</td></tr>
+    {% endfor %}
+    {% if not_today %}
+    <tr><th colspan="6">表扬</th></tr>
+    {% if praise != '0' %}
+    {% for p in praise %}
+    <tr>
+        <td>{{ p.0 }}</td>
+        <td colspan="5">{{ p.1 }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">{{ grade }}年级没有宿舍受到表扬，请同学们努力做得更好！</td></tr>
+    {% endfor %}
+    {% else %}
+    <tr><td colspan="6">宿舍已发生变化，不再显示表扬</td></tr>
+    {% endif %}
+    {% endif %}
+</table>
+{% endblock %}

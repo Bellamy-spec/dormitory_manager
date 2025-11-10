@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ teacher }}老师的统计结果</h2>
+<table class="table table-bordered">
+    {% for s in rs %}
+    <tr>
+        <th>{{ s.0 }}</th>
+        <td>{{ s.1 }}</td>
+    </tr>
+    {% endfor %}
+    <tr><th colspan="2">宿舍管理方面的意见和建议</th></tr>
+    {% for adv1 in adv13 %}
+    <tr><td colspan="2">{{ adv1 }}</td></tr>
+    {% empty %}
+    <tr><td colspan="2" class="tip-color">无意见</td></tr>
+    {% endfor %}
+    <tr><th colspan="2">其他意见和建议</th></tr>
+    {% for adv2 in adv14 %}
+    <tr><td colspan="2">{{ adv2 }}</td></tr>
+    {% empty %}
+    <tr><td colspan="2" class="tip-color">无意见</td></tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'teacher_list' inv.id %}">返回上一页</a></p>
+{% endblock %}

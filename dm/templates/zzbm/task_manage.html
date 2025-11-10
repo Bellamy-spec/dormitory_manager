@@ -1,0 +1,245 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block manage %}
+<h2>任务管理页面</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>任务年份</th>
+        <td>{{ task.year }}</td>
+        <th>已报名人数</th>
+        <td>{{ task.added }}</td>
+    </tr>
+    <tr>
+        <th>自行报名人数</th>
+        <td>{{ n1 }}</td>
+        <th>批量导入人数</th>
+        <td>{{ n2 }}</td>
+    </tr>
+    <tr>
+        <th colspan="2">素描或创意画人数</th>
+        <td colspan="2">{{ n3 }}</td>
+    </tr>
+    <tr>
+        <th colspan="2">书法或国画人数</th>
+        <td colspan="2">{{ n4 }}</td>
+    </tr>
+    <tr>
+        <th colspan="2">缺考人数统计</th>
+        <td colspan="2">{{ n5 }}</td>
+    </tr>
+    <tr>
+        <th>任务状态</th>
+        {% if task.active %}
+        <td>报名中</td>
+        {% else %}
+        <td>停止报名</td>
+        {% endif %}
+        <th>报名截止日期</th>
+        <td>{{ task.end_date|date:'Y-m-d' }}</td>
+    </tr>
+    <tr>
+        <th>已分配考场数</th>
+        <td>{{ task.max_room }}</td>
+        <th>准考证下载</th>
+        {% if task.open_download %}
+        <td>开放下载</td>
+        {% else %}
+        <td>不可下载</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>第一场考试时间</th>
+        {% if task.start_time %}
+        <td colspan="3">{{ task.start_time }}
+            {% if task.start_turn > 1 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.start_turn == 1 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning">恢复报名</a>
+            {% else %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning">结束报名</a>
+            {% endif %}
+        </td>
+        {% else %}
+        <td colspan="3">未设置考试时间</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>第二场考试时间</th>
+        {% if task.start_time_1 %}
+        <td colspan="3">{{ task.start_time_1 }}
+            {% if task.start_turn > 2 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.start_turn == 2 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning">恢复报名</a>
+            {% else %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning">结束报名</a>
+            {% endif %}
+        </td>
+        {% else %}
+        <td colspan="3">未设置考试时间</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>第三场考试时间</th>
+        {% if task.start_time_2 %}
+        <td colspan="3">{{ task.start_time_2 }}
+            {% if task.start_turn > 3 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.start_turn == 3 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning">恢复报名</a>
+            {% else %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning">结束报名</a>
+            {% endif %}
+        </td>
+        {% else %}
+        <td colspan="3">未设置考试时间</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>第四场考试时间</th>
+        {% if task.start_time_3 %}
+        <td colspan="3">{{ task.start_time_3 }}
+            {% if task.start_turn > 4 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.start_turn == 4 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning">恢复报名</a>
+            {% else %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning">结束报名</a>
+            {% endif %}
+        </td>
+        {% else %}
+        <td colspan="3">未设置考试时间</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>第五场考试时间</th>
+        {% if task.start_time_4 %}
+        <td colspan="3">{{ task.start_time_4 }}
+            {% if task.start_turn > 5 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.start_turn == 5 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning">恢复报名</a>
+            {% else %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning">结束报名</a>
+            {% endif %}
+        </td>
+        {% else %}
+        <td colspan="3">未设置考试时间</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>第六场考试时间</th>
+        {% if task.start_time_5 %}
+        <td colspan="3">{{ task.start_time_5 }}</td>
+        {% else %}
+        <td colspan="3">未设置考试时间</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th colspan="2">报名自动分配考场、考号</th>
+        {% if task.auto_give %}
+        <td colspan="2">开启</td>
+        {% else %}
+        <td colspan="2">关闭</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th colspan="2">成绩查询</th>
+        {% if task.can_que %}
+        <td colspan="2">开放</td>
+        {% else %}
+        <td colspan="2">关闭</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th colspan="3">素描或创意画当前正在分配的考场</th>
+        <td>{{ max_turn1 }}</td>
+    </tr>
+    <tr>
+        <th colspan="3">书法或国画当前正在分配的考场</th>
+        <td>{{ max_turn2 }}</td>
+    </tr>
+</table>
+{% if n > 0 %}
+<p class="err-color">注意：还有{{ n }}名考生未分配考场！</p>
+{% endif %}
+<table>
+    <tr>
+        <td><a href="{% url 'zzbm:change_date' task.id %}"
+               class="btn btn-success btn-lg li26">更改截止日期</a></td>
+        <td><a href="{% url 'zzbm:change_active' task.id %}"
+               class="btn btn-warning btn-lg li26">{{ btn_name }}</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:list_put' task.id 0 %}"
+               class="btn btn-info btn-lg li26">查看已报名考生</a></td>
+        <td><a href="{% url 'zzbm:set_len' task.id %}"
+               class="btn btn-primary btn-lg li26">分考场</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:set_time' task.id %}"
+               style="background-color:#DD33DD; color:#FFFFFF;"
+               class="btn btn-default btn-lg li26">设置考试时间</a></td>
+        <td><a href="{% url 'zzbm:change_open' task.id %}"
+               class="btn btn-success btn-lg li26">{{ open_btn }}</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:score_manage' task.id %}"
+               class="btn btn-warning btn-lg li26">成绩管理</a></td>
+        <td><a href="{% url 'zzbm:change_give' task.id %}"
+               class="btn btn-info btn-lg li26">{{ give_btn }}</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:reset_task_num' task.id %}"
+               class="btn btn-primary btn-lg li26">重置考场分配</a></td>
+        <td><a href="{% url 'zzbm:multi_export' task.id %}"
+               style="background-color:#DD33DD; color:#FFFFFF;"
+               class="btn btn-default btn-lg li26">导入现场报名考生</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:export_score' task.id 0 %}"
+               class="btn btn-default btn-lg li26">导出成绩单</a></td>
+        <td><a href="{% url 'zzbm:none_score' task.id %}"
+               class="btn btn-default btn-lg li26">导出无成绩考生</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:de_repeat' task.id 0 %}"
+               class="btn btn-default btn-lg li26">导出去重成绩单</a></td>
+        <td><a href="{% url 'zzbm:show_repeat' task.id %}"
+               class="btn btn-default btn-lg li26">导出重复考生</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:export_score' task.id 1 %}"
+               class="btn btn-default btn-lg li26">导出对外公布成绩单</a></td>
+        <td><a href="{% url 'zzbm:de_repeat' task.id 1 %}"
+               class="btn btn-default btn-lg li26">导出对外公布去重成绩单</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:room_pwd_manage' task.id %}"
+               class="btn btn-success btn-lg li26">考场密码管理</a></td>
+        <td><a href="{% url 'zzbm:que_ctrl' task.id %}"
+               class="btn btn-warning btn-lg li26">查成绩开关</a></td>
+    </tr>
+</table>
+<p class="err-color">{{ err }}</p>
+<p>
+    <a href="{% url 'zzbm:task_main' task.id %}">返回上一页</a> -
+    <a href="{% url 'zzbm:index' %}">返回主页</a>
+</p>
+{% endblock %}

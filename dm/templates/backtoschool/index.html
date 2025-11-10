@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+{% if can_public %}
+<p><a href="{% url 'backtoschool:public' %}" class="btn btn-default">发布新的返校任务</a></p>
+{% endif %}
+<h3>进行中</h3>
+<ul>
+    {% for ele in doing %}
+    <li><a href="{% url 'backtoschool:task' ele.id %}">{{ ele.date_str }}</a></li>
+    {% empty %}
+    <p>暂无进行中</p>
+    {% endfor %}
+</ul>
+<h3>已完成</h3>
+<ul>
+    {% for ele in done reversed %}
+    <li><a href="{% url 'backtoschool:task' ele.id %}">{{ ele.date_str }}</a></li>
+    {% empty %}
+    <p>暂无已完成</p>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'index_out' %}">返回导航页</a></p>
+{% endblock %}

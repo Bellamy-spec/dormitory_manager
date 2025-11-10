@@ -1,0 +1,12 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>请输入服装口令：</h2>
+<form role="form" action="{% url 'artday:sec_input' %}" method="post">
+  {% csrf_token %}
+  <input name="sec" />
+  <button name="submit" type="submit" class="btn btn-primary">确认</button>
+</form>
+<p><a href="{% url 'artday:index' %}">返回主页</a></p>
+{% endblock %}

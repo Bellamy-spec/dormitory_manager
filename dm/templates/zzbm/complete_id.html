@@ -1,0 +1,17 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>完善<strong>{{ student.exam_id }}</strong>号考生<strong>{{ student.name }}</strong>的身份证号</h3>
+<form role="form" action="{% url 'zzbm:complete_id' student.id %}" method="post">
+    {% csrf_token %}
+    <input placeholder="请输入你的身份证号" name="sfz" style="margin-bottom:10px;">
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary"
+            onclick="return confirm('身份证号完善后不可再修改，是否确定提交？')">提交</button>
+</form>
+<p>
+    <a href="{% url 'zzbm:check' student.id %}">返回上一页</a> -
+    <a href="{% url 'zzbm:task_main' student.task_belong.id %}">返回任务主页</a>
+</p>
+{% endblock %}

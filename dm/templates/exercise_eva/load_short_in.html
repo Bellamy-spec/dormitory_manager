@@ -1,0 +1,19 @@
+{% extends "exercise_eva/base_no_login.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>登记{{ dt }}课间操短假学生</h2>
+<form role="form" action="{% url 'exercise_eva:load_short_in' %}" method="post">
+    {% csrf_token %}
+    <p>
+        <label>检查人代号：</label>
+        <input name="code" type="number" required>
+    </p>
+    <p>
+        <label>检查人密码：</label>
+        <input name="pwd" type="password" required>
+    </p>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">确定</button>
+</form>
+{% endblock %}

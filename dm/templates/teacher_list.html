@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<ul class="list-unstyled">
+    {% for teacher in tl %}
+    <li><a href="{% url 'teacher_result' inv.id teacher.1 %}">{{ teacher.0 }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'visual' inv.id %}" class="btn btn-info">查看统计图表</a></p>
+<p><a href="{% url 'inv_manage' inv.id %}">返回上一页</a></p>
+{% endblock %}

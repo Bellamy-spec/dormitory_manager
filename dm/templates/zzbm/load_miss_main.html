@@ -1,0 +1,56 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ tt }}</h3>
+<form role="form" action="{% url 'zzbm:load_miss_main' %}" method="post">
+    {% csrf_token %}
+    <p>
+        <label>选择年份：</label>
+        <select id="year" name="year" onchange="load_room()">
+            <option selected></option>
+            {% for year in year_options %}
+            <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        <label>选择考场：</label>
+        <select id="room" name="room"></select>
+    </p>
+    <p>
+        <label>输入密码：</label>
+        <input type="password" name="pwd">
+    </p>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">确定</button>
+</form>
+<div style="display:none;">
+    <p id="yrds">{{ yrds }}</p>
+</div>
+<script>
+    function load_room(){
+        // 获取选择的年份值
+        var year = document.getElementById("year").value;
+
+        // 获取考场号存放菜单并清空
+        var room_sel = document.getElementById("room");
+        room_sel.options.length = 0
+
+        // 年份不为空时执行操作
+        if(year != ""){
+            // 获取年份-考场号存放对象
+            var yrds = document.getElementById("yrds").innerHTML;
+            var yrd = JSON.parse(yrds);
+
+            // 根据年份取得考场号列表
+            var room_list = yrd[year];
+
+            // 填充菜单
+            for(var i = 0; i < room_list.length; i++){
+                room_sel.options.add(new Option(room_list[i], room_list[i]));
+            }
+        }
+    }
+</script>
+{% endblock %}

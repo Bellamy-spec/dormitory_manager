@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block visual_mobile %}
+<h3>{{ title }}</h3>
+<p><a href="/media/dorm_mtd/{{ fn1 }}"><img src="/media/dorm_mtd/{{ fn1 }}" width="600px"></a></p>
+<p><a href="/media/dorm_mtd/{{ fn2 }}"><img src="/media/dorm_mtd/{{ fn2 }}" width="600px"></a></p>
+{% if fn3 %}
+<p><a href="/media/dorm_mtd/{{ fn3 }}"><img src="/media/dorm_mtd/{{ fn3 }}" width="600px"></a></p>
+{% endif %}
+<p>
+    <a href="{% url 'month_together' %}">返回月总结主页</a> -
+    <a href="{% url 'settable_summary' %}">返回自定义时间段总结主页</a>
+</p>
+{% endblock %}

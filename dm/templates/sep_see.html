@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h3>{{ year }}年入学新生查看（共{{ n }}名学生）</h3>
+<form role="form" action="{% url 'sep_see' year %}" method="post">
+    {% csrf_token %}
+    <a href="{% url 'sep_del_year' year %}" class="btn btn-danger"
+       onclick="return confirm('确定删除？')">一键清除</a>
+    <a href="{% url 'sep_add_one' year %}" class="btn btn-success">添加单个新生</a>
+    <a href="{% url 'sep_export' year %}" class="btn btn-info">导出当前页数据</a>
+    {% if students.0.graduated %}
+    <a href="{% url 'change_graduated' year %}" class="btn btn-warning"
+       style="pointer-events: none; opacity: 0.4;">一键标记毕业</a>
+    <a href="{% url 'sep_change_dorm' year %}" class="btn btn-default"
+       style="background-color:#DD33DD; color:#FFFFFF; pointer-events:none; opacity:0.4;">搬宿舍</a>
+    {% else %}
+    <a href="{% url 'change_graduated' year %}" class="btn btn-warning"
+       onclick="return confirm('确定要标记毕业吗？该操作不可逆，请谨慎操作！')">一键标记毕业</a>
+    <a href="{% url 'sep_change_dorm' year %}" class="btn btn-default"
+       style="background-color:#DD33DD; color:#FFFFFF;">搬宿舍</a>
+    {% endif %}
+    <input placeholder="请输入姓名或身份证号" name="que" value="{{ ipt }}"
+           style="margin-bottom: 10px; margin-left: 10px;"><br>
+    <label>按班级筛选：</label>
+    <select name="sep-gc">
+        <option value="all">全部</option>
+        {% for gc in all_gc %}
+            {% if gc == gc_val %}
+            <option value="{{ gc }}" selected>{{ gc }}</option>
+            {% else %}
+            <option value="{{ gc }}">{{ gc }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <label>按宿舍筛选：</label>
+    <select name="sep-dorm">
+        <option value="all">全部</option>
+        {% for dorm in all_dorm %}
+            {% if dorm == dorm_val %}
+            <option value="{{ dorm }}" selected>{{ dorm }}</option>
+            {% else %}
+            <option value="{{ dorm }}">{{ dorm }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <button name="submit" type="submit" class="btn btn-primary">查询</button>
+    <a href="{% url 'sep_see' year %}" class="btn btn-default">重置</a>
+</form>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>学生姓名</th>
+        <th>性别</th>
+        <th>身份证号</th>
+        <th>班级</th>
+        <th>宿舍</th>
+        <th>床铺号</th>
+        <th>操作</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.name }}</td>
+        <td>{{ student.gender }}</td>
+        <td>{{ student.id_number }}</td>
+        <td>{{ student.gc }}</td>
+        {% if student.graduated %}
+        <td colspan="2">已毕业，毕业前住{{ student.dorm }}宿舍{{ student.bed }}床</td>
+        {% else %}
+        <td>{{ student.dorm }}</td>
+        <td>{{ student.bed }}</td>
+        {% endif %}
+        <td>
+            <a href="{% url 'sep_del' student.id %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除</a>
+            {% if student.graduated %}
+            <a href="{% url 'sep_change_info' student.id %}" style="pointer-events:none;opacity:0.4;"
+               class="btn btn-warning">修改信息</a>
+            {% else %}
+            <a href="{% url 'sep_change_info' student.id %}"
+               class="btn btn-warning">修改信息</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'sep_yl' %}">返回上一页</a></p>
+{% endblock %}

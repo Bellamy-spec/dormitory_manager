@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>每日请假与在校人员情况</h2>
+<p><a href="{% url 'long_leave:grades' %}" class="btn btn-info btn-lg btn-block">查看</a></p>
+<p><a href="{% url 'long_leave:send_up' %}" class="btn btn-success btn-lg btn-block">上报</a></p>
+<p><a href="{% url 'long_leave:index_out' %}">返回上一页</a></p>
+{% endblock %}

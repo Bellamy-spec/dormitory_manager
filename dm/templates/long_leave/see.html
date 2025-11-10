@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'long_leave:index' %}">返回主页</a></p>
+<p><a href="{% url 'long_leave:add' %}" class="btn btn-default">新增长期假人员</a></p>
+<table class="table table-hover table-bordered">
+  <tr>
+    <th>姓名</th>
+    <th>班级</th>
+    <th>请假截止日期</th>
+    <th>是否留在教室</th>
+    <th>提交时间</th>
+    <th>操作</th>
+  </tr>
+  {% for r in rs %}
+  <tr>
+    <td>{{ r.name }}</td>
+    <td>{{ r.class_and_grade }}</td>
+    <td>{{ r.end_date|date:'Y-m-d' }}</td>
+    {% if r.tp %}
+    <td>是</td>
+    {% else %}
+    <td></td>
+    {% endif %}
+    <td>{{ r.date_added|date:'Y-m-d H:i:s' }}</td>
+    <td>
+      <a href="{% url 'long_leave:change' r.id %}" class="btn btn-success">更改期限和请假类型</a>
+      <a href="{% url 'long_leave:delete' r.id %}" class="btn btn-danger"
+         onclick="return confirm('确定提前结束？')">提前结束</a>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">暂无长期假人员</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

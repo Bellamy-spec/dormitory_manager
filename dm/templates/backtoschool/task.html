@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<p>
+    <a href="{% url 'backtoschool:index' %}">返回主页</a>
+    {% if can_delete %}
+     - <a href="{% url 'backtoschool:delete_task' task.id %}"
+          onclick="return confirm('确定删除？')">删除此任务</a>
+    {% if can_mark %}
+     - <a href="{% url 'backtoschool:mark_done' task.id %}">标记为已完成</a>
+    {% endif %}
+    {% if can_add %}
+     - <a href="{% url 'backtoschool:add_13' task.id %}">增加高三13班</a>
+    {% endif %}
+    {% endif %}
+</p>
+{% if can_delete %}
+<p><a href="{% url 'backtoschool:export' task.id %}" class="btn btn-info">
+    导出此次返校情况汇总统计表</a></p>
+{% endif %}
+<table class="table table-hover table-bordered">
+    <tr><th colspan="5">已提交班级</th></tr>
+    {% if done_class %}
+        <tr>
+            <th>班级</th>
+            <th>应到人数</th>
+            <th>实到人数</th>
+            <th>请假学生</th>
+            <th>操作</th>
+        </tr>
+        {% for cs in done_class %}
+        <tr>
+            <td>{{ cs.name }}</td>
+            <td>{{ cs.total }}</td>
+            <td>{{ cs.come }}</td>
+            <td>{{ cs.absent_students }}</td>
+            <td>
+                <a href="{% url 'backtoschool:see' cs.id %}">查看</a> -
+                <a href="{% url 'backtoschool:edit' cs.id 'a' %}">修改</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td colspan="5">暂无班级提交</td></tr>
+    {% endif %}
+    <tr><th colspan="5">未提交班级</th></tr>
+    {% if doing_class %}
+        <tr>
+            <th>班级</th>
+            <th colspan="4">操作</th>
+        </tr>
+        {% for cs in doing_class %}
+        <tr>
+            <td>{{ cs.name }}</td>
+            <td colspan="4">
+                <a href="{% url 'backtoschool:edit' cs.id 'a' %}">去完成</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr><td colspan="5">所有班级都已提交</td></tr>
+    {% endif %}
+</table>
+{% endblock %}

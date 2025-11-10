@@ -1,0 +1,14 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>修改考生信息</h2>
+<form action="{% url 'zzbm:edit_student' student.id %}" role="form" method="post"
+      enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'zzbm:list_put' task.id 0 %}">返回已报名考生列表</a></p>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "cm_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>班会主题</th>
+        <th>班主任</th>
+        <th>课件</th>
+        <th>主持人</th>
+        <th>纪律扣分</th>
+        <th>纪律问题</th>
+        <th>班会评分</th>
+        {% if is_manager %}
+        <th>检查人</th>
+        <th>提交时间</th>
+        <th>操作</th>
+        {% endif %}
+    </tr>
+    {% for score in scores %}
+    <tr>
+        <td>{{ score.class_and_grade }}</td>
+        <td>{{ score.topic }}</td>
+        {% if score.head_in %}
+        <td>√</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        {% if score.have_ppt %}
+        <td>√</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        {% if score.have_host %}
+        <td>√</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td>{{ score.decrease }}</td>
+        <td>{{ score.desc }}</td>
+        <td>{{ score.score }}</td>
+        {% if is_manager %}
+        <td>{{ score.owner_show }}</td>
+        <td>{{ score.datetime_added|date:'Y-m-d H:i:s' }}</td>
+        <td><a href="{% url 'cm_eva:delete_score' score.id %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除</a></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'cm_eva:date_list' %}">返回上一页</a> -
+    <a href="{% url 'cm_eva:index' %}">返回主页</a>
+</p>
+{% endblock %}

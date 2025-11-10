@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>宿舍管理权限分配</h2>
+<ul class="tip-color list-unstyled">
+    {% for tip in tips %}
+    <li>{{ tip }}</li>
+    {% endfor %}
+</ul>
+<p class="err-color">{{ err }}</p>
+<p>
+    <button class="btn btn-default" onclick="show_add('fm')">新增宿管老师</button>
+    <form id="fm" role="form" action="{% url 'add_teacher' %}" method="post" style="display:none;">
+        {% csrf_token %}
+        <input placeholder="请输入宿管老师姓名" name="ipt">
+        <button name="submit" type="submit" class="btn btn-primary">提交</button>
+    </form>
+</p>
+{% for dmp in dm_dict %}
+<table class="table table-bordered">
+    <tr><th colspan="3">{{ dmp.0 }}老师管理的宿舍
+        <button class="btn btn-default" onclick="show_add('fm{{ dmp.1.1 }}')">添加</button>
+        <form id="fm{{ dmp.1.1 }}" role="form" action="{% url 'dmp_add' %}" method="post"
+              style="display:none;">
+            {% csrf_token %}
+            <input placeholder="请输入宿舍号" name="ipt">
+            <input type="hidden" name="teacher" value="{{ dmp.0 }}">
+            <button name="submit" type="submit" class="btn btn-primary">提交</button>
+        </form>
+        <form role="form" action="{% url 'del_teacher' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="teacher" value="{{ dmp.0 }}">
+            <button onclick="return confirm('删除后，该宿管老师管理的宿舍信息将一并删除，确定要删除宿管老师吗？')"
+                    name="submit" type="submit" class="btn btn-danger">删除宿管老师</button>
+        </form>
+    </th></tr>
+    {% for ds in dmp.1.0 %}
+    <tr>
+        {% for dor in ds %}
+        <td>{{ dor }}
+            {% if dor %}
+            <a href="{% url 'dmp_del' dor %}" class="btn btn-danger">删除</a>
+            {% endif %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% empty %}
+    <tr><td colspan="3" class="tip-color">暂无</td></tr>
+    {% endfor %}
+</table>
+{% endfor %}
+<p><a href="{% url 'index' %}">返回上一页</a></p>
+<script>
+    // 显示添加宿舍输入框
+    function show_add(fm_id){
+        // 找到对应的表单
+        fm_ele = document.getElementById(fm_id);
+
+        // 显形
+        fm_ele.style = "display:block;";
+    }
+</script>
+{% endblock %}

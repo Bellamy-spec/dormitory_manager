@@ -1,0 +1,41 @@
+{% extends "base_no_login.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>班级卫生评分</h2>
+<p><strong>日期：</strong>{{ date }}</p>
+<p><strong>班级：</strong>{{ cag }}</p>
+<form role="form" action="{% url 'classclean:up_load' gc %}" method="post" id="fm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <label>卫生问题:</label><br>
+    {% for desc in descs %}
+    <input type="checkbox" name="{{ desc.0 }}" value="{{ desc.0 }}">{{ desc.1 }}<br>
+    {% endfor %}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<!--<script>-->
+<!--    // 找到上下级节点-->
+<!--    var owner_box = document.getElementById("owner");-->
+<!--    var fm_box = document.getElementById("fm");-->
+<!--    var to_before = document.getElementById("pwd").parentNode;-->
+
+<!--    // 创建包含样式的中级节点-->
+<!--    var container = document.createElement("div");-->
+<!--    container.className = "pic-list";-->
+
+<!--    // 连接上下级-->
+<!--    fm_box.insertBefore(container, to_before);-->
+<!--    container.appendChild(owner_box);-->
+
+<!--    // 固定位置插入换行符-->
+<!--    var options_box = owner_box.getElementsByTagName("li");-->
+<!--    for(var i = 1; i < options_box.length; i++){-->
+<!--        if(i % 5 == 0){-->
+<!--            // 5个选项换行一次-->
+<!--            owner_box.insertBefore(document.createElement("br"), options_box[i]);-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+{% endblock %}

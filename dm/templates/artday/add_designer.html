@@ -1,0 +1,12 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>增加服装&nbsp;&nbsp;<strong>{{ costume.name }}</strong>&nbsp;&nbsp;的设计师</h2>
+<form role="form" action="{% url 'artday:add_designer' costume.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'artday:show_costume' costume.id %}">返回上一页</a></p>
+{% endblock %}

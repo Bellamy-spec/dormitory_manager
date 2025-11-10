@@ -1,0 +1,25 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<ul class="list-unstyled">
+    {% for task in tasks_now %}
+    <li><a href="{% url 'zzbm:task_main' task.id %}">{{ task }}</a></li>
+    {% endfor %}
+</ul>
+{% if is_manager %}
+<table>
+    <tr>
+        <td><a href="{% url 'zzbm:public' %}" class="btn btn-info btn-lg li2">
+            发布新的报名任务</a></td>
+        <td><a href="{% url 'zzbm:year_list' %}" class="btn btn-success btn-lg li2">
+            查看往年报名情况</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:load_miss_main' %}" class="btn btn-warning btn-lg li2">
+            缺考登记</a></td>
+    </tr>
+</table>
+{% endif %}
+{% endblock %}

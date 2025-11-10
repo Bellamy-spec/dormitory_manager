@@ -1,0 +1,32 @@
+{% extends "club_info/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>社团信息查看</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>社团名称</th>
+        <th>社团简介</th>
+        <th>指导教师</th>
+        <th>学生成员数量</th>
+        <th>操作</th>
+    </tr>
+    {% for club in clubs %}
+    <tr>
+        <td>{{ club.0.name }}</td>
+        <td>{{ club.0.desc }}</td>
+        <td>{{ club.1 }}</td>
+        <td>{{ club.0.nums }}</td>
+        <td>
+            <a href="{% url 'club_info:member_info' club.0.id %}" class="btn btn-info">
+                查看成员信息</a>
+            {% if is_manager %}
+            <a href="{% url 'club_info:delete_club' club.0.id %}"
+               class="btn btn-danger">删除社团</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'club_info:index' %}">返回主页</a></p>
+{% endblock %}

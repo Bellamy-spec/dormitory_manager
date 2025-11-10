@@ -1,0 +1,48 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<form role="form" action="{% url 'su_manage:change_department' department_id school_year_id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <label>部门负责人：</label><br>
+    <div id="master-option">
+        {% for user in student_users %}
+        <input type="checkbox" name="u{{ user.id }}" value="{{ user.username }}" id="{{ user.username }}"/>
+        {{ user.username }}{{ user.last_name }}&nbsp;&nbsp;
+        {% endfor %}
+    </div>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">保存</button>
+</form>
+<div style="display: none;">
+    <p id="mas">{{ masters }}</p>
+</div>
+{% if school_year_id %}
+<p><a href="{% url 'su_manage:change_step2' school_year_id %}">返回上一页</a></p>
+{% else %}
+<p><a href="{% url 'su_manage:dp_manage' %}">返回上一页</a></p>
+{% endif %}
+<script>
+// 加载文档时执行的操作，已是负责人即默认勾选
+var ms = document.getElementById("mas").innerHTML;
+if(ms != ""){
+    var ml = ms.split(",");
+    // alert(ml.length);
+    for(var i = 0; i < ml.length; i++){
+        var op = document.getElementById(ml[i]);
+        op.checked = true;
+    }
+}
+
+// 负责人选项两个一换行，美观
+var mo_box = document.getElementById("master-option");
+var options = mo_box.getElementsByTagName("input");
+for(var j = 1; j < options.length; j++){
+    if(j % 2 == 0){
+        mo_box.insertBefore(document.createElement("br"), options[j]);
+    }
+}
+</script>
+{% endblock %}

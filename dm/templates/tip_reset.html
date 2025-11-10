@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ tip_msg }}</h3>
+<a href="{% url 'user_manage' %}" class="btn btn-default">返回</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "math_culture/base.html" %}
+
+{% block mobile %}
+<h3>{{ title }}</h3>
+<ul>
+    {% for cp in cps %}
+    <li><a href="{% url 'math_culture:bk' cp.0 %}">{{ cp.1 }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'math_culture:book' %}">返回上一页</a></p>
+{% endblock %}

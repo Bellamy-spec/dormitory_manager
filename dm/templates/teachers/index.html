@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'teachers:add' %}" class="btn btn-info btn-lg btn-block">
+    录入教师信息</a></p>
+{% if is_manager %}
+<p><a href="{% url 'teachers:see' %}" class="btn btn-success btn-lg btn-block">
+    查看教师信息</a></p>
+{% endif %}
+{% endblock %}

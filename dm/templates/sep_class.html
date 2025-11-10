@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>新生入学分班分寝操作主页</h3>
+<p><a href="{% url 'sep_add' %}" class="btn btn-success btn-block btn-lg">加入新生</a></p>
+<p><a href="{% url 'sep_yl' %}" class="btn btn-info btn-block btn-lg">结果查看</a></p>
+<p><a href="{% url 'sep_que' %}" class="btn btn-primary btn-block btn-lg">按身份证号查询</a></p>
+<p><a href="{% url 'index' %}">返回上一页</a></p>
+{% endblock %}

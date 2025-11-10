@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>查询新生分班、分宿舍信息</h3>
+<form role="form" action="{% url 'sep_que' %}" method="post">
+    {% csrf_token %}
+    <input name="id-number" placeholder="请输入身份证号">
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">查询</button>
+</form>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ tip_msg }}</h3>
+<a href="{% url 'su_manage:member_list' school_year.id %}" class="btn btn-default">返回</a>
+{% endblock %}

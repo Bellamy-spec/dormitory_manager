@@ -1,0 +1,45 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>核对{{ student.exam_id }}号考生的信息</h3>
+{% if student.id_number == '0' %}
+<h3 class="err-color">你的身份证号还未完善，请尽快完善！</h3>
+{% endif %}
+<table class="table">
+    <tr>
+        <th>准考证号</th>
+        <td>{{ student.exam_id }}</td>
+    </tr>
+    <tr>
+        <th>姓名</th>
+        <td>{{ student.name }}</td>
+    </tr>
+    <tr>
+        <th>身份证号</th>
+        {% if student.id_number != '0' %}
+        <td>{{ student.id_number }}</td>
+        {% else %}
+        <td><a href="{% url 'zzbm:complete_id' student.id %}" class="btn btn-default">去完善</a></td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>性别</th>
+        <td>{{ student.gender }}</td>
+    </tr>
+    <tr>
+        <th>手机号</th>
+        <td>{{ student.phone_number }}</td>
+    </tr>
+    <tr>
+        <th>初中毕业学校</th>
+        <td>{{ student.middle_school }}</td>
+    </tr>
+    <tr>
+        <th>选考科目</th>
+        <td colspan="3">{{ student.subject }}</td>
+    </tr>
+</table>
+<p class="tip-color">如信息有误，请联系信息管理员65893877</p>
+<p><a href="{% url 'zzbm:task_main' student.task_belong.id %}">返回任务主页</a></p>
+{% endblock %}

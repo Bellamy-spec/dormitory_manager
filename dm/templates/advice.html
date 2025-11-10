@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<p><a href="{% url 'add_investigation' %}" class="btn btn-success btn-lg btn-block">
+    发布新的调查</a></p>
+<p><a href="{% url 'syl' %}" class="btn btn-info btn-lg btn-block">管理往期调查</a></p>
+{% endblock %}

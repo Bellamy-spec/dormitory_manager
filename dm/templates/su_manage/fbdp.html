@@ -1,0 +1,15 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>完善部门介绍</h2>
+{% for data in fd %}
+<form role="form" action="{% url 'su_manage:submit_fbdp' data.0.id %}" method="post">
+    {% csrf_token %}
+    <p>{{ data.0.name }}介绍：</p>
+    {{ data.1.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">保存</button>
+</form>
+{% endfor %}
+<p><a href="{% url 'su_manage:index' %}">返回首页</a></p>
+{% endblock %}

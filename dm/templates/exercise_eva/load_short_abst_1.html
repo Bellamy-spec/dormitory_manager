@@ -1,0 +1,43 @@
+{% extends "exercise_eva/base_no_login.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>登记{{ dt }}课间操短假学生</h2>
+<form role="form" action="{% url 'exercise_eva:load_short_abst' %}" method="post" style="font-size: 18px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p class="tip-color">登记人代号：{{ code }}&nbsp;&nbsp;
+    <a href="{% url 'exercise_eva:load_short_in' %}" class="btn btn-danger">退出登记</a>
+</p>
+<div style="display:none;">
+    <p id="st-house">{{ st_house }}</p>
+</div>
+<script>
+    // 加载学生选项下拉菜单
+    function load_students(){
+        // 获取已选择的班级
+        var gc = document.getElementById("gc").value;
+
+        // 获取存放班级-学生的对象
+        var st_house = document.getElementById("st-house").innerHTML;
+        var gc_st = JSON.parse(st_house);
+
+        // 根据班级取得学生列表
+        var st_list = gc_st[gc];
+        // alert(st_list);
+
+        // 取得学生选项下拉菜单元素
+        var st_box = document.getElementById("nm");
+
+        // 添加之前先清空
+        st_box.options.length = 0;
+
+        // 添加选项
+        for(var i = 0; i < st_list.length; i++){
+            st_box.options.add(new Option(st_list[i], st_list[i]));
+        }
+    }
+</script>
+{% endblock %}

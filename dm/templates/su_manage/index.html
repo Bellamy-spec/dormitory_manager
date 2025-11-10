@@ -1,0 +1,20 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'su_manage:get_current' %}" class="btn btn-success btn-lg btn-block">本届</a></p>
+<p><a href="{% url 'su_manage:school_year_list' %}" class="btn btn-info btn-lg btn-block">往届</a></p>
+<p><a href="{% url 'su_manage:see_department' %}" class="btn btn-default btn-lg btn-block"
+      style="background-color:#997711; color:#FFFFFF;">查看部门</a></p>
+{% if is_super %}
+<p><a href="{% url 'su_manage:change_step1' 0 %}" class="btn btn-warning btn-lg btn-block">换届</a></p>
+<p><a href="{% url 'su_manage:dp_manage' %}" class="btn btn-primary btn-lg btn-block">部门管理</a></p>
+{% endif %}
+{% if is_manager %}
+<p><a href="{% url 'su_manage:fbdp' %}" class="btn btn-default btn-lg btn-block"
+      style="background-color:#DD33DD; color:#FFFFFF;">完善部门介绍</a></p>
+<p><a href="{% url 'su_manage:school_year_manage' %}" class="btn btn-default btn-lg btn-block"
+      style="background-color:#33DDDD; color:#FFFFFF;">学年管理</a></p>
+{% endif %}
+{% endblock %}

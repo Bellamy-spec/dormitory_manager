@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'classclean:yryb_export' grade_num date_str %}" class="btn btn-info">导出名单</a></p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>烫发、染发人数</th>
+        <th>烫发、染发名单</th>
+        <th>佩戴饰品人数</th>
+        <th>佩戴饰品名单</th>
+        {% if is_manager %}
+        <th>检查人</th>
+        <th>操作</th>
+        {% endif %}
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td>{{ record.class_and_grade }}</td>
+        <td>{{ record.hair_n }}</td>
+        <td>{{ record.hair_record }}</td>
+        <td>{{ record.jewelry_n }}</td>
+        <td>{{ record.jewelry_record }}</td>
+        {% if is_manager %}
+        <td>{{ record.owner_show }}</td>
+        <td><a href="{% url 'classclean:delete_yryb_record' record.id %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除</a></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'classclean:yryb_main' %}">返回上一页</a> -
+    <a href="{% url 'classclean:index' %}">返回应用程序主页</a>
+</p>
+{% endblock %}

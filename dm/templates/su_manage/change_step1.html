@@ -1,0 +1,40 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>第一步：设置学年</h2>
+<form role="form" action="{% url 'su_manage:change_step1' school_year_id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">下一步</button>
+</form>
+<p><a href="{% url 'su_manage:index' %}">返回首页</a></p>
+<script>
+// 加载文档时先确定一遍结束日期范围
+config_end_year();
+
+// 根据开始日期明确结束日期
+function config_end_year(){
+    // 获取开始日期
+    var start_date = document.getElementById("sd").value;
+    // alert(typeof start_date);
+
+    // 获取开始年份
+    var start_year_str = start_date.slice(0, 4);
+    var start_year = Number(start_year_str);
+
+    // 算得结束年份
+    var end_year = start_year + 1;
+    var end_year_str = String(end_year);
+
+    // 生成结束日期范围
+    var end_date_min = end_year_str.concat("-01-01");
+    var end_date_max = end_year_str.concat("-12-31");
+
+    // 设置参数
+    var end_date_input = document.getElementById("ed");
+    end_date_input.min = end_date_min;
+    end_date_input.max = end_date_max;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "exercise_eva/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ dt }}节能检查结果</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>节能问题</th>
+        {% if is_manager %}
+        <th>检查人</th>
+        <th>上传时间</th>
+        <th>操作</th>
+        {% endif %}
+    </tr>
+    {% for score in scores %}
+    <tr>
+        <td>{{ score.class_and_grade }}</td>
+        {% if score.desc %}
+        <td>{{ score.desc }}</td>
+        {% else %}
+        <td>无</td>
+        {% endif %}
+        {% if is_manager %}
+        <td>{{ score.owner_show }}</td>
+        <td>{{ score.datetime_added|date:'Y-m-d H:i:s' }}</td>
+        <td><a href="{% url 'exercise_eva:del_eco' score.id %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除</a></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'exercise_eva:eco_dates' %}">返回上一页</a> -
+    <a href="{% url 'exercise_eva:index' %}">返回应用程序主页</a>
+</p>
+{% endblock %}

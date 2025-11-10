@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'long_leave:index' %}"
+      class="btn btn-warning btn-block btn-lg">课间操长期假学生管理</a></p>
+<p><a href="{% url 'long_leave:daily' %}"
+      class="btn btn-success btn-block btn-lg">每日请假与在校学生情况</a></p>
+<p><a href="{% url 'index_out' %}">返回导航页</a></p>
+{% endblock %}

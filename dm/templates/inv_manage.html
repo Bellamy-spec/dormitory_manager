@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>调查学年</th>
+        <td>{{ inv.school_year }}</td>
+    </tr>
+    <tr>
+        <th>调查状态</th>
+        {% if inv.active %}
+        <td>进行中</td>
+        {% else %}
+        <td>已结束</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th>已收集问卷数</th>
+        <td>{{ inv.total }}</td>
+    </tr>
+    <tr>
+        <th>问卷填写链接</th>
+        <td>{{ link }}</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td><a href="{% url 'change_active' inv.id %}" class="btn btn-primary btn-lg li2">
+            {{ btn_name }}</a></td>
+        <td><a href="{% url 'paper_manage' inv.id %}" class="btn btn-success btn-lg li2">
+            管理问卷</a></td>
+    </tr>
+    <tr>
+        <td><a href="{% url 'teacher_list' inv.id %}" class="btn btn-info btn-lg li2">
+            查看统计结果</a></td>
+        <td><a href="{% url 'delete_inv' inv.id %}" class="btn btn-danger btn-lg li2"
+               onclick="return confirm('确定删除？')">删除调查</a></td>
+    </tr>
+</table>
+<p><a href="{% url 'syl' %}">返回上一页</a></p>
+{% endblock %}

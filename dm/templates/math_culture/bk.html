@@ -1,0 +1,11 @@
+{% extends "math_culture/base.html" %}
+
+{% block mobile %}
+<h3>{{ title }}</h3>
+<ul>
+    <li><a href="{% url 'math_culture:pic_item' cp_id %}">课本素材（图片形式呈现）</a></li>
+    <li><a href="{% url 'math_culture:doc_items' cp_id %}">课本素材（文本形式呈现）</a></li>
+    <li><a href="{% url 'math_culture:video_items' cp_id %}">视频素材（外部链接）</a></li>
+</ul>
+<p><a href="{% url 'math_culture:chapter_list' bk_id %}">返回上一页</a></p>
+{% endblock %}

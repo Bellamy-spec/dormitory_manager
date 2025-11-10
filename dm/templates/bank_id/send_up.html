@@ -1,0 +1,57 @@
+{% extends "bank_id/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h2>信息填报</h2>
+<h3 class="tip-color">填报的信息仅用于发放监考费用，不会造成个人信息的泄漏，请您放心填报，谢谢！</h3>
+<form role="form" action="{% url 'bank_id:send_up' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="tip-color" id="bk_info" style="display: none;"></p>
+    <p id="bk_house" style="display: none;">{{ bk_dict }}</p>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'bank_id:index' %}">返回主页</a></p>
+<script>
+    function show_bank(){
+        // 获取已输入的银行卡号
+        var bk_id = document.getElementById("bk").value;
+
+        // 存放银行名称的对象
+        var tp_box = document.getElementById("bk_info");
+
+        // 银行信息库
+        var bank_house_str = document.getElementById("bk_house").innerHTML;
+
+        // 单引号转为双引号
+        bank_house_str = bank_house_str.replace(/'/g, '"');
+
+        var bank_house = JSON.parse(bank_house_str);
+        // alert(bank_house);
+
+        // alert(bk_id);
+        // 仅当已输入位数超过4时执行操作
+        if(bk_id.length >= 4){
+            // 取出前4位
+            var bk_sym = bk_id.substr(0, 4);
+
+            // 获取银行
+            var bk_tp = bank_house[bk_sym];
+            if(bk_tp == undefined){
+                bk_tp = "未知";
+            }
+            // alert(bk_tp);
+
+            // 生成银行信息字符串并显示
+            var bk_msg = "所属银行：".concat(bk_tp);
+            tp_box.style.display = "block";
+            tp_box.innerHTML = bk_msg;
+        }
+        else{
+            tp_box.style.display = "none";
+            tp_box.innerHTML = "";
+        }
+    }
+</script>
+{% endblock %}

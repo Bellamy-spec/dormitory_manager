@@ -1,0 +1,14 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>报名服装设计</h2>
+<form role="form" action="{% url 'artday:add_costume' %}" method="post"
+      enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'artday:index' %}">返回主页</a></p>
+{% endblock %}

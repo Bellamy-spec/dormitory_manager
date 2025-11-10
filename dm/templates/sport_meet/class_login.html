@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>班级登录</h2>
+<form role="form" action="{% url 'sport_meet:class_login' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group" style="font-size: 18px;">
+        <label>选择年份：</label>
+        <select name="year">
+            {% for y in yl %}
+            <option value="{{ y }}">{{ y }}</option>
+            {% endfor %}
+        </select><br>
+        <label>选择班级：</label>
+        <select name="cs">
+            {% for c in css %}
+            <option value="{{ c.0 }}">{{ c.1 }}</option>
+            {% endfor %}
+        </select><br>
+        <label>输入班级口令：</label>
+        <input name="pwd" type="password"><br>
+    </div>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">登录</button>
+</form>
+<p><a href="{% url 'sport_meet:index' %}">返回主页</a></p>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>修改{{ year }}艺术节服装信息</h3>
+<form role="form" action="{% url 'artday:costume_sec_input' year %}" method="post">
+    {% csrf_token %}
+    <input placeholder="请输入服装口令" name="sec" />
+    <button name="submit" type="submit" class="btn btn-info">查询</button>
+</form>
+<p class="err-color">{{ err }}</p>
+<p>
+    <a href="{% url 'artday:year_main' year %}">返回上一页</a> -
+    <a href="{% url 'artday:index' %}">返回主页</a>
+</p>
+{% endblock %}

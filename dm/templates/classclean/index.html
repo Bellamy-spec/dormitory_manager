@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<ul class="list-unstyled">
+    {% for grade in grades %}
+    <li><a href="{% url 'classclean:dates' grade.1 %}"
+           class="btn btn-primary btn-lg btn-block">{{ grade.0 }}</a></li><br>
+    {% endfor %}
+    <li><a href="{% url 'classclean:mt_main' %}"
+           class="btn btn-primary btn-lg btn-block">月总结</a></li><br>
+    {% if is_manager %}
+    <li><a href="{% url 'classclean:add' %}"
+           class="btn btn-primary btn-lg btn-block">新增扣分记录</a></li><br>
+    <li><a href="{% url 'classclean:pub_grade_list' %}"
+           class="btn btn-primary btn-lg btn-block">结果公示</a></li><br>
+    {% endif %}
+    <li><a href="{% url 'classclean:su_dl' %}"
+           class="btn btn-warning btn-lg btn-block">学生会检查结果</a></li><br>
+    <li><a href="{% url 'classclean:yryb_main' %}"
+           class="btn btn-success btn-lg btn-block">仪容仪表检查不合格名单</a></li><br>
+</ul>
+<p><a href="{% url 'index_out' %}">返回导航页</a></p>
+{% endblock %}

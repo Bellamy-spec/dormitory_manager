@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<ul class="list-unstyled">
+    <li><a href="{% url 'late:dates' %}"
+           class="btn btn-primary btn-lg btn-block">选择日期查看</a></li><br>
+    {% if is_manager %}
+    <li><a href="{% url 'late:add' %}"
+           class="btn btn-primary btn-lg btn-block">录入迟到名单</a></li><br>
+    {% endif %}
+</ul>
+<p><a href="{% url 'index_out' %}">返回导航页</a></p>
+{% endblock %}

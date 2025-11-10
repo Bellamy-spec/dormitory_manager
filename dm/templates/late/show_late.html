@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'late:add_late' cs.id %}" class="btn btn-default">新增迟到学生</a></p>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>姓名</th>
+        <th>迟到时间</th>
+        <th>操作</th>
+    </tr>
+    {% for student in late_students %}
+    <tr>
+        <td>{{ student.name }}</td>
+        <td>{{ student.tm }}</td>
+        <td><a href="{% url 'late:delete' student.id %}">删除</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3"></td></tr>
+    {% endfor %}
+</table>
+{% if late_only %}
+<p><a href="{% url 'late:edit' cs.date_happened.id %}" class="btn btn-primary">
+    完成</a></p>
+{% else %}
+<p><a href="{% url 'late:see' cs.date_happened_id %}" class="btn btn-primary">
+    完成</a></p>
+{% endif %}
+{% endblock %}

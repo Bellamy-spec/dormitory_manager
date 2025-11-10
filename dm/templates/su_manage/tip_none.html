@@ -1,0 +1,37 @@
+{% extends "su_manage/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>暂无本届学生会</h3>
+<p id="counter">5秒后将跳转至首页</p>
+<script>
+    var ele = document.getElementById("counter");
+
+    // 要倒计时的时长
+    var s = 4;
+
+    function countDown(){
+        // 更新显示
+        ele.innerHTML = String(s).concat("秒后将跳转至首页");
+
+        // 倒计时结束
+        if(s <= 0){
+            // 按钮删除
+            ele.remove();
+
+            // 清除计时器
+            clearInterval(t);
+
+            // 跳转至程序主页
+            window.location.href = "/su_manage/";
+
+            return;
+        }
+
+        s--;
+    }
+
+    // 1秒变化一次
+    var t = setInterval(countDown, 1000);
+</script>
+{% endblock %}

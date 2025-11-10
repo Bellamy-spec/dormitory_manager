@@ -1,0 +1,27 @@
+{% extends "put_name/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+{% if user.is_authenticated %}
+<a href="{% url 'put_name:public' %}" class="btn btn-default">我要发布活动</a>
+{% else %}
+<h4>登录后即可发布新的活动</h4>
+{% endif %}
+<h3>进行中的活动：</h3>
+<ul>
+    {% for activity in active %}
+    <li><a href="{% url 'put_name:look' activity.id %}">{{ activity }}</a></li>
+    {% empty %}
+    <li>暂无活动正在进行中</li>
+    {% endfor %}
+</ul>
+<h3>已结束的活动：</h3>
+<ul>
+    {% for activity in inactive reversed %}
+    <li><a href="{% url 'put_name:look' activity.id %}">{{ activity }}</a></li>
+    {% empty %}
+    <li>暂无已结束的活动</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>自定义时间段总结</h3>
+<form role="form" action="{% url 'settable_summary' %}" method="post">
+    {% csrf_token %}
+    <label>请选择年级：</label>
+    <select name="grade">
+        <option value="1">高一</option>
+        <option value="2">高二</option>
+        <option value="3">高三</option>
+    </select><br>
+    <label>设置开始日期：</label>
+    <input type="date" name="start" max="{{ today }}" required><br>
+    <label>设置结束日期：</label>
+    <input type="date" name="end" max="{{ today }}" required><br>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">确定</button>
+</form>
+<p><a href="{% url 'index' %}">返回上一页</a></p>
+{% endblock %}

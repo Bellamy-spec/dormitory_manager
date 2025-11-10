@@ -1,0 +1,10 @@
+{% extends "math_culture/base.html" %}
+
+{% block content %}
+<h3>上传基于信息技术的数学文化素材</h3>
+<form role="form" action="{% url 'math_culture:add' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+{% endblock %}

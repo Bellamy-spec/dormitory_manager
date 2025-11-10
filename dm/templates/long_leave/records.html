@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>应到人数</th>
+        <th>实到人数</th>
+        <th>请假学生</th>
+        <th>操作</th>
+    </tr>
+    {% for cs in css %}
+    <tr>
+        <td>{{ cs.0.class_and_grade }}</td>
+        <td>{{ cs.0.total }}</td>
+        <td>{{ cs.0.come }}</td>
+        <td>{{ cs.1 }}</td>
+        <td>
+            <a href="{% url 'long_leave:show_cs' cs.0.id %}">查看具体</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% if not_done %}
+<table class="table table-hover table-bordered">
+    <tr><th>未上报班级&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{% url 'long_leave:send_up' %}" class="btn btn-default">去上报</a></th></tr>
+    {% for c in not_done %}
+    <tr><td>{{ c }}</td></tr>
+    {% endfor %}
+</table>
+{% endif %}
+<p><a href="{% url 'long_leave:dates' grade %}">返回上一页</a></p>
+{% endblock %}

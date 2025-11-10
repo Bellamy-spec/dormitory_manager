@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<form role="form" action="{% url 'long_leave:change' r.id %}" method="post">
+    {% csrf_token %}
+    <p>
+        <label>请假期限</label>
+        <input type="date" name="ed" />
+    </p>
+    <p>
+        <label>是否留在教室</label>
+        {% if r.tp %}
+        <input name="tp" type="checkbox" checked>
+        {% else %}
+        <input name="tp" type="checkbox">
+        {% endif %}
+    </p>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">确认更改</button>
+</form>
+<p>
+    <a href="{% url 'long_leave:manage' %}">返回上一页</a> -
+    <a href="{% url 'long_leave:index' %}">返回主页</a>
+</p>
+{% endblock %}

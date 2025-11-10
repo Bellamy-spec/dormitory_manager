@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<p><a href="{% url 'classclean:pub_export' grade_num date_str %}"
+      class="btn btn-info">导出当前页数据</a></p>
+<table class="table table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>德育处评分</th>
+        <th>卫生部评分</th>
+        <th>总分</th>
+    </tr>
+    {% for s in scores %}
+    <tr>
+        <td>{{ s.0 }}</td>
+        <td>{{ s.1 }}</td>
+        <td>{{ s.2 }}</td>
+        <td>{{ s.3 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    <a href="{% url 'classclean:pub_grade_list' %}">返回上一页</a> -
+    <a href="{% url 'classclean:index' %}">返回应用程序主页</a>
+</p>
+{% endblock %}

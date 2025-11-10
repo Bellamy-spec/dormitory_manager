@@ -1,0 +1,10 @@
+{% extends "math_culture/base.html" %}
+
+{% block content %}
+<h3>{{ line_name }}</h3>
+<ul>
+    {% for material in materials %}
+    <li><a href="{% url 'math_culture:material_main' material.id %}">{{ material.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

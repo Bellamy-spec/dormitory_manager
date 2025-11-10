@@ -1,0 +1,7 @@
+{% extends "put_name/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block mobile %}
+<h3>报名成功，感谢您的支持！</h3>
+<a href="{% url 'put_name:see' ac.id %}" class="btn btn-lg btn-info">查看报名情况</a>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ year }}年运动员列表</h2>
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>运动员编号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th colspan="6">已报名项目</th>
+        <th>运动员口令</th>
+        <th>操作</th>
+    </tr>
+    {% for ath in aths %}
+    <tr>
+        <td>{{ ath.0.class_and_grade }}</td>
+        <td>{{ ath.0.num }}</td>
+        <td>{{ ath.0.name }}</td>
+        <td>{{ ath.0.gender }}</td>
+        <td>{{ ath.1.0 }}</td>
+        {% if ath.1.0 %}
+        <td><a href="{% url 'sport_meet:delete_item' ath.0.id ath.0.pwd ath.1.1 1 ath.0.year %}"
+               class="btn btn-danger"
+               onclick="return confirm('你确定要取消报名吗？')">取消报名</a></td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td>{{ ath.2.0 }}</td>
+        {% if ath.2.0 %}
+        <td><a href="{% url 'sport_meet:delete_item' ath.0.id ath.0.pwd ath.2.1 1 ath.0.year %}"
+               class="btn btn-danger"
+               onclick="return confirm('你确定要取消报名吗？')">取消报名</a></td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td>{{ ath.3.0 }}</td>
+        {% if ath.3.0 %}
+        <td><a href="{% url 'sport_meet:delete_item' ath.0.id ath.0.pwd ath.3.1 1 ath.0.year %}"
+               class="btn btn-danger"
+               onclick="return confirm('你确定要取消报名吗？')">取消报名</a></td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td>{{ ath.0.pwd }}&nbsp;&nbsp;
+            <a class="btn btn-default"
+               href="{% url 'sport_meet:delete_athlete' ath.0.id ath.0.pwd 1 %}"
+               onclick="return confirm('确定要更新口令吗？')">更新口令</a></td>
+        <td><a href="{% url 'sport_meet:delete_athlete' ath.0.id ath.0.pwd 0 %}"
+               class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除运动员</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<p>
+    {% if is_manager %}
+    <a href="{% url 'sport_meet:admin' year %}">返回管理端主页</a> -
+    {% endif %}
+    <a href="{% url 'sport_meet:index' %}">返回应用程序主页</a>
+</p>
+{% endblock %}

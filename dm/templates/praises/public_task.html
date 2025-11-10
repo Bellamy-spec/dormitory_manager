@@ -1,0 +1,134 @@
+{% extends "praises/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>发布新的评优评先上报任务</h2>
+<form role="form" action="{% url 'praises:public_task' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <table class="table">
+        <tbody id="set-im">
+            <tr>
+                <th colspan="3">设置奖项及各班人数限制</th>
+                <th><a class="btn btn-default" onclick="add_item()">新增奖项</a></th>
+            </tr>
+            <tr>
+                <th>奖项名称</th>
+                <th>限制方式</th>
+                <th>限制值</th>
+                <th>操作</th>
+            </tr>
+        </tbody>
+    </table>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">提交</button>
+</form>
+<p><a href="{% url 'praises:index' %}">返回应用程序主页</a></p>
+<script>
+    // 全局变量：已存在的奖项数量
+    var n = 0;
+
+    // 新增奖项
+    function add_item(){
+        var im_table = document.getElementById("set-im");
+
+        // 创建新行
+        var new_row = document.createElement("tr");
+        new_row.id = "r".concat(String(n));
+
+        // 创建奖项名称输入单元格
+        var td1 = document.createElement("td");
+        var ipt = document.createElement("input");
+        ipt.name = "r".concat(String(n)).concat("_1");
+        ipt.id = "r".concat(String(n)).concat("_1");
+        ipt.setAttribute("maxlength", "10");
+        ipt.style = "width: 160px;"
+        td1.appendChild(ipt);
+
+        // 创建限制方式下拉选项单元格
+        var td2 = document.createElement("td");
+        var sct = document.createElement("select")
+        sct.name = "r".concat(String(n)).concat("_2");
+        sct.id = "r".concat(String(n)).concat("_2");
+        sct.style = "height: 35px"
+        sct.options.add(new Option("人数", 0));
+        sct.options.add(new Option("人数比例", 1));
+        td2.appendChild(sct);
+
+        // 创建限制值输入单元格
+        var td3 = document.createElement("td");
+        var vpt = document.createElement("input");
+        vpt.name = "r".concat(String(n)).concat("_3");
+        vpt.id = "r".concat(String(n)).concat("_3");
+        vpt.style = "width: 100px;"
+        td3.appendChild(vpt);
+
+        // 创建删除按钮单元格
+        // alert(n);
+        var td4 = document.createElement("td");
+        var btn = document.createElement("a");
+        btn.className = "btn btn-danger";
+        btn.setAttribute("onclick", "del_item(".concat(String(n)).concat(")"));
+        btn.id = "r".concat(String(n)).concat("_4");
+        btn.innerHTML = "删除";
+        td4.appendChild(btn);
+
+        // 四个单元格依次加入行
+        new_row.appendChild(td1);
+        new_row.appendChild(td2);
+        new_row.appendChild(td3);
+        new_row.appendChild(td4);
+
+        // 新行加入表格
+        im_table.appendChild(new_row);
+
+        // 已存在奖项数量更新
+        n++;
+    }
+
+    // 删除奖项
+    function del_item(idx){
+        // 取出要删除的元素
+        var id_str = "r".concat(String(idx));
+        var ele = document.getElementById(id_str);
+
+        // 执行删除
+        ele.remove();
+
+        // 大于idx的索引全部减1
+        for(var i = idx + 1; i < n; i++){
+            // 行id减1
+            var row_ele = document.getElementById("r".concat(String(i)));
+            row_ele.id = "r".concat(String(i - 1));
+
+            // 奖项名称输入框id和name减1
+            var id1 = "r".concat(String(i)).concat("_1");
+            var ele1 = document.getElementById(id1);
+            ele1.id = "r".concat(String(i - 1)).concat("_1");
+            ele1.name = "r".concat(String(i - 1)).concat("_1");
+
+            // 限制方式下拉选项id和name减1
+            var id2 = "r".concat(String(i)).concat("_2");
+            var ele2 = document.getElementById(id2);
+            ele2.id = "r".concat(String(i - 1)).concat("_2");
+            ele2.name = "r".concat(String(i - 1)).concat("_2");
+
+            // 限制值输入框id和name减1
+            var id3 = "r".concat(String(i)).concat("_3");
+            var ele3 = document.getElementById(id3);
+            ele3.id = "r".concat(String(i - 1)).concat("_3");
+            ele3.name = "r".concat(String(i - 1)).concat("_3");
+
+            // 删除按钮id和onclick减1
+            var id4 = "r".concat(String(i)).concat("_4");
+            var ele4 = document.getElementById(id4);
+            ele4.id = "r".concat(String(i - 1)).concat("_4");
+            ele4.setAttribute("onclick", "del_item(".concat(String(i - 1)).concat(")"));
+        }
+
+        // 奖项总数减1
+        n--;
+        alert(n);
+    }
+</script>
+{% endblock %}

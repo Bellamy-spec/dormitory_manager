@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<ul>
+    {% for date in dates %}
+    <li><a href="{% url 'late:see' date.id %}">{{ date.date_str }}</a></li>
+    {% empty %}
+    <li>暂无记录</li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'late:index' %}">返回主页</a></p>
+{% endblock %}

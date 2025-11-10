@@ -1,0 +1,7 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>你的报名序号是<strong>{{ pwd }}</strong>，请牢记！</h3>
+<p><a href="{% url 'zzbm:task_main' task.id %}">返回</a></p>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<form role="form" action="{% url 'see_leave' 0 %}" method="post">
+    {% csrf_token %}
+    <input name="captcha" placeholder="请输入看到的验证码">
+    <img src="data:image/png;base64,{{ image }}">
+    <a href="{% url 'see_leave' 0 %}" style="font-size: 16px">看不清，换一张</a>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">确定</button>
+</form>
+<p><a href="{% url 'index_out' %}">返回上一页</a></p>
+{% endblock %}

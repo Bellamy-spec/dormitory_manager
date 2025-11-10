@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<form role="form" action="{% url 'late:add' %}" method="post">
+    {% csrf_token %}
+    请选择日期：<input type="date" name="dt" /><br>
+    请勾选有学生迟到的班级：<br>
+    {% for cs in css %}
+    {% if cs.1 in enter_code %}
+    <input type="checkbox" name="{{ cs.0 }}" value="{{ cs.0 }}" />{{ cs.0 }}<br/>
+    {% else %}
+    <input type="checkbox" name="{{ cs.0 }}" value="{{ cs.0 }}" />{{ cs.0 }}
+    {% endif %}
+    {% endfor %}
+    {{ err }}<br>
+    <button type="submit" name="submit" class="btn btn-primary">下一步</button>
+</form>
+{% endblock %}

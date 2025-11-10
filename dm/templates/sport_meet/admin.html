@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>郑州市第106高级中学运动会个人项目报名系统管理端</h2>
+<h3>年份：{{ year }}</h3>
+<table>
+    <tr>
+        <td><a href="{% url 'sport_meet:athletes' year %}"
+               class="btn btn-info li2 btn-lg">运动员列表</a></td>
+        <td><a href="{% url 'sport_meet:make_group' year %}"
+               class="btn btn-warning li2 btn-lg">项目分组</a></td>
+    </tr>
+    <tr>
+        <td colspan="2"><a href="{% url 'sport_meet:num_name' year %}"
+               class="btn btn-success btn-lg li1">导出运动员编号姓名对照表</a></td>
+    </tr>
+</table>
+<p><a href="{% url 'sport_meet:yl' %}">返回上一页</a></p>
+{% endblock %}

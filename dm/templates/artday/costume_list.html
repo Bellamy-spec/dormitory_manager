@@ -1,0 +1,20 @@
+{% extends "artday/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>服装列表</h2>
+{% if is_manager %}
+<p>
+    <a href="{% url 'artday:export_costume' year %}" class="btn btn-info">导出服装信息</a>
+    <a href="{% url 'artday:export_sec' year %}" class="btn btn-warning">导出服装口令信息</a>
+</p>
+{% endif %}
+<ul>
+    {% for costume in costumes %}
+    <li><a href="{% url 'artday:show_costume' costume.id %}">{{ costume }}</a></li>
+    {% empty %}
+    <li>暂无服装报名</li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'artday:index' %}">返回主页</a></p>
+{% endblock %}

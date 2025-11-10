@@ -1,0 +1,85 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>{{ title }}</h2>
+<!--<form role="form" action="{% url 'zzbm:list_put' task.id 0 %}" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    <input placeholder="请输入姓名或身份证号" name="que" value="{{ ipt }}"-->
+<!--           style="margin-bottom: 10px; margin-left: 10px;">-->
+<!--    <button name="submit" type="submit" class="btn btn-info">查询</button>-->
+<!--    <a href="{% url 'zzbm:list_put' task.id 0 %}" class="btn btn-default">重置</a>-->
+<!--    <a href="{% url 'zzbm:export_students' task.id %}" class="btn btn-warning">导出所有考生信息</a>-->
+<!--    <a href="{% url 'zzbm:get_seat_table' task.id %}" class="btn btn-success">下载考场座次表</a>-->
+<!--</form>-->
+<table class="table table-hover table-bordered" style="font-size: 16px;">
+    <tr>
+<!--        <th>报名方式</th>-->
+<!--        <th>序数</th>-->
+<!--        <th>个人一寸照片</th>-->
+        <th>姓名</th>
+        <th>性别</th>
+        <th>身份证号</th>
+<!--        <th>手机号</th>-->
+<!--        <th>初中毕业学校</th>-->
+        <th>选考科目</th>
+<!--        <th>报名序号</th>-->
+<!--        <th>考场号</th>-->
+<!--        <th>座位号</th>-->
+        <th>准考证号</th>
+        <th>成绩</th>
+        <th>是否缺考</th>
+<!--        <th>报名时间</th>-->
+        <th>操作</th>
+    </tr>
+    {% for st in students %}
+    <tr>
+<!--        <td style="vertical-align: middle;">{{ st.add_method }}</td>-->
+<!--        <td style="vertical-align: middle;">{{ st.num }}</td>-->
+<!--        <td><img src="/media/{{ st.photo }}" width="50px"></td>-->
+        <td style="vertical-align: middle;">{{ st.name }}</td>
+        <td style="vertical-align: middle;">{{ st.gender }}</td>
+        <td style="vertical-align: middle;">{{ st.id_number }}</td>
+<!--        <td style="vertical-align: middle;">{{ st.phone_number }}</td>-->
+<!--        <td style="vertical-align: middle;">{{ st.middle_school }}</td>-->
+        <td style="vertical-align: middle;">{{ st.subject }}</td>
+<!--        <td style="vertical-align: middle;">{{ st.pwd }}</td>-->
+<!--        <td style="vertical-align: middle;">{{ st.room }}</td>-->
+<!--        <td style="vertical-align: middle;">{{ st.seat }}</td>-->
+        <td style="vertical-align: middle;">{{ st.exam_id }}</td>
+        <td style="vertical-align: middle;">{{ st.score }}</td>
+        {% if st.miss %}
+        <td style="vertical-align: middle;">缺考</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+<!--        <td style="vertical-align: middle;">{{ st.datetime_added|date:'Y-m-d H:i:s' }}</td>-->
+        <td style="vertical-align: middle;" id="op{{ st.id }}">
+            <a href="{% url 'zzbm:student' st.id st.pwd %}" class="btn btn-info">查看</a>
+<!--            <a href="{% url 'zzbm:edit_student' st.id %}" class="btn btn-warning">修改</a>-->
+<!--            <a href="{% url 'zzbm:delete_st' st.id 1 %}" class="btn btn-danger"-->
+<!--               onclick="return confirm('确定删除？')">删除</a>-->
+            {% if st.miss %}
+            <a href="{% url 'zzbm:change_miss_1' st.id %}" class="btn btn-success">取消标记缺考</a>
+            {% else %}
+            <a href="{% url 'zzbm:change_miss_1' st.id %}" class="btn btn-success">标记缺考</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'zzbm:load_miss_main' %}">返回重选考场</a></p>
+<input type="hidden" id="id-box" value="{{ st_id }}">
+<script>
+    // 页面滚动
+    var st_id = document.getElementById("id-box").value
+    if(st_id != "0"){
+        var ele_id = "op".concat(st_id);
+        var ele = document.getElementById(ele_id);
+        if(ele){
+            // alert("页面即将滚动");
+            ele.scrollIntoView({behavior: "auto", block: "start", inline: "end"});
+        }
+    }
+</script>
+{% endblock %}

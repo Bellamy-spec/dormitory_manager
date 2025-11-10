@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>选择日期、年级：</h3>
+<table class="table table-bordered">
+  <tr>
+    <th></th>
+    <th>高一</th>
+    <th>高二</th>
+    <th>高三</th>
+  </tr>
+  {% for date in dates %}
+  <tr>
+    <td>{{ date }}</td>
+    <td><a href="{% url 'classclean:yryb_day' 1 date %}" class="btn btn-success">进入查看</a></td>
+    <td><a href="{% url 'classclean:yryb_day' 2 date %}" class="btn btn-success">进入查看</a></td>
+    <td><a href="{% url 'classclean:yryb_day' 3 date %}" class="btn btn-success">进入查看</a></td>
+  </tr>
+  {% endfor %}
+</table>
+<p><a href="{% url 'classclean:index' %}">返回上一页</a></p>
+{% endblock %}

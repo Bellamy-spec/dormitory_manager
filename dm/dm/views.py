@@ -3512,3 +3512,8 @@ def captcha_manage(request):
 
     context = {'cb': tuple(left_right), 'n': len(cb_list)}
     return render_ht(request, 'captcha_manage.html', context)
+
+
+def my_ai(request):
+    """常用AI工具导航页"""
+    return render_ht(request, 'my_ai.html', {})

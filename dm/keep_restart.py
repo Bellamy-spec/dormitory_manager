@@ -25,6 +25,11 @@ while True:
     # debug设置为False
     settings_text = settings_text.replace('DEBUG = True', 'DEBUG = False')
 
+    # 学校名称设置
+    with open('school_name.txt', encoding='utf-8') as fs:
+        school_name = fs.read()
+    settings_text = settings_text.replace('XX学校', school_name)
+
     # 获取设置文件行数
     rows = len(settings_text.split('\n'))
 

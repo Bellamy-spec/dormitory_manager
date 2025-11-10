@@ -254,6 +254,9 @@ urlpatterns = [
     # 验证码管理
     path('captcha_manage/', views.captcha_manage, name='captcha_manage'),
 
+    # 常用AI工具导航页
+    path('my_ai/',views.my_ai, name='my_ai'),
+
     # 返校情况统计程序的url
     path('backtoschool/', include(('backtoschool.urls', 'backtoschool'),
                                   namespace='backtoschool')),

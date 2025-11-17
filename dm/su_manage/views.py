@@ -1233,7 +1233,7 @@ def up_member(request, member_id):
     member.save()
 
     # 重定向至成员列表页面
-    return HttpResponseRedirect(reverse('su_manage:member_list', args=[member.school_year.id]))
+    return HttpResponseRedirect(reverse('su_manage:member_list', args=[member.school_year.id, member_id]))
 
 
 def delete_member(request, member_id):
@@ -1250,7 +1250,7 @@ def delete_member(request, member_id):
     member.delete()
 
     # 重定向至成员列表页面
-    return HttpResponseRedirect(reverse('su_manage:member_list', args=[school_year.id]))
+    return HttpResponseRedirect(reverse('su_manage:member_list', args=[school_year.id, 0]))
 
 
 def see_department(request):

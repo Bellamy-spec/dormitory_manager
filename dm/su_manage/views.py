@@ -1627,8 +1627,9 @@ def config_worker(request, sy_id):
                 # 确认无误，将成员的是否课间操工作人员标记为“是”
                 member.work_abst2 = True
 
-                # # 职责清空
-                # member.main_work = ''
+                # 职责清空
+                if member.department.name == '卫生部':
+                    member.main_work = ''
 
                 # 更新成员工作职责
                 if member.main_work:

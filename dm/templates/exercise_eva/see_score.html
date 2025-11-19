@@ -18,8 +18,8 @@
         {% if is_manager %}
         <th>检查人</th>
         <th>上传时间</th>
-        <th>操作</th>
         {% endif %}
+        <th>操作</th>
     </tr>
     {% for score in scores %}
     <tr>
@@ -36,9 +36,16 @@
         {% if is_manager %}
         <td>{{ score.owner_show }}</td>
         <td>{{ score.datetime_added|date:'Y-m-d H:i:s' }}</td>
-        <td><a href="{% url 'exercise_eva:del_score' score.id %}" class="btn btn-danger"
-               onclick="return confirm('确定删除？')">删除</a></td>
         {% endif %}
+        <td>
+            {% if is_today %}
+            <a href="{% url 'exercise_eva:update_score' score.id %}" class="btn btn-info">更新</a>
+            {% endif %}
+            {% if is_manager %}
+            <a href="{% url 'exercise_eva:del_score' score.id %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除</a>
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>

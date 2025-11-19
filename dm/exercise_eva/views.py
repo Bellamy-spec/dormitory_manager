@@ -31,6 +31,31 @@ def render_ht(request, template_name, context):
     return render(request, template_name, context)
 
 
+def pull_and_calculate(score):
+    """拉取人数并计算评分"""
+    # 拉取应跑操人数
+    normal = consult(score.class_and_grade)[2]
+    if normal < 0:
+        # 班主任未上报，默认为本班全体住宿人数减去长假人数
+        normal = len(get_students(score.class_and_grade, logic=False))
+        normal -= len(consult(score.class_and_grade)[0])
+    score.to_come = normal
+
+    # 拉取短假人数
+    score.short_abst = len(ShortAbst.objects.filter(
+        class_and_grade=score.class_and_grade, date_added=datetime.date.today()))
+
+    # 拉取学生会工作人员人数
+    score.work_abst = len(Member.objects.filter(
+        class_and_grade=score.class_and_grade,
+        work_abst2=True,
+        school_year=SchoolYear.objects.get(current=True),
+    ))
+
+    # 计算总分
+    score.calculate_score()
+
+
 def write_out(wb, fn=''):
     """黑科技：将编辑好的Excel表格文件通过浏览器下载到本地"""
     # 准备写入到IO中
@@ -352,29 +377,8 @@ def up_load(request):
                     'err': '密码错误！',
                 })
 
-            # 拉取应跑操人数
-            normal = consult(new_score.class_and_grade)[2]
-            if normal < 0:
-                # 班主任未上报，默认为本班全体住宿人数减去长假人数
-                normal = len(get_students(new_score.class_and_grade, logic=False))
-                normal -= len(consult(new_score.class_and_grade)[0])
-            new_score.to_come = normal
-
-            # 拉取短假人数
-            new_score.short_abst = len(ShortAbst.objects.filter(
-                class_and_grade=new_score.class_and_grade, date_added=date))
-
-            # 拉取学生会工作人员人数
-            new_score.work_abst = len(Member.objects.filter(
-                class_and_grade=new_score.class_and_grade,
-                work_abst2=True,
-                school_year=SchoolYear.objects.get(current=True),
-            ))
-
-            # 计算总分
-            new_score.calculate_score()
-
             # 补全属性
+            pull_and_calculate(new_score)
             new_score.gc_fill()
             new_score.make_show()
 
@@ -424,8 +428,12 @@ def see_score(request, date_str):
     scores.sort(key=lambda x: x.cs)
     scores.sort(key=lambda x: x.grade_num)
 
-    context = {'scores': tuple(scores), 'dt': date_str,
-               'is_manager': request.user.username in DT.super_users}
+    context = {
+        'scores': tuple(scores),
+        'dt': date_str,
+        'is_manager': request.user.username in DT.super_users,
+        'is_today': date == datetime.date.today(),
+    }
     return render_ht(request, 'exercise_eva/see_score.html', context)
 
 
@@ -713,3 +721,27 @@ def del_eco(request, score_id):
 
     # 重定向至日期查看页面
     return HttpResponseRedirect(reverse('exercise_eva:see_eco', args=[date_str]))
+
+
+def update_score(request, score_id):
+    """更新课间操评分"""
+    # # 验证权限
+    # if request.user.username not in DT.super_users:
+    #     raise Http404
+
+    # 取出要更新的对象
+    score = ExerciseScore.objects.get(id=score_id)
+
+    # 仅当天可进行的操作
+    if datetime.date.today() != score.date_added:
+        raise Http404
+
+    # 获取所属日期字符串
+    date_str = datetime.datetime.strftime(score.date_added, '%Y-%m-%d')
+
+    # 重新拉取人数并计算
+    pull_and_calculate(score)
+
+    # 保存，重定向
+    score.save()
+    return HttpResponseRedirect(reverse('exercise_eva:see_score', args=[date_str]))

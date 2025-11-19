@@ -66,4 +66,7 @@ urlpatterns = [
 
     # 删除节能记录
     path('del_eco/<int:score_id>/', views.del_eco, name='del_eco'),
+
+    # 更新课间操评分
+    path('update_score/<int:score_id>/', views.update_score, name='update_score'),
 ]

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>发布新的留宿上报任务</h2>
+<form role="form" action="{% url 'long_leave:public_task' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    选择年级：
+    <input type="checkbox" name="grade1" value="1" />高一
+    <input type="checkbox" name="grade2" value="2" />高二
+    <input type="checkbox" name="grade3" value="3" />高三<br/>
+    <p class="err-color">{{ err }}</p>
+    <button name="submit" type="submit" class="btn btn-primary">发布</button>
+</form>
+<p><a href="{% url 'long_leave:stay_dorm_main' %}">返回上一页</a></p>
+{% endblock %}

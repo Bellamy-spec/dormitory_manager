@@ -57,4 +57,19 @@ urlpatterns = [
 
     # 获取某个班级最近一次请假学生
     path('get_last/<str:cs_str>/<int:total>/', views.get_last, name='get_last'),
+
+    # 留宿上报主页
+    path('stay_dorm_main/', views.stay_dorm_main, name='stay_dorm_main'),
+
+    # 发布任务页面
+    path('public_task/', views.public_task, name='public_task'),
+
+    # 任务主页
+    path('task_main/<int:task_id>/', views.task_main, name='task_main'),
+
+    # 变更任务状态
+    path('change_done/<int:task_id>/', views.change_done, name='change_done'),
+
+    # 删除任务
+    path('delete_task/<int:task_id>/', views.delete_task, name='delete_task'),
 ]

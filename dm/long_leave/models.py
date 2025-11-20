@@ -1,5 +1,6 @@
 from django.db import models
 from .tools import DataTool
+import datetime
 
 
 # 实例化静态数据类
@@ -77,3 +78,32 @@ class AbsentStudents(models.Model):
     def __str__(self):
         """返回模型的字符串表示"""
         return self.name
+
+
+class StayTask(models.Model):
+    """留宿上报任务"""
+    # 日期及日期字符串
+    date = models.DateField(default=datetime.date.today())
+    date_str = models.CharField(max_length=10)
+
+    # 包含年级
+    grade_include = models.CharField(max_length=10)
+
+    # 是否已完成
+    done = models.BooleanField(default=False)
+
+    def __str__(self):
+        """返回模型的字符串表示"""
+        return self.date_str
+
+    def set_date_str(self):
+        """根据日期设置字符串"""
+        self.date_str = datetime.date.strftime(self.date, '%Y-%m-%d')
+
+    def set_grade_str(self, grade_list):
+        """设置包含年级字符串"""
+        self.grade_include = ','.join(grade_list)
+
+    def get_grade_list(self):
+        """获取年级列表"""
+        return self.grade_include.split(',')

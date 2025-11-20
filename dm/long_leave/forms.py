@@ -1,6 +1,6 @@
 """表单"""
 from django import forms
-from .models import LongLeaveRecord, ClassInfo, AbsentStudents
+from .models import LongLeaveRecord, ClassInfo, AbsentStudents, StayTask
 from datetime import date
 
 
@@ -53,4 +53,15 @@ class AddAbsentForm(forms.ModelForm):
         labels = {'name': '学生姓名', 'reason': '请假原因'}
         widgets = {
             'name': forms.TextInput(attrs={'autocomplete': 'off', 'list': 'st-list'}),
+        }
+
+
+class StayTaskForm(forms.ModelForm):
+    """用于发布新的留宿上报任务的表单"""
+    class Meta:
+        model = StayTask
+        fields = ['date']
+        labels = {'date': '留宿日期'}
+        widgets = {
+            'date': forms.TextInput(attrs={'type': 'date'}),
         }

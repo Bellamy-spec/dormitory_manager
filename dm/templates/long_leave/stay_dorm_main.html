@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>留宿情况上报</h2>
+{% if is_manager %}
+<p><a href="{% url 'long_leave:public_task' %}" class="btn btn-default">发布新的留宿上报任务</a></p>
+{% endif %}
+<h3>进行中</h3>
+<ul>
+    {% for task in ndt %}
+    <li><a href="{% url 'long_leave:task_main' task.id %}">{{ task.date_str }}</a></li>
+    {% empty %}
+    <li>暂无进行中</li>
+    {% endfor %}
+</ul>
+<h3>已完成</h3>
+<ul>
+    {% for task in dt reversed %}
+    <li><a href="{% url 'long_leave:task_main' task.id %}">{{ task.date_str }}</a></li>
+    {% empty %}
+    <li>暂无已完成</li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'long_leave:index_out' %}">返回上一页</a></p>
+{% endblock %}

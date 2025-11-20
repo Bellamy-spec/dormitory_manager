@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from .tools import DataTool
-from .models import LongLeaveRecord, AbsentStudents, ClassInfo
+from .models import LongLeaveRecord, AbsentStudents, ClassInfo, StayTask
 import datetime
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from .forms import LongLeaveForm, ClassForm, ChangeTotalForm, AddAbsentForm
+from .forms import LongLeaveForm, ClassForm, ChangeTotalForm, AddAbsentForm, StayTaskForm
 from django.urls import reverse
 from openpyxl import Workbook
 from openpyxl.styles import Font, Side, Border, Alignment
@@ -754,3 +754,116 @@ def get_last(request, cs_str, total):
             'st_house': format_gc_students(),
             'lg': Data().logic_grade,
         })
+
+
+def stay_dorm_main(request):
+    """留宿上报主页"""
+    # 获取所有已完成和未完成任务对象
+    done_tasks = StayTask.objects.filter(done=True)
+    not_done_tasks = StayTask.objects.filter(done=False)
+
+    context = {'is_manager': request.user.username in DT.managers, 'dt': done_tasks, 'ndt': not_done_tasks}
+    return render_ht(request, 'long_leave/stay_dorm_main.html', context)
+
+
+def public_task(request):
+    """发布新的留宿上报任务"""
+    # 限制非管理员用户访问
+    if request.user.username not in DT.managers:
+        raise Http404
+
+    if request.method != 'POST':
+        # 未提交数据，创建新的表单
+        form = StayTaskForm()
+    else:
+        # 对POST提交的数据作出处理
+        form = StayTaskForm(request.POST)
+        if form.is_valid():
+            new_task = form.save(commit=False)
+
+            # TODO:设置包含年级
+            grade1 = request.POST.get('grade1', '')
+            grade2 = request.POST.get('grade2', '')
+            grade3 = request.POST.get('grade3', '')
+
+            if grade1 or grade2 or grade3:
+                # 须至少勾选一个年级
+                grade_list = []
+                if grade1:
+                    grade_list.append('高一')
+                if grade2:
+                    grade_list.append('高二')
+                if grade3:
+                    grade_list.append('高三')
+            else:
+                # 给出错误提示
+                return render_ht(request, 'long_leave/public.html', context={
+                    'form': form,
+                    'err': '请至少勾选一个年级',
+                })
+
+            # 补全属性
+            new_task.set_date_str()
+            new_task.set_grade_str(grade_list)
+
+            # 保存，重定向
+            new_task.save()
+            return HttpResponseRedirect(reverse('long_leave:task_main', args=[new_task.id]))
+
+    context = {'form': form, 'err': ''}
+    return render_ht(request, 'long_leave/public.html', context)
+
+
+def task_main(request, task_id):
+    """任务主页"""
+    # 取出相应的任务对象
+    task = StayTask.objects.get(id=task_id)
+
+    # 制定标题
+    if task.done:
+        title = '{}留宿学生-已完成上报'.format(task.date_str)
+        btn_name = '取消标记已完成'
+    else:
+        title = '{}留宿学生-上报中'.format(task.date_str)
+        btn_name = '标记为已完成'
+
+    context = {
+        'task': task,
+        'is_manager': request.user.username in DT.managers,
+        'title': title,
+        'btn_name': btn_name,
+    }
+    return render_ht(request, 'long_leave/task_main.html', context)
+
+
+def change_done(request, task_id):
+    """变更任务状态"""
+    # 限制非管理员用户访问
+    if request.user.username not in DT.managers:
+        raise Http404
+
+    # 取出要操作的任务对象
+    task = StayTask.objects.get(id=task_id)
+
+    # 执行变更操作
+    task.done = not task.done
+
+    # 保存，重定向
+    task.save()
+    return HttpResponseRedirect(reverse('long_leave:task_main', args=[task_id]))
+
+
+def delete_task(request, task_id):
+    """删除任务"""
+    # 限制非管理员用户访问
+    if request.user.username not in DT.managers:
+        raise Http404
+
+    # 取出要删除的任务对象
+    task = StayTask.objects.get(id=task_id)
+
+    # 执行删除操作
+    task.delete()
+
+    # 重定向至留宿上报主页（上级页）
+    return HttpResponseRedirect(reverse('long_leave:stay_dorm_main'))

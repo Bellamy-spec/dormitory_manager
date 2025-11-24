@@ -33,10 +33,14 @@ class DataTool:
             ('仅课间操', '仅课间操'),
         )
 
-    def get_all_classes(self):
+    def get_all_classes(self, grades=None):
         """返回所有年级班级字符串元组"""
+        # 确定年级
+        if grades is None:
+            grades = self.grades
+
         gc_list = []
-        for grade in self.grades:
+        for grade in grades:
             for cs in self.css:
                 gc = grade + str(cs) + '班'
                 gc_list.append((gc, gc))

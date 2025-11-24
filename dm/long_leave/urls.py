@@ -72,4 +72,10 @@ urlpatterns = [
 
     # 删除任务
     path('delete_task/<int:task_id>/', views.delete_task, name='delete_task'),
+
+    # 删除留宿学生记录
+    path('delete_stay_record/<int:record_id>/', views.delete_stay_record, name='delete_stay_record'),
+
+    # 上报留宿信息
+    path('stay_send_up/<int:task_id>/', views.stay_send_up, name='stay_send_up'),
 ]

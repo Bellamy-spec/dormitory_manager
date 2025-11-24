@@ -1,15 +1,41 @@
 {% extends "base.html" %}
 {% block ht %}{{ head_title }}{% endblock %}
 
-{% block table %}
+{% block content %}
 <h2>{{ title }}</h2>
-{% if is_manager %}
 <p>
+    {% if is_manager %}
     <a href="{% url 'long_leave:change_done' task.id %}" class="btn btn-warning">{{ btn_name }}</a> -
     <a href="{% url 'long_leave:delete_task' task.id %}" class="btn btn-danger"
-       onclick="return confirm('确定删除？')">删除此任务</a>
+       onclick="return confirm('确定删除？')">删除此任务</a> -
+    {% endif %}
+    <a class="btn btn-info">上报留宿信息</a>
 </p>
-{% endif %}
 <p>留宿年级：{{ task.grade_include }}</p>
+<table class="table table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>宿舍号</th>
+        <th>床铺号</th>
+        {% if is_manager %}
+        <th>操作</th>
+        {% endif %}
+    </tr>
+    {% for record in records %}
+    <tr>
+        <td>{{ record.class_and_grade }}</td>
+        <td>{{ record.name }}</td>
+        <td>{{ record.student_related.gender }}</td>
+        <td>{{ record.dorm }}</td>
+        <td>{{ record.bed }}</td>
+        {% if is_manager %}
+        <td><a href="{% url 'long_leave:delete_stay_record' record.id %}" class="btn btn-danger"
+               onclick="return confirm('确定删除？')">删除</a></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
 <p><a href="{% url 'long_leave:stay_dorm_main' %}">返回上一页</a></p>
 {% endblock %}

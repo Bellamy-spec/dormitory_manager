@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .tools import DataTool
-from .models import LongLeaveRecord, AbsentStudents, ClassInfo, StayTask
+from .models import LongLeaveRecord, AbsentStudents, ClassInfo, StayTask, StayRecord
 import datetime
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from .forms import LongLeaveForm, ClassForm, ChangeTotalForm, AddAbsentForm, StayTaskForm
@@ -819,6 +819,15 @@ def task_main(request, task_id):
     # 取出相应的任务对象
     task = StayTask.objects.get(id=task_id)
 
+    # 取出该任务下所有已上报的留宿信息记录
+    records = list(StayRecord.objects.filter(task_belong=task))
+
+    # 记录排序
+    records.sort(key=lambda x: x.bed)
+    records.sort(key=lambda x: x.dorm)
+    records.sort(key=lambda x: x.cs)
+    records.sort(key=lambda x: x.grade_num)
+
     # 制定标题
     if task.done:
         title = '{}留宿学生-已完成上报'.format(task.date_str)
@@ -832,6 +841,7 @@ def task_main(request, task_id):
         'is_manager': request.user.username in DT.managers,
         'title': title,
         'btn_name': btn_name,
+        'records': records,
     }
     return render_ht(request, 'long_leave/task_main.html', context)
 
@@ -867,3 +877,31 @@ def delete_task(request, task_id):
 
     # 重定向至留宿上报主页（上级页）
     return HttpResponseRedirect(reverse('long_leave:stay_dorm_main'))
+
+
+def delete_stay_record(request, record_id):
+    """删除留宿学生记录"""
+    # 限制非管理员用户访问
+    if request.user.username not in DT.managers:
+        raise Http404
+
+    # 取出要删除的记录对象和所属任务对象
+    record = StayRecord.objects.get(id=record_id)
+    task = record.task_belong
+
+    # 执行删除操作
+    record.delete()
+
+    # 重定向至任务主页（当前页）
+    return HttpResponseRedirect(reverse('long_leave:task_main', args=[task.id]))
+
+
+@ login_required()
+def stay_send_up(request, task_id):
+    """上报留宿信息"""
+    # 非操作员无权限访问
+    if request.user.username not in DT.operators:
+        raise Http404
+
+    # 取出相应的任务对象
+    task = StayTask.objects.get(id=task_id)

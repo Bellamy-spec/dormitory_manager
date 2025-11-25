@@ -152,7 +152,7 @@ class NewStudent(models.Model):
             self.gender = get_gender(self.id_number)
 
 
-def get_students(gc, logic=True):
+def get_students(gc, logic=True, include_id=False):
     """以列表形式返回一个班级所有学生"""
     if not logic:
         # 班级字符串转为逻辑班级字符串
@@ -165,12 +165,18 @@ def get_students(gc, logic=True):
 
     student_list = []
     for ob in NewStudent.objects.filter(gc=gc):
-        student_list.append(ob.name)
+        if include_id:
+            student_list.append((ob.name, ob.id))
+        else:
+            student_list.append(ob.name)
 
-    return sorted(student_list, key=lambda x: ''.join(lazy_pinyin(x)))
+    if include_id:
+        return sorted(student_list, key=lambda x: ''.join(lazy_pinyin(x[0])))
+    else:
+        return sorted(student_list, key=lambda x: ''.join(lazy_pinyin(x)))
 
 
-def format_gc_students(grades=('高一', '高二', '高三'), logic=True):
+def format_gc_students(grades=('高一', '高二', '高三'), logic=True, include_id=False):
     """返回班级学生对应格式化字典"""
     # 初始化存放字典
     gs_dict = {}
@@ -188,10 +194,10 @@ def format_gc_students(grades=('高一', '高二', '高三'), logic=True):
 
             # 加入字典
             if logic:
-                gs_dict[gc] = get_students(gc)
+                gs_dict[gc] = get_students(gc, include_id=include_id)
             else:
                 rgc = grade + str(cs) + '班'
-                gs_dict[rgc] = get_students(gc)
+                gs_dict[rgc] = get_students(gc, include_id=include_id)
 
     return gs_dict
 

@@ -13,6 +13,7 @@ from dm.scores.models import format_gc_students, all_students, st_gc
 from dm.scores.data import Data
 from django.conf import settings
 from exercise_eva.models import ExerciseScore
+import json
 
 
 # 实例化静态数据类
@@ -905,3 +906,23 @@ def stay_send_up(request, task_id):
 
     # 取出相应的任务对象
     task = StayTask.objects.get(id=task_id)
+
+    # 已完成任务不可上报
+    if task.done:
+        raise Http404
+
+    # 生成班级选项
+    grade_list = task.get_grade_list()
+    gc_options = DT.get_all_classes(grades=grade_list)
+
+    # 班级学生对应字典
+    st_dict = format_gc_students(grades=tuple(grade_list), logic=False, include_id=True)
+    st_house = json.dumps(st_dict, ensure_ascii=False)
+
+    if request.method == 'POST':
+        # 对POST提交的数据作出处理
+        # TODO:读取输入内容
+        gc = request.POST.get('gc', '')
+
+    context = {'task': task, 'gc_options': gc_options, 'st_house': st_house}
+    return render_ht(request, 'long_leave/stay_send_up.html', context)

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h2>上报{{ task.date_str }}留宿学生</h2>
+<form role="form" action="{% url 'long_leave:stay_send_up' task.id %}" method="post">
+    {% csrf_token %}
+    <p>
+        <label>上报班级：</label>
+        <select id="gc" name="gc" onchange="load_students()">
+            <option value="" selected>--------</option>
+            {% for gc_str in gc_options %}
+            <option value="{{ gc_str.0 }}">{{ gc_str.1 }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p id="st_check">
+        <label>选择留宿学生：</label><br>
+    </p>
+</form>
+<div style="display:none">
+    <p id="st_house">{{ st_house }}</p>
+</div>
+<script>
+    function load_students(){
+        // 读取选择的班级
+        var gc_str = document.getElementById("gc").value;
+
+        // 读取学生字典
+        var st_house = document.getElementById("st_house").innerHTML;
+        var st_dict = JSON.parse(st_house);
+
+        // 确定学生列表
+        var st_list = st_dict[gc_str];
+        // alert(st_list);
+
+        // 先清除已有所有选择框
+        var st_check = document.getElementById("st_check");
+
+        // 逐一添加学生选择框
+        for(var i = 0; i < st_list.length; i++){
+            var st = st_list[i];
+            // alert(st[0]);
+
+            // 生成新的选择框
+            var check_box = document.createElement("input");
+            check_box.type = "checkbox";
+            check_box.name = "s".concat(st[1]);
+            check_box.id = "s".concat(st[1]);
+            check_box.value = st[1];
+
+            // 为选择框添加显示标签
+            var check_show = document.createElement("label");
+            check_show.style = "font-weight:normal;";
+            check_show.for = "s".concat(st[1]);
+            check_show.innerHTML = st[0];
+
+            // 选择框和显示标签加入页面
+            st_check.appendChild(check_box);
+            st_check.appendChild(check_show);
+        }
+    }
+</script>
+{% endblock %}

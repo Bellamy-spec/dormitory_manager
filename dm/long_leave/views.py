@@ -921,8 +921,37 @@ def stay_send_up(request, task_id):
 
     if request.method == 'POST':
         # 对POST提交的数据作出处理
-        # TODO:读取输入内容
         gc = request.POST.get('gc', '')
 
-    context = {'task': task, 'gc_options': gc_options, 'st_house': st_house}
+        # 班级不允许为空
+        if not gc:
+            return render_ht(request, 'long_leave/stay_send_up.html', context={
+                'task': task,
+                'gc_options': gc_options,
+                'st_house': st_house,
+                'err': '请选择班级',
+                'gc_selected': '',
+            })
+
+        # 读取学生对象id存为列表
+        st_list = st_dict[gc]
+        checked_id_list = []
+        for student in st_list:
+            sid = 's{}'.format(student[1])
+            if request.POST.get(sid, ''):
+                checked_id_list.append(student[1])
+
+        # 至少选择一个学生
+        if not checked_id_list:
+            return render_ht(request, 'long_leave/stay_send_up.html', context={
+                'task': task,
+                'gc_options': gc_options,
+                'st_house': st_house,
+                'err': '请至少勾选一个学生',
+                'gc_selected': gc,
+            })
+
+        # TODO:逐个创建留宿学生对象
+
+    context = {'task': task, 'gc_options': gc_options, 'st_house': st_house, 'err': '', 'gc_selected': ''}
     return render_ht(request, 'long_leave/stay_send_up.html', context)

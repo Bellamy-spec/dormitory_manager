@@ -9,7 +9,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, Side, Border, Alignment
 from io import BytesIO
 from django.contrib.auth.views import login_required
-from dm.scores.models import format_gc_students, all_students, st_gc
+from dm.scores.models import format_gc_students, all_students, st_gc, NewStudent
 from dm.scores.data import Data
 from django.conf import settings
 from exercise_eva.models import ExerciseScore
@@ -840,6 +840,7 @@ def task_main(request, task_id):
     context = {
         'task': task,
         'is_manager': request.user.username in DT.managers,
+        'is_operator': request.user.username in DT.operators,
         'title': title,
         'btn_name': btn_name,
         'records': records,
@@ -951,7 +952,31 @@ def stay_send_up(request, task_id):
                 'gc_selected': gc,
             })
 
-        # TODO:逐个创建留宿学生对象
+        # TODO:逐个创建留宿学生记录对象
+        for id_num in checked_id_list:
+            new_stay_record = StayRecord()
+
+            # 关联任务对象
+            new_stay_record.task_belong = task
+
+            # 设置年级、班级
+            new_stay_record.class_and_grade = gc
+            new_stay_record.grade = gc[:2]
+            new_stay_record.grade_num = DT.grades_dict[gc[:2]]
+            new_stay_record.cs = DT.get_cs(gc)
+
+            # 匹配学生对象
+            student_ob = NewStudent.objects.get(id=id_num)
+            new_stay_record.student_related = student_ob
+            new_stay_record.name = student_ob.name
+            new_stay_record.dorm = student_ob.dorm
+            new_stay_record.bed = student_ob.bed
+
+            # 保存
+            new_stay_record.save()
+
+        # 重定向至任务主页
+        return HttpResponseRedirect(reverse('long_leave:task_main', args=[task_id]))
 
     context = {'task': task, 'gc_options': gc_options, 'st_house': st_house, 'err': '', 'gc_selected': ''}
     return render_ht(request, 'long_leave/stay_send_up.html', context)

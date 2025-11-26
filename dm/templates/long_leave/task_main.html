@@ -9,7 +9,7 @@
     <a href="{% url 'long_leave:delete_task' task.id %}" class="btn btn-danger"
        onclick="return confirm('确定删除？')">删除此任务</a> -
     {% endif %}
-    {% if not task.done %}
+    {% if not task.done and is_operator %}
     <a href="{% url 'long_leave:stay_send_up' task.id %}" class="btn btn-info">上报留宿信息</a>
     {% endif %}
 </p>

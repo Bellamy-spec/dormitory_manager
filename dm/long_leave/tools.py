@@ -1,5 +1,10 @@
 """静态数据类"""
 import re
+import os
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 class DataTool:
@@ -32,6 +37,12 @@ class DataTool:
             ('仅早操', '仅早操'),
             ('仅课间操', '仅课间操'),
         )
+
+        # 运行着的无头浏览器，默认不打开
+        self.b = None
+
+        # 当前验证码字符串
+        self.current_captcha_str = ''
 
     def get_all_classes(self, grades=None):
         """返回所有年级班级字符串元组"""
@@ -84,3 +95,26 @@ class DataTool:
         """班级与字符串对应反字典"""
         cs_dict = self.get_cs_dict()
         return dict(zip(cs_dict.values(), cs_dict.keys()))
+
+    def refresh_browser(self):
+        """刷新浏览器"""
+        # 关闭可能已存在的浏览器
+        try:
+            self.b.quit()
+        except AttributeError:
+            pass
+
+        # 打开新的浏览器
+        if os.name == 'nt':
+            driver_path = ChromeDriverManager().install()
+        else:
+            driver_path = '/root/dormitory_manager/test/chromedriver-linux64/chromedriver'
+
+        # 浏览器配置
+        chrome_options = Options()
+        chrome_options.add_argument('--headless=new')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--no-sandbox')
+
+        # 打开浏览器
+        self.b = webdriver.Chrome(options=chrome_options, service=Service(driver_path))

@@ -3304,7 +3304,7 @@ def see_leave(request, err):
         # 用户名、密码、验证码
         un = 'admin'
         pwd = 'Ffkj-102064'
-        captcha = request.POST.get('captcha', '')
+        captcha = request.POST.get('captcha', '').lower()
 
         try:
             # 依次输入

@@ -962,7 +962,7 @@ def stay_send_up(request, task_id, err):
         # 用户名、密码、验证码
         un = 'admin'
         pwd = 'Ffkj-102064'
-        captcha = request.POST.get('captcha', '')
+        captcha = request.POST.get('captcha', '').lower()
 
         try:
             # 依次输入
@@ -989,7 +989,7 @@ def stay_send_up(request, task_id, err):
             # 未成功登录，返回验证码错误提示
             return HttpResponseRedirect(reverse('long_leave:stay_send_up', args=[task_id, 1]))
         else:
-            # TODO:成功登录，记录正确的验证码
+            # 成功登录，记录正确的验证码
             captcha_str = DT.current_captcha_str
             bank_path = os.path.join('media', 'captcha_bank.json')
 

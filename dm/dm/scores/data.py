@@ -77,7 +77,7 @@ class Data:
             '尚秀枝': 'girl',
             '廉银香': 'girl',
             '王海燕': 'girl',
-            '魏艳玲': 'girl',
+            '谢婉娜': 'girl',
             '张连红': 'girl',
         }
         self.dorm_gender = (('boy', 'boy'), ('girl', 'girl'))
@@ -328,7 +328,7 @@ class Data:
         # }
 
         # 是否在搬宿舍到下一学年期间
-        self.change_dorm = True
+        self.change_dorm = False
 
         # 问卷选项
         self.paper_options = (

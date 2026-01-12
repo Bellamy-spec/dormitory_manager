@@ -257,6 +257,9 @@ urlpatterns = [
     # 常用AI工具导航页
     path('my_ai/',views.my_ai, name='my_ai'),
 
+    # 获取实验数据csv的接口
+    path('api/test_csv/', views.test_csv, name='test_csv'),
+
     # 返校情况统计程序的url
     path('backtoschool/', include(('backtoschool.urls', 'backtoschool'),
                                   namespace='backtoschool')),

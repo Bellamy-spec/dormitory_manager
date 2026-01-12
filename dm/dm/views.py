@@ -26,6 +26,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
 from urllib3.exceptions import MaxRetryError
 import base64
+import csv
 
 
 # 实例化数据类
@@ -3517,3 +3518,37 @@ def captcha_manage(request):
 def my_ai(request):
     """常用AI工具导航页"""
     return render_ht(request, 'my_ai.html', {})
+
+
+def test_csv(request):
+    """输出csv的接口API"""
+    # 设置文件名称和响应对象
+    response = HttpResponse(content_type='text/csv')
+    filename = 'school.csv'
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    # 计数器，计够100个即停止
+    count_reverse = 100
+
+    # 读取表头写入csv
+    writer = csv.writer(response)
+    writer.writerow(['name', 'id_number', 'gender', 'class_and_grade', 'dorm', 'bed'])
+
+    for student in models.NewStudent.objects.all():
+        # 读取一行数据写入csv
+        data_line = [
+            student.name,
+            student.id_number,
+            student.gender,
+            student.gc,
+            student.dorm,
+            student.bed,
+        ]
+        writer.writerow(data_line)
+
+        count_reverse -= 1
+        if count_reverse <= 0:
+            break
+
+    # 输出
+    return response

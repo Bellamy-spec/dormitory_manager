@@ -18,7 +18,7 @@ class LongLeaveForm(forms.ModelForm):
         }
         widgets = {
             'end_date': forms.DateInput(attrs={'type': 'date'}),
-            'name': forms.Select(attrs={'id': 'name', 'onchange': 'config_gc()'}),
+            # 'name': forms.Select(attrs={'id': 'name', 'onchange': 'config_gc()'}),
             'class_and_grade': forms.Select(attrs={'id': 'gc', 'onchange': 'reload_students()'}),
         }
 

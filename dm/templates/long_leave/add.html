@@ -5,7 +5,7 @@
 <h2>新增课间操长假学生</h2>
 <form role="form" action="{% url 'long_leave:add' %}" method="post">
     {% csrf_token %}
-    <input type="text" id="searcher" placeholder="输入以搜索……" onkeyup="search_filter()">
+<!--    <input type="text" id="searcher" placeholder="输入以搜索……" onkeyup="search_filter()">-->
     {{ form.as_p }}
     <p class="err-color">{{ err }}</p>
     <div style="display:none;">

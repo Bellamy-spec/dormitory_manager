@@ -78,6 +78,7 @@ class Data:
             '廉银香': 'girl',
             '王海燕': 'girl',
             '谢婉娜': 'girl',
+            '王春霞': 'girl',
             '张连红': 'girl',
         }
         self.dorm_gender = (('boy', 'boy'), ('girl', 'girl'))

@@ -2324,23 +2324,33 @@ def sep_change_info(request, student_id):
                     'title': title,
                 })
 
-            # 验证床号
-            if change.bed < 1 or change.bed > 8:
-                return render_ht(request, 'sep_change_info.html', context={
-                    'student': student,
-                    'year': year,
-                    'form': form,
-                    'err': '床铺号必须在1~8之间',
-                    'title': title,
-                })
+            print(change.no_dorm)
+
+            # 走读勾选的情况
+            if change.no_dorm:
+                # 将宿舍号设为000，床铺号设为-1
+                student.dorm = '000'
+                student.bed = -1
+            else:
+                # 验证床号
+                if change.bed < 1 or change.bed > 8:
+                    return render_ht(request, 'sep_change_info.html', context={
+                        'student': student,
+                        'year': year,
+                        'form': form,
+                        'err': '床铺号必须在1~8之间',
+                        'title': title,
+                    })
+
+                # 宿舍号和床铺号设为正常值
+                student.dorm = change.dorm
+                student.bed = change.bed
 
             # 修改新生信息
             student.name = change.name
             student.id_number = change.id_number
             student.gender = change.gender
             student.cs = change.cs
-            student.dorm = change.dorm
-            student.bed = change.bed
             student.fill_blank()
             student.save()
 
@@ -2406,14 +2416,20 @@ def sep_add_one(request, year):
                     'title': title,
                 })
 
-            # 验证床铺号
-            if new_st.bed < 1 or new_st.bed > 8:
-                return render_ht(request, 'sep_add_one.html', context={
-                    'year': year,
-                    'form': form,
-                    'err': '床铺号必须在1~8之间',
-                    'title': title,
-                })
+            # 走读勾选的情况
+            if new_st.no_dorm:
+                # 将宿舍号设为000，床铺号设为-1
+                new_st.dorm = '000'
+                new_st.bed = -1
+            else:
+                # 验证床铺号
+                if new_st.bed < 1 or new_st.bed > 8:
+                    return render_ht(request, 'sep_add_one.html', context={
+                        'year': year,
+                        'form': form,
+                        'err': '床铺号必须在1~8之间',
+                        'title': title,
+                    })
 
             # 设置入学年份为给定年份
             new_st.grade_year = year

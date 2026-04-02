@@ -74,17 +74,21 @@ class ChangeInfoForm(forms.ModelForm):
     """用于修改新生信息的表单"""
     class Meta:
         model = NewStudent
-        fields = ['name', 'id_number', 'gender', 'cs', 'dorm', 'bed']
+        fields = ['name', 'id_number', 'gender', 'cs', 'no_dorm', 'dorm', 'bed']
         labels = {
             'name': '姓名',
             'id_number': '身份证号',
             'gender': '性别',
             'cs': '班级',
+            'no_dorm': '是否走读',
             'dorm': '宿舍',
             'bed': '床铺号',
         }
         widgets = {
             'name': forms.TextInput(attrs={'autocomplete': 'off'}),
+            'no_dorm': forms.CheckboxInput(attrs={'id': 'no_dorm', 'onchange': 'hide_dorm()'}),
+            'dorm': forms.TextInput(attrs={'id': 'dorm'}),
+            'bed': forms.TextInput(attrs={'id': 'bed', 'type': 'number'}),
         }
 
 

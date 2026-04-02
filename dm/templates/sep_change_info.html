@@ -10,4 +10,37 @@
     <button name="submit" type="submit" class="btn btn-primary">提交</button>
 </form>
 <p><a href="{% url 'sep_see' year %}">返回上一页</a></p>
+<script>
+    function hide_dorm(){
+        // 找到走读勾选框
+        var no_dorm_ele = document.getElementById("no_dorm");
+        // alert(no_dorm_ele.checked);
+
+        // 找到宿舍和床铺号输入项
+        var dorm_ele = document.getElementById("dorm");
+        var bed_ele = document.getElementById("bed");
+        var dorm_opt = dorm_ele.parentElement;
+        var bed_opt = bed_ele.parentElement;
+        // alert(0);
+
+        if(no_dorm_ele.checked){
+            // 已勾选走读，隐藏宿舍和床铺号输入项
+            // alert("已勾选");
+            dorm_opt.style = "display: none;";
+            bed_opt.style = "display: none;";
+            dorm_ele.value = '000';
+            bed_ele.value = -1;
+        }
+        else{
+            // 未勾选走读，显示宿舍和床铺号输入项
+            // alert("未勾选");
+            dorm_opt.style = "display: block;";
+            bed_opt.style = "display: block;";
+            dorm_ele.value = '';
+            bed_ele.value = '';
+        }
+    }
+
+    hide_dorm();
+</script>
 {% endblock %}

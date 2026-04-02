@@ -139,6 +139,9 @@ class NewStudent(models.Model):
     # 已毕业
     graduated = models.BooleanField(default=False)
 
+    # 是否走读，默认为否
+    no_dorm = models.BooleanField(default=False)
+
     def __str__(self):
         """返回模型的字符串表示"""
         return '{} {}'.format(self.gc, self.name)

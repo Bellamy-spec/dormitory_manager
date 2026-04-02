@@ -34,6 +34,10 @@ class DataTool:
         # 当前验证码字符串
         self.current_captcha_str = ''
 
+        # 验证码试验次数限制
+        self.tr = 0
+        self.max_tr = 5
+
     def get_class_num(self, cs):
         """根据班级名称得出年级班级数字二元组"""
         cs_num = int(self.num_regex.findall(cs)[0])
@@ -77,6 +81,9 @@ class DataTool:
 
     def try_to_login(self, captcha):
         """利用所给的验证码尝试登录，并返回状态码"""
+        # 记录试验次数
+        self.tr += 1
+
         # 用户名、密码
         un = 'admin'
         pwd = 'Ffkj-102064'

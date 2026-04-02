@@ -44,6 +44,10 @@ class DataTool:
         # 当前验证码字符串
         self.current_captcha_str = ''
 
+        # 验证码试验次数限制
+        self.tr = 0
+        self.max_tr = 5
+
     def get_all_classes(self, grades=None):
         """返回所有年级班级字符串元组"""
         # 确定年级

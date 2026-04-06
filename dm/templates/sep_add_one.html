@@ -28,16 +28,20 @@
             // alert("已勾选");
             dorm_opt.style = "display: none;";
             bed_opt.style = "display: none;";
-            dorm_ele.required = false;
-            bed_ele.required = false;
+            dorm_ele.value = '000';
+            bed_ele.value = -1;
         }
         else{
             // 未勾选走读，显示宿舍和床铺号输入项
             // alert("未勾选");
             dorm_opt.style = "display: block;";
             bed_opt.style = "display: block;";
-            dorm_ele.required = true;
-            bed_ele.required = true;
+            if(dorm_ele.value == '000'){
+                dorm_ele.value = '';
+            }
+            if(bed_ele.value == -1){
+                bed_ele.value = '';
+            }
         }
     }
 

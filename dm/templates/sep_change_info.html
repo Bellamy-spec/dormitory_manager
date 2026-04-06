@@ -36,8 +36,12 @@
             // alert("未勾选");
             dorm_opt.style = "display: block;";
             bed_opt.style = "display: block;";
-            dorm_ele.value = '';
-            bed_ele.value = '';
+            if(dorm_ele.value == '000'){
+                dorm_ele.value = '';
+            }
+            if(bed_ele.value == -1){
+                bed_ele.value = '';
+            }
         }
     }
 

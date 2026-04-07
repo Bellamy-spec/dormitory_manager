@@ -80,7 +80,7 @@ class ChangeInfoForm(forms.ModelForm):
             'id_number': '身份证号',
             'gender': '性别',
             'cs': '班级',
-            'no_dorm': '是否走读',
+            'no_dorm': '不保留床铺',
             'dorm': '宿舍',
             'bed': '床铺号',
         }

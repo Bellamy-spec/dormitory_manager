@@ -139,7 +139,7 @@ class NewStudent(models.Model):
     # 已毕业
     graduated = models.BooleanField(default=False)
 
-    # 是否走读，默认为否
+    # 不保留床铺，默认为否
     no_dorm = models.BooleanField(default=False)
 
     def __str__(self):

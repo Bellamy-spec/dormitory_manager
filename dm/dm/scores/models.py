@@ -255,7 +255,8 @@ def empty_bed():
         empty_bed_dict.setdefault(ob.dorm, sorted(list(range(1, 9)), reverse=True))
 
         # 去掉有人住的床铺
-        empty_bed_dict[ob.dorm].remove(ob.bed)
+        if ob.bed > 0:
+            empty_bed_dict[ob.dorm].remove(ob.bed)
 
     return empty_bed_dict
 

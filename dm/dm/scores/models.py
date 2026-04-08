@@ -3,6 +3,7 @@ from .data import Data
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 from pypinyin import lazy_pinyin
+import datetime
 
 # 实例化数据类
 DT = Data()
@@ -153,6 +154,41 @@ class NewStudent(models.Model):
 
         if self.id_number:
             self.gender = get_gender(self.id_number)
+
+
+class GoHomeStudent(models.Model):
+    """走读学生类"""
+    # TODO:以下字段通过表单直接赋值
+    # 走读开始日期
+    start_date = models.DateField(default=datetime.date.today())
+
+    # 走读结束日期
+    end_date = models.DateField()
+
+    # 走读原因
+    reason = models.CharField(max_length=100, blank=True)
+
+    # TODO:以下字段通过前端填写数据处理合成
+    # 走读学生
+    student_relative = models.ForeignKey(NewStudent, on_delete=models.DO_NOTHING)
+
+    # 在校时间段的JSON字符串
+    school_time = models.CharField(max_length=200)
+
+    # TODO:以下字段由系统自动判断生成
+    # 在校时间段的显示
+    school_time_show = models.CharField(max_length=200)
+    school_time_n = models.IntegerField()
+
+    # 日期段显示
+    date_show = models.CharField(max_length=20)
+
+    # 状态
+    tm = models.IntegerField(choices=tuple(DT.go_home_tm.items()))
+    active = models.BooleanField()
+
+    # 添加时间
+    datetime_added = models.DateTimeField(auto_now_add=True)
 
 
 def get_students(gc, logic=True, include_id=False):

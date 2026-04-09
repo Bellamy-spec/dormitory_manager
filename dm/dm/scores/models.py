@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.timezone import now
 from pypinyin import lazy_pinyin
 import datetime
+import json
 
 # 实例化数据类
 DT = Data()
@@ -189,6 +190,43 @@ class GoHomeStudent(models.Model):
 
     # 添加时间
     datetime_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        """返回模型的字符串表示"""
+        return '{}{}'.format(self.student_relative.name, self.date_show)
+
+    def make_date_show(self):
+        """合成日期段显示"""
+        start_show = datetime.date.strftime(self.start_date, '%Y%m%d')
+        end_show = datetime.date.strftime(self.end_date, '%Y%m%d')
+        self.date_show = '{}--{}'.format(start_show, end_show)
+
+    def make_school_time_show(self):
+        """生成在校时间段显示"""
+        # 将在校时间段JSON字符串解析为列表
+        school_time_list = json.loads(self.school_time)
+
+        # 时间段个数
+        self.school_time_n = len(school_time_list)
+
+        # 在校时间段显示字符串
+        self.school_time_show = ','.join(school_time_list)
+
+    def config_active(self):
+        """确认活跃状态"""
+        # 先设置tm的值
+        if datetime.date.today() < self.start_date:
+            self.tm = 0
+        elif datetime.date.today() > self.end_date:
+            self.tm = 2
+        else:
+            self.tm = 1
+
+        # 再设置active
+        if self.tm == 1:
+            self.active = True
+        else:
+            self.active = False
 
 
 def get_students(gc, logic=True, include_id=False):

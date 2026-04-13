@@ -3557,3 +3557,18 @@ def test_csv(request):
 
     # 输出
     return response
+
+
+def go_home_main(request):
+    """走读生信息查看主页"""
+    # 先更新走读状态
+    models.config_all_go_home()
+
+    # 获取所有正在进行中的走读生对象
+    go_home_active = models.GoHomeStudent.objects.filter(active=True)
+
+    context = {
+        'go_home_active': go_home_active,
+        'is_manager': request.user.username in DT.go_home_manager,
+    }
+    return render_ht(request, 'go_home_main.html', context)

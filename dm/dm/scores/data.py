@@ -421,6 +421,9 @@ class Data:
         # 走读状态对应
         self.go_home_tm = {0: '未开始', 1: '走读中', 2: '已结束'}
 
+        # 走读生信息系统管理员
+        self.go_home_manager = ['zz106dyc', '李宪伟', '刘明杰']
+
     @staticmethod
     def dorm():
         """获取宿舍管理权限"""

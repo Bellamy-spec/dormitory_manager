@@ -213,7 +213,14 @@ class GoHomeStudent(models.Model):
         self.school_time_show = ','.join(school_time_list)
 
     def config_active(self):
-        """确认活跃状态"""
+        """确认活跃状态，返回数据是否仍然存在"""
+        # 180天前的数据自动删除
+        if datetime.date.today() - self.end_date > datetime.timedelta(days=180):
+            self.delete()
+
+            # 数据已不存在
+            return False
+
         # 先设置tm的值
         if datetime.date.today() < self.start_date:
             self.tm = 0
@@ -227,6 +234,9 @@ class GoHomeStudent(models.Model):
             self.active = True
         else:
             self.active = False
+
+        # 数据仍然存在
+        return True
 
 
 def get_students(gc, logic=True, include_id=False):
@@ -377,6 +387,13 @@ def get_dorms(grade_year=None):
     dorm_list.sort()
 
     return dorm_list
+
+
+def config_all_go_home():
+    """打包操作：更新所有走读生状态并保存"""
+    for student in GoHomeStudent.objects.all():
+        if student.config_active():
+            student.save()
 
 
 # def test():

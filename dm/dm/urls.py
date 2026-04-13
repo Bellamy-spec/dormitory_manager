@@ -260,6 +260,9 @@ urlpatterns = [
     # 获取实验数据csv的接口
     path('api/test_csv/', views.test_csv, name='test_csv'),
 
+    # 走读生信息查看主页
+    path('go_home_mian/', views.go_home_main, name='go_home_main'),
+
     # 返校情况统计程序的url
     path('backtoschool/', include(('backtoschool.urls', 'backtoschool'),
                                   namespace='backtoschool')),

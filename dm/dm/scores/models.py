@@ -186,6 +186,7 @@ class GoHomeStudent(models.Model):
 
     # 状态
     tm = models.IntegerField(choices=tuple(DT.go_home_tm.items()))
+    tm_show = models.CharField(max_length=3, blank=True)
     active = models.BooleanField()
 
     # 添加时间
@@ -228,6 +229,7 @@ class GoHomeStudent(models.Model):
             self.tm = 2
         else:
             self.tm = 1
+        self.tm_show = DT.go_home_tm[self.tm]
 
         # 再设置active
         if self.tm == 1:

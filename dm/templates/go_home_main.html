@@ -3,4 +3,28 @@
 
 {% block table %}
 <h2>当前走读学生信息查看</h2>
+{% if is_manager %}
+<p><a href="{% url 'go_home_manage' %}" class="btn btn-success">走读生信息管理</a></p>
+{% endif %}
+<table class="table table-hover table-bordered">
+    <tr>
+        <th>班级</th>
+        <th>姓名</th>
+        <th>走读原因</th>
+        <th>开始日期</th>
+        <th>结束日期</th>
+        <th>在校时间段</th>
+    </tr>
+    {% for student in go_home_active %}
+    <tr>
+        <td>{{ student.student_relative.gc }}</td>
+        <td>{{ student.student_relative.name }}</td>
+        <td>{{ student.reason }}</td>
+        <td>{{ student.start_date|date:'Y-m-d' }}</td>
+        <td>{{ student.end_date|date:'Y-m-d' }}</td>
+        <td>{{ student.school_time_show }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a href="{% url 'index' %}">返回上一页</a></p>
 {% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block table %}
+<h2>走读生信息管理</h2>
+<p><a class="btn btn-success">新增走读生</a></p>
+<table class="table table-hover table-bordered">
+  <tr>
+    <th>班级</th>
+    <th>宿舍号</th>
+    <th>床铺</th>
+    <th>姓名</th>
+    <th>走读原因</th>
+    <th>日期范围</th>
+    <th>当前状态</th>
+    <th>在校时间段</th>
+    <th>操作</th>
+  </tr>
+  {% for student in go_home_students %}
+  <tr>
+    <td>{{ student.student_relative.gc }}</td>
+    {% if student.student_relative.no_dorm %}
+    <td colspan="2">不保留床铺</td>
+    {% else %}
+    <td>{{ student.student_relative.dorm }}</td>
+    <td>{{ student.student_relative.bed }}</td>
+    {% endif %}
+    <td>{{ student.student_relative.name }}</td>
+    <td>{{ student.reason }}</td>
+    <td>{{ student.date_show }}</td>
+    <td>{{ student.tm_show }}</td>
+    <td>{{ student.school_time_show }}</td>
+    <td>
+      <a class="btn btn-warning">修改信息</a> -
+      <a class="btn btn-danger" onclick="return confirm('确定删除？')">删除</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<p>
+  <a href="{% url 'go_home_main' %}">返回上一页</a> -
+  <a href="{% url 'index' %}">返回应用程序主页</a>
+</p>
+{% endblock %}

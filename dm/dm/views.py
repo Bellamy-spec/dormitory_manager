@@ -3572,3 +3572,16 @@ def go_home_main(request):
         'is_manager': request.user.username in DT.go_home_manager,
     }
     return render_ht(request, 'go_home_main.html', context)
+
+
+def go_home_manage(request):
+    """走读生信息管理"""
+    # 禁止非管理员用户访问
+    if request.user.username not in DT.go_home_manager:
+        raise Http404
+
+    # 获取所有走读生对象（而非仅仅进行中的）
+    go_home_students = models.GoHomeStudent.objects.all()
+
+    context = {'go_home_students': go_home_students}
+    return render_ht(request, 'go_home_manage.html', context)

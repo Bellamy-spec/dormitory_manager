@@ -263,6 +263,9 @@ urlpatterns = [
     # 走读生信息查看主页
     path('go_home_mian/', views.go_home_main, name='go_home_main'),
 
+    # 走读生信息管理页
+    path('go_home_manage/', views.go_home_manage, name='go_home_manage'),
+
     # 返校情况统计程序的url
     path('backtoschool/', include(('backtoschool.urls', 'backtoschool'),
                                   namespace='backtoschool')),

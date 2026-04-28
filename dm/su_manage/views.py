@@ -1624,6 +1624,14 @@ def config_worker(request, sy_id):
                     fail += 1
                     continue
 
+                if not sp_work:
+                    st.cell(row=row, column=error_tip_column).value = '工作内容不可为空'
+                    st.cell(row=row, column=error_tip_column).fill = yellow_fill
+
+                    # 失败数加1
+                    fail += 1
+                    continue
+
                 # 确认无误，将成员的是否课间操工作人员标记为“是”
                 member.work_abst2 = True
 

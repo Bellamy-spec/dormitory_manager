@@ -52,91 +52,147 @@
         <th>第一场考试时间</th>
         {% if task.start_time %}
         <td colspan="3">{{ task.start_time }}
-            {% if task.start_turn > 1 %}
+            {% if nt > task.start_time_ob %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
-            {% elif task.start_turn == 1 %}
+            {% elif task.full1 and task.full2 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.exam_time_active %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning">结束报名</a>
+            {% else %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning">恢复报名</a>
-            {% else %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning">结束报名</a>
             {% endif %}
         </td>
         {% else %}
         <td colspan="3">未设置考试时间</td>
         {% endif %}
+    </tr>
+    <tr>
+        <th>第一场考试最大已分配考场</th>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
+        <th>第一场考试已报名人数</th>
+        <td colspan="3"></td>
     </tr>
     <tr>
         <th>第二场考试时间</th>
         {% if task.start_time_1 %}
         <td colspan="3">{{ task.start_time_1 }}
-            {% if task.start_turn > 2 %}
+            {% if nt > task.start_time_ob_1 %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
-            {% elif task.start_turn == 2 %}
+            {% elif task.full1_1 and task.full2_1 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.exam_time_active_1 %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning">结束报名</a>
+            {% else %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning">恢复报名</a>
-            {% else %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning">结束报名</a>
             {% endif %}
         </td>
         {% else %}
         <td colspan="3">未设置考试时间</td>
         {% endif %}
+    </tr>
+    <tr>
+        <th>第二场考试最大已分配考场</th>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
+        <th>第二场考试已报名人数</th>
+        <td colspan="3"></td>
     </tr>
     <tr>
         <th>第三场考试时间</th>
         {% if task.start_time_2 %}
         <td colspan="3">{{ task.start_time_2 }}
-            {% if task.start_turn > 3 %}
+            {% if nt > task.start_time_ob_2 %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
-            {% elif task.start_turn == 3 %}
+            {% elif task.full1_2 and task.full2_2 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.exam_time_active_2 %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning">结束报名</a>
+            {% else %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning">恢复报名</a>
-            {% else %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning">结束报名</a>
             {% endif %}
         </td>
         {% else %}
         <td colspan="3">未设置考试时间</td>
         {% endif %}
+    </tr>
+    <tr>
+        <th>第三场考试最大已分配考场</th>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
+        <th>第三场考试已报名人数</th>
+        <td colspan="3"></td>
     </tr>
     <tr>
         <th>第四场考试时间</th>
         {% if task.start_time_3 %}
         <td colspan="3">{{ task.start_time_3 }}
-            {% if task.start_turn > 4 %}
+            {% if nt > task.start_time_ob_3 %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
-            {% elif task.start_turn == 4 %}
+            {% elif task.full1_3 and task.full2_3 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.exam_time_active_3 %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning">结束报名</a>
+            {% else %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning">恢复报名</a>
-            {% else %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning">结束报名</a>
             {% endif %}
         </td>
         {% else %}
         <td colspan="3">未设置考试时间</td>
         {% endif %}
+    </tr>
+<!--    <tr>-->
+<!--        <td colspan="2">{{ nt }}</td>-->
+<!--        <td colspan="2">{{ task.start_time_ob_3 }}</td>-->
+<!--    </tr>-->
+    <tr>
+        <th>第四场考试最大已分配考场</th>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
+        <th>第四场考试已报名人数</th>
+        <td colspan="3"></td>
     </tr>
     <tr>
         <th>第五场考试时间</th>
         {% if task.start_time_4 %}
         <td colspan="3">{{ task.start_time_4 }}
-            {% if task.start_turn > 5 %}
+            {% if nt > task.start_time_ob_4 %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
-            {% elif task.start_turn == 5 %}
+            {% elif task.full1_4 and task.full2_4 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.exam_time_active_4 %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning">结束报名</a>
+            {% else %}
             （已结束）
             <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning">恢复报名</a>
-            {% else %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning">结束报名</a>
             {% endif %}
         </td>
         {% else %}
@@ -144,12 +200,43 @@
         {% endif %}
     </tr>
     <tr>
+        <th>第五场考试最大已分配考场</th>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
+        <th>第五场考试已报名人数</th>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
         <th>第六场考试时间</th>
         {% if task.start_time_5 %}
-        <td colspan="3">{{ task.start_time_5 }}</td>
+        <td colspan="3">{{ task.start_time_5 }}
+            {% if nt > task.start_time_ob_5 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 6 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.full1_5 and task.full2_5 %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 6 %}" class="btn btn-warning"
+               style="pointer-events: none; opacity: 0.4;">恢复报名</a>
+            {% elif task.exam_time_active_5 %}
+            <a href="{% url 'zzbm:change_start_turn' task.id 6 %}" class="btn btn-warning">结束报名</a>
+            {% else %}
+            （已结束）
+            <a href="{% url 'zzbm:change_start_turn' task.id 6 %}" class="btn btn-warning">恢复报名</a>
+            {% endif %}
+        </td>
         {% else %}
         <td colspan="3">未设置考试时间</td>
         {% endif %}
+    </tr>
+    <tr>
+        <th>第六场考试最大已分配考场</th>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
+        <th>第六场考试已报名人数</th>
+        <td colspan="3"></td>
     </tr>
     <tr>
         <th colspan="2">报名自动分配考场、考号</th>
@@ -167,14 +254,14 @@
         <td colspan="2">关闭</td>
         {% endif %}
     </tr>
-    <tr>
-        <th colspan="3">素描或创意画当前正在分配的考场</th>
-        <td>{{ max_turn1 }}</td>
-    </tr>
-    <tr>
-        <th colspan="3">书法或国画当前正在分配的考场</th>
-        <td>{{ max_turn2 }}</td>
-    </tr>
+<!--    <tr>-->
+<!--        <th colspan="3">素描或创意画当前正在分配的考场</th>-->
+<!--        <td>{{ max_turn1 }}</td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th colspan="3">书法或国画当前正在分配的考场</th>-->
+<!--        <td>{{ max_turn2 }}</td>-->
+<!--    </tr>-->
 </table>
 {% if n > 0 %}
 <p class="err-color">注意：还有{{ n }}名考生未分配考场！</p>

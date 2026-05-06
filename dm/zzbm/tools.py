@@ -155,3 +155,25 @@ class DataTool:
         for subject in self.subjects:
             subject_list.append(subject[0])
         return subject_list
+
+    def show_sted(self, st, fst):
+        """根据开始时间和时间长度生成时间段显示，接收时间对象"""
+        # 生成考试时间显示格式
+        dt_start = datetime.strptime(fst, '%Y-%m-%dT%H:%M')
+        h = int(self.ter)
+        m = int((self.ter - int(self.ter)) * 60)
+        end_h = dt_start.hour + h
+        end_m = dt_start.minute + m
+
+        # 处理考试结束时间
+        if end_m >= 60:
+            end_m -= 60
+            end_h += 1
+
+        # TODO:生成格式化时间表示(须进一步修改)
+        exam_time = '{} —— {}:{}'.format(st, end_h, self.str_two(end_m))
+        return exam_time
+
+    def get_exam_time(self):
+        """获取考试时间选项"""
+        pass

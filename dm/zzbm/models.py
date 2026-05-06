@@ -32,29 +32,53 @@ class Task(models.Model):
     # 每个考场的考生数，若为零则不可分考场
     max_len = models.IntegerField(default=30)
 
-    # 考试开始时间
+    # 准考证号第8位为0时考试开始时间
     start_time = models.CharField(max_length=19, default='', blank=True)
     format_start_time = models.CharField(max_length=16, default='', blank=True)
+    exam_time_active = models.BooleanField(default=False)
+    full1 = models.BooleanField(default=False)
+    full2 = models.BooleanField(default=False)
+    start_time_ob = models.DateTimeField(blank=True, null=True)
 
     # 准考证号第8位为1时考试开始时间
     start_time_1 = models.CharField(max_length=19, default='', blank=True)
     format_start_time_1 = models.CharField(max_length=16, default='', blank=True)
+    exam_time_active_1 = models.BooleanField(default=False)
+    full1_1 = models.BooleanField(default=False)
+    full2_1 = models.BooleanField(default=False)
+    start_time_ob_1 = models.DateTimeField(blank=True, null=True)
 
     # 准考证号第8位为2时考试开始时间
     start_time_2 = models.CharField(max_length=19, default='', blank=True)
     format_start_time_2 = models.CharField(max_length=16, default='', blank=True)
+    exam_time_active_2 = models.BooleanField(default=False)
+    full1_2 = models.BooleanField(default=False)
+    full2_2 = models.BooleanField(default=False)
+    start_time_ob_2 = models.DateTimeField(blank=True, null=True)
 
     # 准考证号第8位为3时考试开始时间
     start_time_3 = models.CharField(max_length=19, default='', blank=True)
     format_start_time_3 = models.CharField(max_length=16, default='', blank=True)
+    exam_time_active_3 = models.BooleanField(default=False)
+    full1_3 = models.BooleanField(default=False)
+    full2_3 = models.BooleanField(default=False)
+    start_time_ob_3 = models.DateTimeField(blank=True, null=True)
 
     # 准考证号第8位为4时考试开始时间
     start_time_4 = models.CharField(max_length=19, default='', blank=True)
     format_start_time_4 = models.CharField(max_length=16, default='', blank=True)
+    exam_time_active_4 = models.BooleanField(default=False)
+    full1_4 = models.BooleanField(default=False)
+    full2_4 = models.BooleanField(default=False)
+    start_time_ob_4 = models.DateTimeField(blank=True, null=True)
 
     # 准考证号第8位为5时考试开始时间
     start_time_5 = models.CharField(max_length=19, default='', blank=True)
     format_start_time_5 = models.CharField(max_length=16, default='', blank=True)
+    exam_time_active_5 = models.BooleanField(default=False)
+    full1_5 = models.BooleanField(default=False)
+    full2_5 = models.BooleanField(default=False)
+    start_time_ob_5 = models.DateTimeField(blank=True, null=True)
 
     # 准考证是否可下载
     open_download = models.BooleanField(default=False)
@@ -62,11 +86,31 @@ class Task(models.Model):
     # 考场总数
     max_room = models.IntegerField(default=0)
 
-    # 最大已分配考场，分场次、分科
+    # 各场次最大已分配考场、人数；分科：其中1为素描或创意画，2为书法或国画
     mr1 = models.IntegerField(default=0)
     mr2 = models.IntegerField(default=50)
-    # mr1_1 = models.IntegerField(default=0)
-    # mr2_1 = models.IntegerField(default=50)
+    total1 = models.IntegerField(default=0)
+    total2 = models.IntegerField(default=0)
+
+    mr1_1 = models.IntegerField(default=0)
+    mr2_1 = models.IntegerField(default=50)
+    total1_1 = models.IntegerField(default=0)
+    total2_1 = models.IntegerField(default=0)
+
+    mr1_2 = models.IntegerField(default=0)
+    mr2_2 = models.IntegerField(default=50)
+    total1_2 = models.IntegerField(default=0)
+    total2_2 = models.IntegerField(default=0)
+
+    mr1_3 = models.IntegerField(default=0)
+    mr2_3 = models.IntegerField(default=50)
+    total1_3 = models.IntegerField(default=0)
+    total2_3 = models.IntegerField(default=0)
+
+    mr1_4 = models.IntegerField(default=0)
+    mr2_4 = models.IntegerField(default=50)
+    total1_4 = models.IntegerField(default=0)
+    total2_4 = models.IntegerField(default=0)
 
     # 分配完一轮
     turn1 = models.IntegerField(default=0)
@@ -173,6 +217,9 @@ class Student(models.Model):
 
     # 选考科目
     subject = models.CharField(max_length=6, choices=DT.subjects)
+
+    # TODO:特殊方式处理，考试时间——准考证号第八位
+    num8 = models.CharField(max_length=1, default='0', choices=DT.get_exam_time())
 
     # 照片
     photo = ProcessedImageField(upload_to='zzbm/', null=True, blank=True,

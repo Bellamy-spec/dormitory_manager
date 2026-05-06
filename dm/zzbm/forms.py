@@ -34,6 +34,7 @@ class PutNameForm(forms.ModelForm):
             # 'email',
             'middle_school',
             'subject',
+            'num8',
             'photo',
         ]
         labels = {
@@ -45,6 +46,7 @@ class PutNameForm(forms.ModelForm):
             # 'email': '邮箱(选填，可用于找回报名序号)',
             'middle_school': '初中毕业学校',
             'subject': '选考科目',
+            'num8': '选择考试时间',
             'photo': '上传个人一寸照片',
         }
         widgets = {

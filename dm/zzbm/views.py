@@ -24,6 +24,7 @@ import smtplib
 from email.mime.text import MIMEText
 import json
 from django.conf import settings
+from django.utils import timezone
 
 
 # 根路径
@@ -557,13 +558,26 @@ def task_manage(request, task_id):
     n4 = len(Student.objects.filter(task_belong=task, add_method=1, subject='书法或国画'))
     n5 = len(Student.objects.filter(task_belong=task, miss=True))
 
-    # 尾考场
-    max_turn1 = str(max(task.turn1, task.start_turn)) + DT.str_two(task.mr1)
-    max_turn2 = str(max(task.turn2, task.start_turn)) + DT.str_two(task.mr2)
+    # # 尾考场
+    # max_turn1 = str(max(task.turn1, task.start_turn)) + DT.str_two(task.mr1)
+    # max_turn2 = str(max(task.turn2, task.start_turn)) + DT.str_two(task.mr2)
 
-    context = {'task': task, 'btn_name': btn_name, 'open_btn': open_btn, 'err': '',
-               'n': n, 'give_btn': give_btn, 'n1': n1, 'n2': n2, 'n3': n3, 'n4': n4, 'n5': n5,
-               'max_turn1': max_turn1, 'max_turn2': max_turn2}
+    context = {
+        'task': task,
+        'btn_name': btn_name,
+        'open_btn': open_btn,
+        'err': '',
+        'n': n,
+        'give_btn': give_btn,
+        'n1': n1,
+        'n2': n2,
+        'n3': n3,
+        'n4': n4,
+        'n5': n5,
+        'nt': timezone.now(),
+        # 'max_turn1': max_turn1,
+        # 'max_turn2': max_turn2,
+    }
     return render_ht(request, 'zzbm/task_manage.html', context)
 
 
@@ -978,6 +992,8 @@ def set_time(request, task_id):
             # 设置任务属性
             task.format_start_time = dt_str
             task.start_time = ch_time
+            task.start_time_ob = dt
+            task.exam_time_active = True
 
         if dt_str_1:
             dt_1 = datetime.strptime(dt_str_1, '%Y-%m-%dT%H:%M')
@@ -992,6 +1008,8 @@ def set_time(request, task_id):
             # 设置任务属性
             task.format_start_time_1 = dt_str_1
             task.start_time_1 = ch_time_1
+            task.start_time_ob_1 = dt_1
+            task.exam_time_active_1 = True
 
         if dt_str_2:
             dt_2 = datetime.strptime(dt_str_2, '%Y-%m-%dT%H:%M')
@@ -1006,6 +1024,8 @@ def set_time(request, task_id):
             # 设置任务属性
             task.format_start_time_2 = dt_str_2
             task.start_time_2 = ch_time_2
+            task.start_time_ob_2 = dt_2
+            task.exam_time_active_2 = True
 
         if dt_str_3:
             dt_3 = datetime.strptime(dt_str_3, '%Y-%m-%dT%H:%M')
@@ -1020,6 +1040,8 @@ def set_time(request, task_id):
             # 设置任务属性
             task.format_start_time_3 = dt_str_3
             task.start_time_3 = ch_time_3
+            task.start_time_ob_3 = dt_3
+            task.exam_time_active_3 = True
 
         if dt_str_4:
             dt_4 = datetime.strptime(dt_str_4, '%Y-%m-%dT%H:%M')
@@ -1034,6 +1056,8 @@ def set_time(request, task_id):
             # 设置任务属性
             task.format_start_time_4 = dt_str_4
             task.start_time_4 = ch_time_4
+            task.start_time_ob_4 = dt_4
+            task.exam_time_active_4 = True
 
         if dt_str_5:
             dt_5 = datetime.strptime(dt_str_5, '%Y-%m-%dT%H:%M')
@@ -1048,6 +1072,8 @@ def set_time(request, task_id):
             # 设置任务属性
             task.format_start_time_5 = dt_str_5
             task.start_time_5 = ch_time_5
+            task.start_time_ob_5 = dt_5
+            task.exam_time_active_5 = True
 
         # 保存任务
         task.save()
@@ -1176,19 +1202,7 @@ def download_card(request, student_id, pwd):
         return HttpResponse('暂不可下载准考证')
 
     # 生成考试时间显示格式
-    dt_start = datetime.strptime(fst, '%Y-%m-%dT%H:%M')
-    h = int(DT.ter)
-    m = int((DT.ter - int(DT.ter)) * 60)
-    end_h = dt_start.hour + h
-    end_m = dt_start.minute + m
-
-    # 处理考试结束时间
-    if end_m >= 60:
-        end_m -= 60
-        end_h += 1
-
-    # TODO:生成格式化时间表示(须进一步修改)
-    exam_time = '{} —— {}:{}'.format(st, end_h, DT.str_two(end_m))
+    exam_time = DT.show_sted(st, fst)
 
     # 写入考生信息
     msg_list = [
@@ -2877,7 +2891,7 @@ def que_ctrl(request, task_id):
 
 
 def change_start_turn(request, task_id, target):
-    """根据已结束的场次数更改start_turn属性"""
+    """更改场次活跃状态"""
     # 禁止非管理员用户访问此页
     if request.user.username not in DT.managers:
         raise Http404
@@ -2885,22 +2899,41 @@ def change_start_turn(request, task_id, target):
     # 取出任务对象
     task = Task.objects.get(id=task_id)
 
-    # 更改状态
-    if task.start_turn < target:
-        task.start_turn = target
-    elif task.start_turn == target:
-        task.start_turn -= 1
-    else:
-        # 不允许的操作
-        raise Http404
+    if target == 1:
+        # 更改第1场次活跃状态
+        task.exam_time_active = not task.exam_time_active
+    elif target == 2:
+        # 更改第2场次活跃状态
+        task.exam_time_active_1 = not task.exam_time_active_1
+    elif target == 3:
+        # 更改第3场次活跃状态
+        task.exam_time_active_2 = not task.exam_time_active_2
+    elif target == 4:
+        # 更改第4场次活跃状态
+        task.exam_time_active_3 = not task.exam_time_active_3
+    elif target == 5:
+        # 更改第5场次活跃状态
+        task.exam_time_active_4 = not task.exam_time_active_4
+    elif target == 6:
+        # 更改第6场次活跃状态
+        task.exam_time_active_5 = not task.exam_time_active_5
 
-    # 更改两科已分配轮数
-    task.turn1 = task.start_turn
-    task.turn2 = task.start_turn
-
-    # 重置已分配考场数
-    task.mr1 = task.get_mr(str(task.start_turn))[0]
-    task.mr2 = task.get_mr(str(task.start_turn))[1]
+    # # 更改状态
+    # if task.start_turn < target:
+    #     task.start_turn = target
+    # elif task.start_turn == target:
+    #     task.start_turn -= 1
+    # else:
+    #     # 不允许的操作
+    #     raise Http404
+    #
+    # # 更改两科已分配轮数
+    # task.turn1 = task.start_turn
+    # task.turn2 = task.start_turn
+    #
+    # # 重置已分配考场数
+    # task.mr1 = task.get_mr(str(task.start_turn))[0]
+    # task.mr2 = task.get_mr(str(task.start_turn))[1]
 
     # 保存任务
     task.save()

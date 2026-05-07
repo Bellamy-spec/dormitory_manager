@@ -48,7 +48,7 @@ def main():
 
     # 对象存入json文本
     with open('exam_time.json', 'w') as f:
-        f.write(json.dumps(exam_time_dict))
+        f.write(json.dumps(exam_time_dict, ensure_ascii=False))
 
 
 if __name__ == '__main__':

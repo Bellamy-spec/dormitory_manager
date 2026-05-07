@@ -91,26 +91,43 @@ class Task(models.Model):
     mr2 = models.IntegerField(default=50)
     total1 = models.IntegerField(default=0)
     total2 = models.IntegerField(default=0)
+    mr_show = models.CharField(max_length=50, default='', blank=True)
+    total_show = models.CharField(max_length=50, default='', blank=True)
 
     mr1_1 = models.IntegerField(default=0)
     mr2_1 = models.IntegerField(default=50)
     total1_1 = models.IntegerField(default=0)
     total2_1 = models.IntegerField(default=0)
+    mr_show_1 = models.CharField(max_length=50, default='', blank=True)
+    total_show_1 = models.CharField(max_length=50, default='', blank=True)
 
     mr1_2 = models.IntegerField(default=0)
     mr2_2 = models.IntegerField(default=50)
     total1_2 = models.IntegerField(default=0)
     total2_2 = models.IntegerField(default=0)
+    mr_show_2 = models.CharField(max_length=50, default='', blank=True)
+    total_show_2 = models.CharField(max_length=50, default='', blank=True)
 
     mr1_3 = models.IntegerField(default=0)
     mr2_3 = models.IntegerField(default=50)
     total1_3 = models.IntegerField(default=0)
     total2_3 = models.IntegerField(default=0)
+    mr_show_3 = models.CharField(max_length=50, default='', blank=True)
+    total_show_3 = models.CharField(max_length=50, default='', blank=True)
 
     mr1_4 = models.IntegerField(default=0)
     mr2_4 = models.IntegerField(default=50)
     total1_4 = models.IntegerField(default=0)
     total2_4 = models.IntegerField(default=0)
+    mr_show_4 = models.CharField(max_length=50, default='', blank=True)
+    total_show_4 = models.CharField(max_length=50, default='', blank=True)
+
+    mr1_5 = models.IntegerField(default=0)
+    mr2_5 = models.IntegerField(default=50)
+    total1_5 = models.IntegerField(default=0)
+    total2_5 = models.IntegerField(default=0)
+    mr_show_5 = models.CharField(max_length=50, default='', blank=True)
+    total_show_5 = models.CharField(max_length=50, default='', blank=True)
 
     # 分配完一轮
     turn1 = models.IntegerField(default=0)
@@ -189,6 +206,115 @@ class Task(models.Model):
                 if mr2 < ri:
                     mr2 = ri
         return mr1, mr2
+
+    def make_show(self, num8):
+        """生成已报名信息提示"""
+        if num8 == '0':
+            self.mr_show = '素描或创意画：{}，书法或国画：{}'.format(self.mr1, self.mr2)
+            self.total_show = '素描或创意画：{}，书法或国画：{}'.format(self.total1, self.total2)
+        elif num8 == '1':
+            self.mr_show_1 = '素描或创意画：{}，书法或国画：{}'.format(self.mr1_1, self.mr2_1)
+            self.total_show_1 = '素描或创意画：{}，书法或国画：{}'.format(self.total1_1, self.total2_1)
+        elif num8 == '2':
+            self.mr_show_2 = '素描或创意画：{}，书法或国画：{}'.format(self.mr1_2, self.mr2_2)
+            self.total_show_2 = '素描或创意画：{}，书法或国画：{}'.format(self.total1_2, self.total2_2)
+        elif num8 == '3':
+            self.mr_show_3 = '素描或创意画：{}，书法或国画：{}'.format(self.mr1_3, self.mr2_3)
+            self.total_show_3 = '素描或创意画：{}，书法或国画：{}'.format(self.total1_3, self.total2_3)
+        elif num8 == '4':
+            self.mr_show_4 = '素描或创意画：{}，书法或国画：{}'.format(self.mr1_4, self.mr2_4)
+            self.total_show_4 = '素描或创意画：{}，书法或国画：{}'.format(self.total1_4, self.total2_4)
+        elif num8 == '5':
+            self.mr_show_5 = '素描或创意画：{}，书法或国画：{}'.format(self.mr1_5, self.mr2_5)
+            self.total_show_5 = '素描或创意画：{}，书法或国画：{}'.format(self.total1_5, self.total2_5)
+
+    def increase_room(self, subject, num8):
+        """增加相应的考场数"""
+        if subject == '素描或创意画':
+            if num8 == '0':
+                self.mr1 += 1
+            elif num8 == '1':
+                self.mr1_1 += 1
+            elif num8 == '2':
+                self.mr1_2 += 1
+            elif num8 == '3':
+                self.mr1_3 += 1
+            elif num8 == '4':
+                self.mr1_4 += 1
+            elif num8 == '5':
+                self.mr1_5 += 1
+        elif subject == '书法或国画':
+            if num8 == '0':
+                self.mr2 += 1
+            elif num8 == '1':
+                self.mr2_1 += 1
+            elif num8 == '2':
+                self.mr2_2 += 1
+            elif num8 == '3':
+                self.mr2_3 += 1
+            elif num8 == '4':
+                self.mr2_4 += 1
+            elif num8 == '5':
+                self.mr2_5 += 1
+        self.max_room += 1
+
+    def increase_student(self, subject, num8):
+        """已分配考场的考生总数增加"""
+        if subject == '素描或创意画':
+            if num8 == '0':
+                self.total1 += 1
+            elif num8 == '1':
+                self.total1_1 += 1
+            elif num8 == '2':
+                self.total1_2 += 1
+            elif num8 == '3':
+                self.total1_3 += 1
+            elif num8 == '4':
+                self.total1_4 += 1
+            elif num8 == '5':
+                self.total1_5 += 1
+        elif subject == '书法或国画':
+            if num8 == '0':
+                self.total2 += 1
+            elif num8 == '1':
+                self.total2_1 += 1
+            elif num8 == '2':
+                self.total2_2 += 1
+            elif num8 == '3':
+                self.total2_3 += 1
+            elif num8 == '4':
+                self.total2_4 += 1
+            elif num8 == '5':
+                self.total2_5 += 1
+
+    def decrease_student(self, subject, num8):
+        """已分配考场的考生总数增加"""
+        if subject == '素描或创意画':
+            if num8 == '0':
+                self.total1 -= 1
+            elif num8 == '1':
+                self.total1_1 -= 1
+            elif num8 == '2':
+                self.total1_2 -= 1
+            elif num8 == '3':
+                self.total1_3 -= 1
+            elif num8 == '4':
+                self.total1_4 -= 1
+            elif num8 == '5':
+                self.total1_5 -= 1
+        elif subject == '书法或国画':
+            if num8 == '0':
+                self.total2 -= 1
+            elif num8 == '1':
+                self.total2_1 -= 1
+            elif num8 == '2':
+                self.total2_2 -= 1
+            elif num8 == '3':
+                self.total2_3 -= 1
+            elif num8 == '4':
+                self.total2_4 -= 1
+            elif num8 == '5':
+                self.total2_5 -= 1
 
 
 class Student(models.Model):

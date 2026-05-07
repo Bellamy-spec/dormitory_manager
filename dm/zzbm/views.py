@@ -194,75 +194,105 @@ def give_exam_id(student):
     # 获取任务对象
     task = student.task_belong
 
+    # 准考证号第8位决定场次
+    num8 = student.num8
+
     # 已分配标志
     give = False
 
     # 判断考生类型
     if student.subject == '素描或创意画':
         st = 1
-        ed = task.mr1
-        turn = task.turn1
+        # 获取场次最大已分配考场
+        if num8 == '0':
+            ed = task.mr1
+        elif num8 == '1':
+            ed = task.mr1_1
+        elif num8 == '2':
+            ed = task.mr1_2
+        elif num8 == '3':
+            ed = task.mr1_3
+        elif num8 == '4':
+            ed = task.mr1_4
+        elif num8 == '5':
+            ed = task.mr1_5
+        else:
+            # 未知原因错误
+            return HttpResponse('分配考场失败！')
         ed_max = 42
     else:
         st = 51
-        ed = task.mr2
-        turn = task.turn2
+        # 获取场次最大已分配考场
+        if num8 == '0':
+            ed = task.mr2
+        elif num8 == '1':
+            ed = task.mr2_1
+        elif num8 == '2':
+            ed = task.mr2_2
+        elif num8 == '3':
+            ed = task.mr2_3
+        elif num8 == '4':
+            ed = task.mr2_4
+        elif num8 == '5':
+            ed = task.mr2_5
+        else:
+            # 未知原因错误
+            return HttpResponse('分配考场失败！')
         ed_max = 53
 
     # 内层循环，遍历所有已存在考场
-    for t in range(task.start_turn, turn + 1):
-        if give:
-            # 已完成分配，打破循环即可
+    for ri in range(st, ed + 1):
+        # 生成考场号
+        rm = num8 + DT.str_two(ri)
+
+        # 取得该考场已有考生人数
+        try:
+            rn = task.get_room_dict()[rm]
+        except KeyError:
+            # 无此考场，给考生分配为该考场01号
+            student.room = rm
+            student.seat = '01'
+            student.save()
+            student.make_exam_id()
+            student.save()
+
+            # TODO:考生总数增加
+            task.increase_student(student.subject, num8)
+
+            # 考场总数加1
+            task.increase_room(student.subject, num8)
+
+            # 保存任务对象
+            task.make_show(num8)
+            task.save()
+
+            # 已分配，打破循环
+            give = True
             break
-
-        if t == turn:
-            e = ed + 1
         else:
-            e = ed_max + 1
-
-        for ri in range(st, e):
-            # 生成考场号
-            rm = str(t) + DT.str_two(ri)
-
-            # 取得该考场已有考生人数
-            try:
-                rn = task.get_room_dict()[rm]
-            except KeyError:
-                # 无此考场，给考生分配为该考场01号
+            if rn < task.max_len:
+                # 考场未满，安排考场、考号
                 student.room = rm
-                student.seat = '01'
+                student.seat = DT.str_two(rn + 1)
                 student.save()
                 student.make_exam_id()
                 student.save()
 
-                # 考场总数加1
-                task.max_room += 1
+                # TODO:考生总数增加
+                task.increase_student(student.subject, num8)
+
+                # 保存任务对象
+                task.make_show(num8)
                 task.save()
 
                 # 已分配，打破循环
                 give = True
                 break
-            else:
-                if rn < task.max_len:
-                    # 考场未满，安排考场、考号
-                    student.room = rm
-                    student.seat = DT.str_two(rn + 1)
-                    student.save()
-                    student.make_exam_id()
-                    student.save()
-
-                    # 已分配，打破循环
-                    give = True
-                    break
 
     if not give:
         # 已存在考场均不可再分配，需要开新考场
         if ed < ed_max:
-            new_room = str(turn) + DT.str_two(ed + 1)
-            if student.subject == '素描或创意画':
-                task.mr1 = ed + 1
-            else:
-                task.mr2 = ed + 1
+            new_room = num8 + DT.str_two(ed + 1)
 
             # 该考生分配为新考场01号
             student.room = new_room
@@ -271,8 +301,14 @@ def give_exam_id(student):
             student.make_exam_id()
             student.save()
 
+            # TODO:考生总数增加
+            task.increase_student(student.subject, num8)
+
             # 最大考场号加1
-            task.max_room += 1
+            task.increase_room(student.subject, num8)
+
+            # 保存任务对象
+            task.make_show(num8)
             task.save()
 
         else:
@@ -286,7 +322,7 @@ def give_exam_id(student):
             #     ed = task.mr2
 
             # TODO:本轮满，该考生暂不分配考场考号，等待手动处理场次之后手动分配，后续会有更高级的递归代码补充完善此部分
-            pass
+            return HttpResponse('分配考场失败！')
 
 
 def remove_lay(filepath, t):
@@ -884,6 +920,9 @@ def delete_st(request, student_id, delete_method):
     task = student.task_belong
     num = student.num
 
+    # 取出要删除的考生科目、场次
+    subject, num8 = student.subject, student.num8
+
     # 删除图片文件
     try:
         pic = BASE_DIR + '/media/' + str(student.photo)
@@ -897,6 +936,8 @@ def delete_st(request, student_id, delete_method):
 
     # 该任务已报名考生数减1
     task.added -= 1
+    task.decrease_student(subject, num8)
+    task.make_show()
     task.save()
 
     # 所有大于num的序数减1
@@ -994,6 +1035,7 @@ def set_time(request, task_id):
             task.start_time = ch_time
             task.start_time_ob = dt
             task.exam_time_active = True
+            task.make_show('0')
 
         if dt_str_1:
             dt_1 = datetime.strptime(dt_str_1, '%Y-%m-%dT%H:%M')
@@ -1010,6 +1052,7 @@ def set_time(request, task_id):
             task.start_time_1 = ch_time_1
             task.start_time_ob_1 = dt_1
             task.exam_time_active_1 = True
+            task.make_show('1')
 
         if dt_str_2:
             dt_2 = datetime.strptime(dt_str_2, '%Y-%m-%dT%H:%M')
@@ -1026,6 +1069,7 @@ def set_time(request, task_id):
             task.start_time_2 = ch_time_2
             task.start_time_ob_2 = dt_2
             task.exam_time_active_2 = True
+            task.make_show('2')
 
         if dt_str_3:
             dt_3 = datetime.strptime(dt_str_3, '%Y-%m-%dT%H:%M')
@@ -1042,6 +1086,7 @@ def set_time(request, task_id):
             task.start_time_3 = ch_time_3
             task.start_time_ob_3 = dt_3
             task.exam_time_active_3 = True
+            task.make_show('3')
 
         if dt_str_4:
             dt_4 = datetime.strptime(dt_str_4, '%Y-%m-%dT%H:%M')
@@ -1058,6 +1103,7 @@ def set_time(request, task_id):
             task.start_time_4 = ch_time_4
             task.start_time_ob_4 = dt_4
             task.exam_time_active_4 = True
+            task.make_show('4')
 
         if dt_str_5:
             dt_5 = datetime.strptime(dt_str_5, '%Y-%m-%dT%H:%M')
@@ -1074,9 +1120,20 @@ def set_time(request, task_id):
             task.start_time_5 = ch_time_5
             task.start_time_ob_5 = dt_5
             task.exam_time_active_5 = True
+            task.make_show('5')
 
         # 保存任务
         task.save()
+
+        # TODO:考试时间格式化输出、存储
+        if os.name != 'nt':
+            # 服务器上的做法
+            os.chdir('/root/dormitory_manager/dm')
+            os.system('python3 get_exam_time.py')
+            os.system('service apache2 restart')
+        else:
+            # 本地做法
+            os.system('python get_exam_time.py')
 
         return HttpResponseRedirect(reverse('zzbm:task_manage', args=[task_id]))
 
@@ -1170,7 +1227,7 @@ def download_card(request, student_id, pwd):
     if pwd != student.pwd:
         raise Http404
 
-    # 两轮之外及未分配者暂不可下载准考证
+    # 5轮之外及未分配者暂不可下载准考证
     try:
         tm = int(student.room[0])
     except ValueError:
@@ -1190,7 +1247,11 @@ def download_card(request, student_id, pwd):
     # 添加标题
     title = '{}{}中招美术测试准考证'.format(settings.USER_NAME, student.task_belong.year)
     title_font = ImageFont.truetype('font/simhei.ttf', 48)
-    title_width = draw.textsize(title, title_font)[0]
+    try:
+        title_width = draw.textsize(title, title_font)[0]
+    except AttributeError:
+        left, top, right, bottom = draw.textbbox((0, 0), title, title_font)
+        title_width = right - left
     title_x = (1240 - title_width) / 2
     draw.text((title_x, 75), title, font=title_font, fill='black')
 
@@ -2937,6 +2998,16 @@ def change_start_turn(request, task_id, target):
 
     # 保存任务
     task.save()
+
+    # TODO:考试时间格式化输出、存储
+    if os.name != 'nt':
+        # 服务器上的做法
+        os.chdir('/root/dormitory_manager/dm')
+        os.system('python3 get_exam_time.py')
+        os.system('service apache2 restart')
+    else:
+        # 本地做法
+        os.system('python get_exam_time.py')
 
     # 重定向至任务管理页
     return HttpResponseRedirect(reverse('zzbm:task_manage', args=[task_id]))

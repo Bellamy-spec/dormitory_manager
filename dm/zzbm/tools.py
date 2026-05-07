@@ -1,5 +1,7 @@
 """一些方便调用的数据"""
+import os
 from datetime import datetime
+import json
 
 
 class DataTool:
@@ -174,6 +176,16 @@ class DataTool:
         exam_time = '{} —— {}:{}'.format(st, end_h, self.str_two(end_m))
         return exam_time
 
-    def get_exam_time(self):
+    @ staticmethod
+    def get_exam_time():
         """获取考试时间选项"""
-        pass
+        # 确保服务器上进入正确的目录，可正常运行
+        if os.name != 'nt':
+            os.chdir('/root/dormitory_manager/dm')
+
+        # 读取数据
+        with open('exam_time.json') as f:
+            exam_time_dict = json.loads(f.read())
+
+        # 返回数据选项
+        return tuple(exam_time_dict.items())

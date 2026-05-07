@@ -761,6 +761,9 @@ def put_name(request, task_id):
     # 生成标题
     title = '报名{}{}年中招美术加试'.format(settings.USER_NAME, task.year)
 
+    # 获取初中学校列表
+    middle_school_list = DT.get_middle_school_list()
+
     # 判断请求方法，创建表单
     if request.method != 'POST':
         # 未提交数据，创建新的表单
@@ -778,6 +781,7 @@ def put_name(request, task_id):
                     'title': title,
                     'form': form,
                     'err': '身份证号格式非法！',
+                    'middle_school_list': middle_school_list,
                 })
 
             # 判断性别与身份证号是否匹配
@@ -788,6 +792,7 @@ def put_name(request, task_id):
                         'title': title,
                         'form': form,
                         'err': '身份证号与性别不匹配，请检查是否输入有误！',
+                        'middle_school_list': middle_school_list,
                     })
 
             # 防止重复报名
@@ -797,6 +802,7 @@ def put_name(request, task_id):
                     'title': title,
                     'form': form,
                     'err': '身份证号{}的考生已报名，请勿重复报名'.format(new_put.id_number),
+                    'middle_school_list': middle_school_list,
                 })
 
             # 判断手机号格式是否有误
@@ -806,6 +812,26 @@ def put_name(request, task_id):
                     'title': title,
                     'form': form,
                     'err': '手机号格式有误！',
+                    'middle_school_list': middle_school_list,
+                })
+
+            # TODO:验证初中毕业学校合法性
+            if new_put.middle_school not in middle_school_list:
+                return render_ht(request, 'zzbm/put_name.html', context={
+                    'task': task,
+                    'title': title,
+                    'form': form,
+                    'err': '请从下拉选项当中选择初中毕业学校名称！',
+                    'middle_school_list': middle_school_list,
+                })
+
+            if new_put.middle_school == '零星返郑报考' and not new_put.middle_school_desc:
+                return render_ht(request, 'zzbm/put_name.html', context={
+                    'task': task,
+                    'title': title,
+                    'form': form,
+                    'err': '零星返郑报考考生需输入初中毕业学校名称',
+                    'middle_school_list': middle_school_list,
                 })
 
             # 判断邮箱格式是否有误
@@ -816,6 +842,7 @@ def put_name(request, task_id):
                         'title': title,
                         'form': form,
                         'err': '邮箱格式有误！',
+                        'middle_school_list': middle_school_list,
                     })
 
             # 一寸照片必须上传
@@ -825,6 +852,7 @@ def put_name(request, task_id):
                     'title': title,
                     'form': form,
                     'err': '请上传个人一寸照片',
+                    'middle_school_list': middle_school_list,
                 })
 
             # 一寸照片大小不能超过1MB
@@ -834,6 +862,7 @@ def put_name(request, task_id):
                     'title': title,
                     'form': form,
                     'err': '上传一寸照片大小不能超过1MB',
+                    'middle_school_list': middle_school_list,
                 })
 
             # 记录报名序数
@@ -861,7 +890,13 @@ def put_name(request, task_id):
             # 重定向至信息查看页
             return HttpResponseRedirect(reverse('zzbm:student', args=[new_put.id, new_put.pwd]))
 
-    context = {'task': task, 'title': title, 'form': form, 'err': ''}
+    context = {
+        'task': task,
+        'title': title,
+        'form': form,
+        'err': '',
+        'middle_school_list': middle_school_list,
+    }
     return render_ht(request, 'zzbm/put_name.html', context)
 
 
@@ -1470,6 +1505,7 @@ def export_students(request, task_id):
     st['L2'].value = '成绩'
     st['M2'].value = '是否缺考'
     st['N2'].value = '报名时间'
+    st['O2'].value = '初中学校备注'
 
     # 标题和表头字体格式
     st['A1'].font = Font(size=14, bold=True)
@@ -1505,15 +1541,18 @@ def export_students(request, task_id):
         dt = datetime.strftime(student.datetime_added, '%Y-%m-%d %H:%M:%S')
         st.cell(row=row, column=14).value = dt
 
+        # 初中学校备注（仅外地考生有）
+        st.cell(row=row, column=15).value = student.middle_school_desc
+
         # 下一行
         row += 1
 
     # 添加边框
-    add_border(st, start_row=2, start_column=1, end_row=row - 1, end_column=14)
+    add_border(st, start_row=2, start_column=1, end_row=row - 1, end_column=15)
 
     # 设置合适的列宽
     width_dict = {'A': 6, 'B': 9, 'C': 6, 'D': 20, 'E': 12, 'F': 24, 'G': 12,
-                  'H': 12, 'I': 8, 'J': 8, 'K': 15, 'L': 7, 'M': 9, 'N': 20}
+                  'H': 12, 'I': 8, 'J': 8, 'K': 15, 'L': 7, 'M': 9, 'N': 20, 'O': 12}
     set_width_dict(st, width_dict)
 
     # 输出

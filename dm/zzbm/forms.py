@@ -33,6 +33,7 @@ class PutNameForm(forms.ModelForm):
             'phone_number',
             # 'email',
             'middle_school',
+            'middle_school_desc',
             'subject',
             'num8',
             'photo',
@@ -45,6 +46,7 @@ class PutNameForm(forms.ModelForm):
             'phone_number': '手机号',
             # 'email': '邮箱(选填，可用于找回报名序号)',
             'middle_school': '初中毕业学校',
+            'middle_school_desc': '请输入初中毕业学校名称',
             'subject': '选考科目',
             'num8': '选择考试时间',
             'photo': '上传个人一寸照片',
@@ -52,7 +54,14 @@ class PutNameForm(forms.ModelForm):
         widgets = {
             'phone_number': forms.TextInput(attrs={'type': 'number'}),
             'name': forms.TextInput(attrs={'autocomplete': 'off'}),
-            'middle_school': forms.TextInput(attrs={'autocomplete': 'off'}),
+            'middle_school': forms.TextInput(attrs={
+                'autocomplete': 'off',
+                'id': 'middle_school',
+                'placeholder': '搜索初中毕业学校名称',
+                'list': 'middle_school_list',
+                'oninput': 'check_desc()',
+            }),
+            'middle_school_desc': forms.TextInput(attrs={'id': 'desc', 'autocomplete': 'off'}),
             'id_number': forms.TextInput(attrs={'autocomplete': 'off'}),
         }
 

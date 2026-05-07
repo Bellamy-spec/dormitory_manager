@@ -7,9 +7,42 @@
       enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+    <datalist id="middle_school_list">
+        {% for middle_school in middle_school_list %}
+        <option value="{{ middle_school }}">{{ middle_school }}</option>
+        {% endfor %}
+    </datalist>
     <p class="err-color">{{ err }}</p>
     <button name="submit" type="submit" class="btn btn-primary"
             onclick="return confirm('提交后数据不可修改，是否确定提交？')">提交</button>
 </form>
 <p><a href="{% url 'zzbm:task_main' task.id %}">返回</a></p>
+<script>
+    // 隐藏零星返郑初中学校输入框
+    function hide_desc(){
+        var desc_input = document.getElementById("desc");
+        var desc_item = desc_input.parentElement;
+        desc_item.style.display = "none";
+    }
+
+    // 判断是否需要显示初中学校输入框
+    function check_desc(){
+        // 获取已选择的学校名称
+        var middle_school = document.getElementById("middle_school").value;
+        // alert(middle_school);
+
+        // 获取初中学校输入框
+        var desc_input = document.getElementById("desc");
+        var desc_item = desc_input.parentElement;
+
+        if(middle_school == "零星返郑报考"){
+            desc_item.style.display = "block";
+        }
+        else{
+            desc_item.style.display = "none";
+        }
+    }
+
+    hide_desc();
+</script>
 {% endblock %}

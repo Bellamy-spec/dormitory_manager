@@ -339,7 +339,10 @@ class Student(models.Model):
     gender = models.CharField(max_length=1, choices=(('男', '男'), ('女', '女')))
 
     # 初中毕业学校
-    middle_school = models.CharField(max_length=20)
+    middle_school = models.CharField(max_length=30)
+
+    # 初中学校备注
+    middle_school_desc = models.CharField(max_length=20, default='', blank=True)
 
     # 选考科目
     subject = models.CharField(max_length=6, choices=DT.subjects)

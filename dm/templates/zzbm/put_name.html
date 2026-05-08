@@ -20,14 +20,14 @@
 <p><a href="{% url 'zzbm:task_main' task.id %}">返回</a></p>
 <script>
     // 隐藏零星返郑初中学校输入框
-    function hide_desc(){
-        var desc_input = document.getElementById("desc");
-        var desc_item = desc_input.parentElement;
-        var middle_school = document.getElementById("middle_school").value;
-        if(middle_school != "零星返郑报考"){
-            desc_item.style.display = "none";
-        }
-    }
+    // function hide_desc(){
+    //     var desc_input = document.getElementById("desc");
+    //     var desc_item = desc_input.parentElement;
+    //     var middle_school = document.getElementById("middle_school").value;
+    //     if(middle_school != "零星返郑报考"){
+    //         desc_item.style.display = "none";
+    //     }
+    // }
 
     // 判断是否需要显示初中学校输入框
     function check_desc(){
@@ -92,6 +92,7 @@
         }
     }
 
-    hide_desc();
+    check_desc();
+    hide_exam_time();
 </script>
 {% endblock %}

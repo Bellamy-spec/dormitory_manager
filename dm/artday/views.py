@@ -120,7 +120,10 @@ def index(request):
 
 def add_program(request):
     """报名节目"""
-    # raise Http404
+    # 报名尚未开始
+    if not DT.active:
+        return HttpResponse('报名尚未开始，敬请期待！')
+
     if request.method != 'POST':
         # 未提交数据，创建新的表单
         form = ProgramForm()
@@ -178,6 +181,10 @@ def show_program(request, program_id):
 
 def add_costume(request):
     """报名服装"""
+    # 报名尚未开始
+    if not DT.active:
+        return HttpResponse('报名尚未开始，敬请期待！')
+
     if request.method != 'POST':
         # 未提交数据，创建新的表单
         form = CostumeForm()

@@ -201,8 +201,9 @@ def index(request):
 
 def put_name(request):
     """报名参加项目"""
-    # # 报名截止
-    # raise Http404
+    # 报名尚未开始
+    if not DT.active:
+        return HttpResponse('报名尚未开始，敬请期待！')
 
     # 取得当前年份字符串
     year = str(datetime.now().year)

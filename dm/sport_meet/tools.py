@@ -130,6 +130,9 @@ class DataTool:
         # 一行最多编号数
         self.max_cols = 8
 
+        # 是否允许报名
+        self.active = False
+
     def get_class(self):
         """生成所有班级字符串"""
         class_list = []

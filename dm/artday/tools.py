@@ -33,6 +33,9 @@ class DataTool:
         # 匹配数字
         self.num_regex = re.compile(r'\d+')
 
+        # 是否允许报名
+        self.active = True
+
         # 密钥映射到id
         self.sec = {'038gJF59eo': 122,
                     '07d1wudzRv': 89,

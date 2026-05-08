@@ -240,6 +240,9 @@ def give_exam_id(student):
             return HttpResponse('分配考场失败！')
         ed_max = 53
 
+    # 计算该科目、场次最大可容纳人数
+    total_max = task.max_len * (ed_max - st + 1)
+
     # 内层循环，遍历所有已存在考场
     for ri in range(st, ed + 1):
         # 生成考场号
@@ -324,6 +327,9 @@ def give_exam_id(student):
             # TODO:本轮满，该考生暂不分配考场考号，等待手动处理场次之后手动分配，后续会有更高级的递归代码补充完善此部分
             return HttpResponse('分配考场失败！')
 
+    # 判断是否有科目、场次已满
+    task.set_full(student.subject, num8, total_max)
+
 
 def remove_lay(filepath, t):
     """延时t秒删除文件"""
@@ -369,6 +375,28 @@ def all_pwd(task):
     for ob in Student.objects.filter(task_belong=task):
         pwd_list.append(ob.pwd)
     return pwd_list
+
+
+def get_full(task):
+    """获取当年所有科目、场次是否已报满"""
+    return {
+        '素描或创意画': {
+            '0': task.full1,
+            '1': task.full1_1,
+            '2': task.full1_2,
+            '3': task.full1_3,
+            '4': task.full1_4,
+            '5': task.full1_5,
+        },
+        '书法或国画': {
+            '0': task.full2,
+            '1': task.full2_1,
+            '2': task.full2_2,
+            '3': task.full2_3,
+            '4': task.full2_4,
+            '5': task.full2_5,
+        },
+    }
 
 
 # Create your views here.
@@ -764,6 +792,9 @@ def put_name(request, task_id):
     # 获取初中学校列表
     middle_school_list = DT.get_middle_school_list()
 
+    # 获取场次已满标志
+    all_full_str = json.dumps(get_full(task))
+
     # 判断请求方法，创建表单
     if request.method != 'POST':
         # 未提交数据，创建新的表单
@@ -782,6 +813,7 @@ def put_name(request, task_id):
                     'form': form,
                     'err': '身份证号格式非法！',
                     'middle_school_list': middle_school_list,
+                    'all_full_str': all_full_str,
                 })
 
             # 判断性别与身份证号是否匹配
@@ -793,6 +825,7 @@ def put_name(request, task_id):
                         'form': form,
                         'err': '身份证号与性别不匹配，请检查是否输入有误！',
                         'middle_school_list': middle_school_list,
+                        'all_full_str': all_full_str,
                     })
 
             # 防止重复报名
@@ -803,6 +836,7 @@ def put_name(request, task_id):
                     'form': form,
                     'err': '身份证号{}的考生已报名，请勿重复报名'.format(new_put.id_number),
                     'middle_school_list': middle_school_list,
+                    'all_full_str': all_full_str,
                 })
 
             # 判断手机号格式是否有误
@@ -813,6 +847,7 @@ def put_name(request, task_id):
                     'form': form,
                     'err': '手机号格式有误！',
                     'middle_school_list': middle_school_list,
+                    'all_full_str': all_full_str,
                 })
 
             # TODO:验证初中毕业学校合法性
@@ -823,6 +858,7 @@ def put_name(request, task_id):
                     'form': form,
                     'err': '请从下拉选项当中选择初中毕业学校名称！',
                     'middle_school_list': middle_school_list,
+                    'all_full_str': all_full_str,
                 })
 
             if new_put.middle_school == '零星返郑报考' and not new_put.middle_school_desc:
@@ -832,6 +868,7 @@ def put_name(request, task_id):
                     'form': form,
                     'err': '零星返郑报考考生需输入初中毕业学校名称',
                     'middle_school_list': middle_school_list,
+                    'all_full_str': all_full_str,
                 })
 
             # 判断邮箱格式是否有误
@@ -843,6 +880,7 @@ def put_name(request, task_id):
                         'form': form,
                         'err': '邮箱格式有误！',
                         'middle_school_list': middle_school_list,
+                        'all_full_str': all_full_str,
                     })
 
             # 一寸照片必须上传
@@ -853,6 +891,7 @@ def put_name(request, task_id):
                     'form': form,
                     'err': '请上传个人一寸照片',
                     'middle_school_list': middle_school_list,
+                    'all_full_str': all_full_str,
                 })
 
             # 一寸照片大小不能超过1MB
@@ -863,6 +902,7 @@ def put_name(request, task_id):
                     'form': form,
                     'err': '上传一寸照片大小不能超过1MB',
                     'middle_school_list': middle_school_list,
+                    'all_full_str': all_full_str,
                 })
 
             # 记录报名序数
@@ -896,6 +936,7 @@ def put_name(request, task_id):
         'form': form,
         'err': '',
         'middle_school_list': middle_school_list,
+        'all_full_str': all_full_str,
     }
     return render_ht(request, 'zzbm/put_name.html', context)
 
@@ -958,6 +999,9 @@ def delete_st(request, student_id, delete_method):
     # 取出要删除的考生科目、场次
     subject, num8 = student.subject, student.num8
 
+    # 判断考生所在考场人数
+    tt = task.get_room_dict()[student.room]
+
     # 删除图片文件
     try:
         pic = BASE_DIR + '/media/' + str(student.photo)
@@ -972,7 +1016,13 @@ def delete_st(request, student_id, delete_method):
     # 该任务已报名考生数减1
     task.added -= 1
     task.decrease_student(subject, num8)
-    task.make_show()
+
+    # 当删除前考场只剩1人时，考场数也需要减1
+    if tt <= 1:
+        task.decrease_room(subject, num8)
+
+    # 保存任务对象
+    task.make_show(num8)
     task.save()
 
     # 所有大于num的序数减1
@@ -2066,7 +2116,7 @@ def multi_temp(request):
     # 初始行
     row = 4
 
-    for i in range(20):
+    for i in range(50):
         # 生成准考证号
         ex = num_head + DT.str_three(i)
 
@@ -2083,6 +2133,14 @@ def multi_temp(request):
     for r in range(4, row):
         validation1.add('C' + str(r))
     st.add_data_validation(validation1)
+
+    # 为F列添加下拉选项
+    options3 = DT.get_middle_school_list(simple=True)
+    validation3 = DataValidation(type='list', formula1='"' + ','.join(options3) + '"',
+                                 allow_blank=True)
+    for r in range(4, row):
+        validation3.add('F' + str(r))
+    st.add_data_validation(validation3)
 
     # 为G列添加下拉选项
     options2 = DT.get_subject_list()
@@ -2303,6 +2361,15 @@ def write_students(request, task_id):
 
             if len(middle_school) < 1 or len(middle_school) > 20:
                 st.cell(row=row, column=8).value = '初中毕业学校长度须在1~20之间'
+                st.cell(row=row, column=8).fill = yellow_fill
+
+                # 失败数加一
+                fail += 1
+                continue
+
+            # 验证初中毕业学校是否在选项中
+            if middle_school not in DT.get_middle_school_list(simple=True):
+                st.cell(row=row, column=8).value = '初中毕业学校只能在下拉选项中选择'
                 st.cell(row=row, column=8).fill = yellow_fill
 
                 # 失败数加一

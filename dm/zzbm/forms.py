@@ -63,6 +63,8 @@ class PutNameForm(forms.ModelForm):
             }),
             'middle_school_desc': forms.TextInput(attrs={'id': 'desc', 'autocomplete': 'off'}),
             'id_number': forms.TextInput(attrs={'autocomplete': 'off'}),
+            'subject': forms.Select(attrs={'id': 'subject', 'onchange': 'hide_exam_time()'}),
+            'num8': forms.Select(attrs={'id': 'num8'}),
         }
 
 

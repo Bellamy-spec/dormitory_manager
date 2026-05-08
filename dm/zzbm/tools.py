@@ -192,7 +192,7 @@ class DataTool:
         return tuple(exam_time_dict.items())
 
     @ staticmethod
-    def get_middle_school_list():
+    def get_middle_school_list(simple=False):
         """获取初中学校列表"""
         # 确保服务器上进入正确的目录，可正常运行
         if os.name != 'nt':
@@ -212,7 +212,8 @@ class DataTool:
         # 随手关闭文件好习惯
         wb.close()
 
-        # 加入最后一个选项
-        middle_school_list.append('零星返郑报考')
+        if not simple:
+            # 加入最后一个选项
+            middle_school_list.append('零星返郑报考')
 
         return middle_school_list

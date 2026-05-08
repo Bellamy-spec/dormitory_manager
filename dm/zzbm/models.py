@@ -258,6 +258,36 @@ class Task(models.Model):
                 self.mr2_5 += 1
         self.max_room += 1
 
+    def decrease_room(self, subject, num8):
+        """减少相应的考场数"""
+        if subject == '素描或创意画':
+            if num8 == '0':
+                self.mr1 -= 1
+            elif num8 == '1':
+                self.mr1_1 -= 1
+            elif num8 == '2':
+                self.mr1_2 -= 1
+            elif num8 == '3':
+                self.mr1_3 -= 1
+            elif num8 == '4':
+                self.mr1_4 -= 1
+            elif num8 == '5':
+                self.mr1_5 -= 1
+        elif subject == '书法或国画':
+            if num8 == '0':
+                self.mr2 -= 1
+            elif num8 == '1':
+                self.mr2_1 -= 1
+            elif num8 == '2':
+                self.mr2_2 -= 1
+            elif num8 == '3':
+                self.mr2_3 -= 1
+            elif num8 == '4':
+                self.mr2_4 -= 1
+            elif num8 == '5':
+                self.mr2_5 -= 1
+        self.max_room -= 1
+
     def increase_student(self, subject, num8):
         """已分配考场的考生总数增加"""
         if subject == '素描或创意画':
@@ -288,7 +318,7 @@ class Task(models.Model):
                 self.total2_5 += 1
 
     def decrease_student(self, subject, num8):
-        """已分配考场的考生总数增加"""
+        """已分配考场的考生总数减少"""
         if subject == '素描或创意画':
             if num8 == '0':
                 self.total1 -= 1
@@ -315,6 +345,67 @@ class Task(models.Model):
                 self.total2_4 -= 1
             elif num8 == '5':
                 self.total2_5 -= 1
+
+    def set_full(self, subject, num8, total_max):
+        """设置某科目某场次已满"""
+        # print('\n\n\n')
+        # print(self.total1)
+        # print('\n\n\n')
+        if subject == '素描或创意画':
+            if num8 == '0':
+                if self.total1 >= total_max:
+                    self.full1 = True
+            elif num8 == '1':
+                if self.total1_1 >= total_max:
+                    self.full1_1 = True
+            elif num8 == '2':
+                if self.total1_2 >= total_max:
+                    self.full1_2 = True
+            elif num8 == '3':
+                if self.total1_3 >= total_max:
+                    self.full1_3 = True
+            elif num8 == '4':
+                if self.total1_4 >= total_max:
+                    self.full1_4 = True
+            elif num8 == '5':
+                if self.total1_5 >= total_max:
+                    self.full1_5 = True
+        elif subject == '书法或国画':
+            if num8 == '0':
+                if self.total2 >= total_max:
+                    self.full2 = True
+            elif num8 == '1':
+                if self.total2_1 >= total_max:
+                    self.full2_1 = True
+            elif num8 == '2':
+                if self.total2_2 >= total_max:
+                    self.full2_2 = True
+            elif num8 == '3':
+                if self.total2_3 >= total_max:
+                    self.full2_3 = True
+            elif num8 == '4':
+                if self.total2_4 >= total_max:
+                    self.full2_4 = True
+            elif num8 == '5':
+                if self.total2_5 >= total_max:
+                    self.full2_5 = True
+
+        # 同场次两场均满则关闭报名
+        if self.full1 and self.full2:
+            self.exam_time_active = False
+        if self.full1_1 and self.full2_1:
+            self.exam_time_active_1 = False
+        if self.full1_2 and self.full2_2:
+            self.exam_time_active_2 = False
+        if self.full1_3 and self.full2_3:
+            self.exam_time_active_3 = False
+        if self.full1_4 and self.full2_4:
+            self.exam_time_active_4 = False
+        if self.full1_5 and self.full2_5:
+            self.exam_time_active_5 = False
+
+        # 保存
+        self.save()
 
 
 class Student(models.Model):

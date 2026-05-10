@@ -23,7 +23,7 @@ class DataTool:
         self.num_regex = re.compile(r'\d+')
 
         # 此项目的管理员
-        self.super_users = ['李宪伟', 'zz106dyc']
+        self.super_users = ['李宪伟', 'zz106dyc', '常新辉']
 
         # 可以操作上报数据的用户
         self.operators = self.super_users + ['headteacher']

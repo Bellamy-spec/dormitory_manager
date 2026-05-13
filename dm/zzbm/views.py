@@ -795,6 +795,17 @@ def put_name(request, task_id):
     # 获取场次已满标志
     all_full_str = json.dumps(get_full(task))
 
+    # 确保服务器上进入正确的目录，可正常运行
+    if os.name != 'nt':
+        os.chdir('/root/dormitory_manager/dm')
+
+    # 获取验证码字典
+    with open('media/captcha_bank.json') as f:
+        captcha_dict = json.loads(f.read())
+
+    # 重新处理数据格式
+    captcha_dict_str = json.dumps(list(captcha_dict.keys()))
+
     # 判断请求方法，创建表单
     if request.method != 'POST':
         # 未提交数据，创建新的表单
@@ -803,6 +814,20 @@ def put_name(request, task_id):
         # 对POST提交的数据作出处理
         form = PutNameForm(request.POST, request.FILES)
         if form.is_valid():
+            # 判断验证码是否输入正确
+            captcha_str = request.POST.get('captcha_str', '')
+            captcha_input = request.POST.get('captcha', '')
+            if captcha_input.lower() != captcha_dict[captcha_str]:
+                return render_ht(request, 'zzbm/put_name.html', context={
+                    'task': task,
+                    'title': title,
+                    'form': form,
+                    'err': '验证码错误！',
+                    'middle_school_list': middle_school_list,
+                    'all_full_str': all_full_str,
+                    'captcha_dict_str': captcha_dict_str,
+                })
+
             new_put = form.save(commit=False)
 
             # 判断身份证号是否合法
@@ -814,6 +839,7 @@ def put_name(request, task_id):
                     'err': '身份证号格式非法！',
                     'middle_school_list': middle_school_list,
                     'all_full_str': all_full_str,
+                    'captcha_dict_str': captcha_dict_str,
                 })
 
             # 判断性别与身份证号是否匹配
@@ -826,6 +852,7 @@ def put_name(request, task_id):
                         'err': '身份证号与性别不匹配，请检查是否输入有误！',
                         'middle_school_list': middle_school_list,
                         'all_full_str': all_full_str,
+                        'captcha_dict_str': captcha_dict_str,
                     })
 
             # 防止重复报名
@@ -837,6 +864,7 @@ def put_name(request, task_id):
                     'err': '身份证号{}的考生已报名，请勿重复报名'.format(new_put.id_number),
                     'middle_school_list': middle_school_list,
                     'all_full_str': all_full_str,
+                    'captcha_dict_str': captcha_dict_str,
                 })
 
             # 判断手机号格式是否有误
@@ -848,6 +876,7 @@ def put_name(request, task_id):
                     'err': '手机号格式有误！',
                     'middle_school_list': middle_school_list,
                     'all_full_str': all_full_str,
+                    'captcha_dict_str': captcha_dict_str,
                 })
 
             # TODO:验证初中毕业学校合法性
@@ -859,6 +888,7 @@ def put_name(request, task_id):
                     'err': '请从下拉选项当中选择初中毕业学校名称！',
                     'middle_school_list': middle_school_list,
                     'all_full_str': all_full_str,
+                    'captcha_dict_str': captcha_dict_str,
                 })
 
             if new_put.middle_school == '零星返郑报考' and not new_put.middle_school_desc:
@@ -869,6 +899,7 @@ def put_name(request, task_id):
                     'err': '零星返郑报考考生需输入初中毕业学校名称',
                     'middle_school_list': middle_school_list,
                     'all_full_str': all_full_str,
+                    'captcha_dict_str': captcha_dict_str,
                 })
 
             # 判断邮箱格式是否有误
@@ -881,6 +912,7 @@ def put_name(request, task_id):
                         'err': '邮箱格式有误！',
                         'middle_school_list': middle_school_list,
                         'all_full_str': all_full_str,
+                        'captcha_dict_str': captcha_dict_str,
                     })
 
             # 一寸照片必须上传
@@ -892,6 +924,7 @@ def put_name(request, task_id):
                     'err': '请上传个人一寸照片',
                     'middle_school_list': middle_school_list,
                     'all_full_str': all_full_str,
+                    'captcha_dict_str': captcha_dict_str,
                 })
 
             # 一寸照片大小不能超过1MB
@@ -903,6 +936,7 @@ def put_name(request, task_id):
                     'err': '上传一寸照片大小不能超过1MB',
                     'middle_school_list': middle_school_list,
                     'all_full_str': all_full_str,
+                    'captcha_dict_str': captcha_dict_str,
                 })
 
             # 记录报名序数
@@ -937,6 +971,7 @@ def put_name(request, task_id):
         'err': '',
         'middle_school_list': middle_school_list,
         'all_full_str': all_full_str,
+        'captcha_dict_str': captcha_dict_str,
     }
     return render_ht(request, 'zzbm/put_name.html', context)
 

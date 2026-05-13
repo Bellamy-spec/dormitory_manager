@@ -12,11 +12,18 @@
         <option value="{{ middle_school }}">{{ middle_school }}</option>
         {% endfor %}
     </datalist>
+    <p>
+        <input name="captcha" placeholder="请输入看到的验证码">
+        <input type="hidden" name="captcha_str" id="captcha_str">
+        <img id="captcha" src="">
+        <a onclick="show_captcha()" style="font-size: 16px">看不清，换一张</a>
+    </p>
     <p class="err-color">{{ err }}</p>
     <button name="submit" type="submit" class="btn btn-primary"
             onclick="return confirm('提交后数据不可修改，是否确定提交？')">提交</button>
 </form>
 <div id="all-full" style="display: none;">{{ all_full_str }}</div>
+<div id="captcha-bank" style="display: none;">{{ captcha_dict_str }}</div>
 <p><a href="{% url 'zzbm:task_main' task.id %}">返回</a></p>
 <script>
     // 隐藏零星返郑初中学校输入框
@@ -76,23 +83,52 @@
         for(var i = 0; i < num8_select.options.length; i++){
             var option = num8_select.options[i];
             var value = option.attributes.value.value;
-            if(all_full[subject][value]){
-                option.disabled = true;
-                if(option.innerHTML.slice(-4) != "(已满)"){
-                    option.innerHTML = option.innerHTML.concat("(已满)");
+            if(subject != ""){
+                if(all_full[subject][value]){
+                    option.disabled = true;
+                    if(option.innerHTML.slice(-4) != "(已满)"){
+                        option.innerHTML = option.innerHTML.concat("(已满)");
+                    }
+                    num8_select.options.selectedIndex = -1;
                 }
-                num8_select.options.selectedIndex = -1;
-            }
-            else{
-                option.disabled = false;
-                if(option.innerHTML.slice(-4) == "(已满)"){
-                    option.innerHTML = option.innerHTML.slice(0, -4);
+                else{
+                    option.disabled = false;
+                    if(option.innerHTML.slice(-4) == "(已满)"){
+                        option.innerHTML = option.innerHTML.slice(0, -4);
+                    }
                 }
             }
         }
+        // alert(0);
     }
 
+    // 随机显示一个验证码
+    function show_captcha(){
+        // 加载验证码对象
+        var captcha_ob_str = document.getElementById("captcha-bank").innerHTML;
+        var captcha_ob = JSON.parse(captcha_ob_str);
+        // console.log(captcha_ob.length);
+
+        // 生成一个数组长度范围内的随机数
+        var index = Math.floor(Math.random() * captcha_ob.length);
+        // alert(index);
+
+        // 索定验证码
+        var captcha_item = captcha_ob[index];
+        // console.log(captcha_item);
+
+        // 显示验证码图象
+        var img_ele = document.getElementById("captcha");
+        img_ele.src = "data:image/png;base64,".concat(captcha_item);
+
+        // 传递验证码文字
+        var captcha_val = document.getElementById("captcha_str");
+        captcha_val.value = captcha_item;
+    }
+
+    // 页面的初始操作
     check_desc();
     hide_exam_time();
+    show_captcha();
 </script>
 {% endblock %}

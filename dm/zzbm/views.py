@@ -25,6 +25,7 @@ from email.mime.text import MIMEText
 import json
 from django.conf import settings
 from django.utils import timezone
+import ijson
 
 
 # 根路径
@@ -397,6 +398,27 @@ def get_full(task):
             '5': task.full2_5,
         },
     }
+
+
+def random_sample_json(file_path, sample_size=100):
+    """从JSON中随机采样键值对（针对顶层对象）"""
+    sampled_items = []
+    count = 0
+
+    with open(file_path, 'rb') as f:
+        # 获取对象键的迭代器
+        keys = ijson.kvitems(f, '')
+        for key, value in keys:
+            count += 1
+            # 蓄水池抽样算法
+            if len(sampled_items) < sample_size:
+                sampled_items.append((key, value))
+            else:
+                r = random.randint(0, count - 1)
+                if r < sample_size:
+                    sampled_items[r] = (key, value)
+
+    return dict(sampled_items)
 
 
 # Create your views here.
@@ -800,8 +822,7 @@ def put_name(request, task_id):
         os.chdir('/root/dormitory_manager/dm')
 
     # 获取验证码字典
-    with open('media/captcha_bank.json') as f:
-        captcha_dict = json.loads(f.read())
+    captcha_dict = random_sample_json('media/captcha_bank.json', sample_size=50)
 
     # 重新处理数据格式
     captcha_dict_str = json.dumps(list(captcha_dict.keys()))
@@ -2171,8 +2192,19 @@ def multi_temp(request):
 
     # 为F列添加下拉选项
     options3 = DT.get_middle_school_list(simple=True)
-    validation3 = DataValidation(type='list', formula1='"' + ','.join(options3) + '"',
-                                 allow_blank=True)
+
+    # 选项太多，只能用单元格引用的方式实现下拉列表
+    ws_target = wb.create_sheet('初中毕业学校选项')
+    row_target = 1
+    for opt in options3:
+        ws_target.cell(row=row_target, column=1).value = opt
+        row_target += 1
+
+    validation3 = DataValidation(
+        type='list',
+        formula1=f"='{ws_target.title}'!$A$1:$A${len(options3)}",       # 动态引用
+        allow_blank=True,
+    )
     for r in range(4, row):
         validation3.add('F' + str(r))
     st.add_data_validation(validation3)
@@ -2394,13 +2426,13 @@ def write_students(request, task_id):
                 fail += 1
                 continue
 
-            if len(middle_school) < 1 or len(middle_school) > 20:
-                st.cell(row=row, column=8).value = '初中毕业学校长度须在1~20之间'
-                st.cell(row=row, column=8).fill = yellow_fill
-
-                # 失败数加一
-                fail += 1
-                continue
+            # if len(middle_school) < 1 or len(middle_school) > 20:
+            #     st.cell(row=row, column=8).value = '初中毕业学校长度须在1~20之间'
+            #     st.cell(row=row, column=8).fill = yellow_fill
+            #
+            #     # 失败数加一
+            #     fail += 1
+            #     continue
 
             # 验证初中毕业学校是否在选项中
             if middle_school not in DT.get_middle_school_list(simple=True):
@@ -2415,7 +2447,7 @@ def write_students(request, task_id):
             subject = st.cell(row=row, column=7).value
 
             if subject not in DT.get_subject_list():
-                st.cell(row=row, column=8).value = '选考科目只能是“素描或创意画”、”书法或国画“二选一'
+                st.cell(row=row, column=8).value = '选考科目只能是“素描或创意画”、“书法或国画”二选一'
                 st.cell(row=row, column=8).fill = yellow_fill
 
                 # 失败数加一

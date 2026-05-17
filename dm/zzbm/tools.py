@@ -50,7 +50,7 @@ class DataTool:
         }
 
         # 操作员数量
-        self.opes = 15
+        self.opes = 18
 
         # 项目操作员
         self.operators = self.managers + self.num_head()

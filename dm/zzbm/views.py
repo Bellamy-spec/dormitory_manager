@@ -220,7 +220,7 @@ def give_exam_id(student):
         else:
             # 未知原因错误
             return HttpResponse('分配考场失败！')
-        ed_max = 42
+        ed_max = 36
     else:
         st = 51
         # 获取场次最大已分配考场
@@ -2172,7 +2172,7 @@ def multi_temp(request):
     # 初始行
     row = 4
 
-    for i in range(50):
+    for i in range(500):
         # 生成准考证号
         ex = num_head + DT.str_three(i)
 
@@ -2282,6 +2282,9 @@ def write_students(request, task_id):
 
         # 错误提示填充
         yellow_fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
+
+        # 记录正确行的列表
+        row_right = []
 
         # 从第4行开始逐行读取
         for row in range(4, st.max_row + 1):
@@ -2478,6 +2481,9 @@ def write_students(request, task_id):
             # 成功数加1
             success += 1
 
+            # 记录正确行
+            row_right.append(row)
+
         # 生成提示信息
         tip_msg = '共上传{}条数据，成功{}条，失败{}条'.format(success + fail, success, fail)
 
@@ -2487,6 +2493,11 @@ def write_students(request, task_id):
             st['H3'].fill = yellow_fill
             st['H3'].font = Font(bold=True)
             set_width_dict(st, {'F': 50})
+
+            # TODO:删除正确行，只留错误行
+            row_right.sort(reverse=True)
+            for rr in row_right:
+                st.delete_rows(rr)
 
             # 设定错误文件名
             n = 0

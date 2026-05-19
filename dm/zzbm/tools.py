@@ -123,6 +123,10 @@ class DataTool:
         # 准考证号中间三位
         self.ei_mid = '106'
 
+        # 存储验证码的字典
+        self.captcha_dict = {}
+        self.captcha_dict_str = ''
+
     @staticmethod
     def str_three(n):
         """整数n格式化为三位数字字符串"""

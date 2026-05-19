@@ -1,3 +1,4 @@
+import base64
 import random
 from django.shortcuts import render
 from django.contrib.auth.views import login_required
@@ -26,6 +27,7 @@ import json
 from django.conf import settings
 from django.utils import timezone
 import ijson
+import pprint
 
 
 # 根路径
@@ -600,6 +602,14 @@ def delete_task(request, task_id):
             # 不存在文件，忽略此步
             pass
 
+    # 确保服务器上进入正确的目录
+    if os.name != 'nt':
+        os.chdir('/root/dormitory_manager/dm')
+
+    # TODO:清除考试时间信息
+    with open('exam_time.json', 'w') as f:
+        f.write('')
+
     # 执行删除操作
     task.delete()
 
@@ -821,29 +831,47 @@ def put_name(request, task_id):
     if os.name != 'nt':
         os.chdir('/root/dormitory_manager/dm')
 
-    # 获取验证码字典
-    captcha_dict = random_sample_json('media/captcha_bank.json', sample_size=50)
-
-    # 重新处理数据格式
-    captcha_dict_str = json.dumps(list(captcha_dict.keys()))
-
     # 判断请求方法，创建表单
     if request.method != 'POST':
         # 未提交数据，创建新的表单
         form = PutNameForm()
+
+        # 获取验证码字典
+        captcha_dict = random_sample_json('media/captcha_bank.json', sample_size=50)
+        DT.captcha_dict = captcha_dict
+
+        # 重新处理数据格式
+        captcha_dict_str = json.dumps(list(captcha_dict.keys()))
+        DT.captcha_dict_str = captcha_dict_str
     else:
         # 对POST提交的数据作出处理
         form = PutNameForm(request.POST, request.FILES)
+
+        # 直接读取已有的验证码字典
+        captcha_dict = DT.captcha_dict
+        captcha_dict_str = DT.captcha_dict_str
+
         if form.is_valid():
             # 判断验证码是否输入正确
             captcha_str = request.POST.get('captcha_str', '')
             captcha_input = request.POST.get('captcha', '')
-            if captcha_input.lower() != captcha_dict[captcha_str]:
+            try:
+                if captcha_input.lower() != captcha_dict[captcha_str]:
+                    return render_ht(request, 'zzbm/put_name.html', context={
+                        'task': task,
+                        'title': title,
+                        'form': form,
+                        'err': '验证码错误！',
+                        'middle_school_list': middle_school_list,
+                        'all_full_str': all_full_str,
+                        'captcha_dict_str': captcha_dict_str,
+                    })
+            except KeyError:
                 return render_ht(request, 'zzbm/put_name.html', context={
                     'task': task,
                     'title': title,
                     'form': form,
-                    'err': '验证码错误！',
+                    'err': '请刷新页面后重试！',
                     'middle_school_list': middle_school_list,
                     'all_full_str': all_full_str,
                     'captcha_dict_str': captcha_dict_str,

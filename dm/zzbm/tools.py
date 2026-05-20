@@ -15,7 +15,7 @@ class DataTool:
         self.subjects = (('素描或创意画', '素描或创意画'), ('书法或国画', '书法或国画'))
 
         # 考试时长（单位：小时）
-        self.ter = 2
+        self.ter = 1.5
 
         # 考试成绩
         self.scores = {

@@ -608,7 +608,7 @@ def delete_task(request, task_id):
 
     # TODO:清除考试时间信息
     with open('exam_time.json', 'w') as f:
-        f.write('')
+        f.write(json.dumps({}))
 
     # 执行删除操作
     task.delete()
@@ -1084,7 +1084,16 @@ def delete_st(request, student_id, delete_method):
     subject, num8 = student.subject, student.num8
 
     # 判断考生所在考场人数
-    tt = task.get_room_dict()[student.room]
+    if student.room != '未分配':
+        tt = task.get_room_dict()[student.room]
+        task.decrease_student(subject, num8)
+
+        # 当删除前考场只剩1人时，考场数也需要减1
+        if tt <= 1:
+            task.decrease_room(subject, num8)
+
+        # 更新考场信息显示
+        task.make_show(num8)
 
     # 删除图片文件
     try:
@@ -1099,14 +1108,8 @@ def delete_st(request, student_id, delete_method):
 
     # 该任务已报名考生数减1
     task.added -= 1
-    task.decrease_student(subject, num8)
-
-    # 当删除前考场只剩1人时，考场数也需要减1
-    if tt <= 1:
-        task.decrease_room(subject, num8)
 
     # 保存任务对象
-    task.make_show(num8)
     task.save()
 
     # 所有大于num的序数减1

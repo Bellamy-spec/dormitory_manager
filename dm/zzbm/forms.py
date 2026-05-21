@@ -54,14 +54,17 @@ class PutNameForm(forms.ModelForm):
         widgets = {
             'phone_number': forms.TextInput(attrs={'type': 'number'}),
             'name': forms.TextInput(attrs={'autocomplete': 'off'}),
-            'middle_school': forms.TextInput(attrs={
-                'autocomplete': 'off',
+            'middle_school': forms.Select(attrs={
+                # 'autocomplete': 'off',
                 'id': 'middle_school',
-                'placeholder': '搜索初中毕业学校名称',
-                'list': 'middle_school_list',
-                'oninput': 'check_desc()',
+                # 'placeholder': '搜索初中毕业学校名称',
+                # 'list': 'middle_school_list',
+                'onchange': 'check_desc()',
             }),
-            'middle_school_desc': forms.TextInput(attrs={'id': 'desc', 'autocomplete': 'off'}),
+            'middle_school_desc': forms.TextInput(attrs={
+                'id': 'desc',
+                'autocomplete': 'off',
+            }),
             'id_number': forms.TextInput(attrs={'autocomplete': 'off'}),
             'subject': forms.Select(attrs={'id': 'subject', 'onchange': 'hide_exam_time()'}),
             'num8': forms.Select(attrs={'id': 'num8'}),

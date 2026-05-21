@@ -3,21 +3,22 @@
 
 {% block content %}
 <h2>{{ title }}</h2>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
 <form role="form" action="{% url 'zzbm:put_name' task.id %}" method="post"
       enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <datalist id="middle_school_list">
-        {% for middle_school in middle_school_list %}
-        <option value="{{ middle_school }}">{{ middle_school }}</option>
-        {% endfor %}
-    </datalist>
-    <p>
-        <input name="captcha" placeholder="请输入看到的验证码">
-        <input type="hidden" name="captcha_str" id="captcha_str">
-        <img id="captcha" src="">
-        <a onclick="show_captcha()" style="font-size: 16px">看不清，换一张</a>
-    </p>
+<!--    <datalist id="middle_school_list">-->
+<!--        {% for middle_school in middle_school_list %}-->
+<!--        <option value="{{ middle_school }}">{{ middle_school }}</option>-->
+<!--        {% endfor %}-->
+<!--    </datalist>-->
+<!--    <p>-->
+<!--        <input name="captcha" placeholder="请输入看到的验证码">-->
+<!--        <input type="hidden" name="captcha_str" id="captcha_str">-->
+<!--        <img id="captcha" src="">-->
+<!--        <a onclick="show_captcha()" style="font-size: 16px">看不清，换一张</a>-->
+<!--    </p>-->
     <p class="err-color">{{ err }}</p>
     <button name="submit" type="submit" class="btn btn-primary"
             onclick="return confirm('提交后数据不可修改，是否确定提交？')">提交</button>
@@ -25,6 +26,7 @@
 <div id="all-full" style="display: none;">{{ all_full_str }}</div>
 <div id="captcha-bank" style="display: none;">{{ captcha_dict_str }}</div>
 <p><a href="{% url 'zzbm:task_main' task.id %}">返回</a></p>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 <script>
     // 隐藏零星返郑初中学校输入框
     // function hide_desc(){
@@ -35,6 +37,17 @@
     //         desc_item.style.display = "none";
     //     }
     // }
+
+    // 重新绑定初中毕业学校选择框更改事件
+    const middle_school_select = document.getElementById("middle_school");
+    middle_school_select.addEventListener('change', check_desc);
+
+    new Choices('#middle_school', {
+        searchEnabled: true,
+        searchPlaceholderValue: '输入关键词搜索',
+        itemSelectText: '',
+        shouldSort: false
+    });
 
     // 判断是否需要显示初中学校输入框
     function check_desc(){
@@ -129,6 +142,6 @@
     // 页面的初始操作
     check_desc();
     hide_exam_time();
-    show_captcha();
+    // show_captcha();
 </script>
 {% endblock %}

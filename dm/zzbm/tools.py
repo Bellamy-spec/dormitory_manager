@@ -221,3 +221,30 @@ class DataTool:
             middle_school_list.append('零星返郑报考')
 
         return middle_school_list
+
+    @staticmethod
+    def get_middle_school_choices():
+        """获取初中学校列表"""
+        # 确保服务器上进入正确的目录，可正常运行
+        if os.name != 'nt':
+            os.chdir('/root/dormitory_manager/dm')
+
+        # 加载Excel表格
+        wb = openpyxl.load_workbook('media/middle_school_list.xlsx')
+        st = wb.active
+
+        # 初始化存放列表
+        middle_school_list = []
+
+        # 逐行读取、写入
+        for row in range(1, st.max_row + 1):
+            middle_school = st.cell(row=row, column=1).value
+            middle_school_list.append((middle_school, middle_school))
+
+        # 随手关闭文件好习惯
+        wb.close()
+
+        # 加入最后一个选项
+        middle_school_list.append(('零星返郑报考', '零星返郑报考'))
+
+        return tuple(middle_school_list)

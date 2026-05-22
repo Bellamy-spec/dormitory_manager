@@ -182,13 +182,11 @@ class Task(models.Model):
 
         return room_dict
 
-    def all_room(self, e8=''):
+    def all_room(self, e8):
         """返回所有考场号（可选参数：考场号首位）"""
         room_list = []
-        for student in Student.objects.filter(task_belong=self, add_method=1):
-            if student.room != '未分配':
-                if e8 in student.room[0]:
-                    room_list.append(student.room)
+        for student in Student.objects.filter(task_belong=self, add_method=1, num8=e8):
+            room_list.append(student.room)
 
         room_list = list(set(room_list))
         room_list.sort()

@@ -1569,6 +1569,8 @@ def get_seat_table(request, task_id):
 
             # 写入信息
             msg = '{}\n{}'.format(st.exam_id, st.name)
+            if st.mention:
+                msg += '(*)'
             draw.text((x, y + 220), msg, font=font, fill='black')
 
             # 更改位置

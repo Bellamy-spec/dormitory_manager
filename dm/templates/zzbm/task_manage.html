@@ -61,10 +61,12 @@
             <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
             {% elif task.exam_time_active %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning">结束报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">结束报名</a>
             {% else %}
             （已结束）
-            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning">恢复报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 1 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">恢复报名</a>
             {% endif %}
         </td>
         {% else %}
@@ -92,10 +94,12 @@
             <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
             {% elif task.exam_time_active_1 %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning">结束报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">结束报名</a>
             {% else %}
             （已结束）
-            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning">恢复报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 2 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">恢复报名</a>
             {% endif %}
         </td>
         {% else %}
@@ -123,10 +127,12 @@
             <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
             {% elif task.exam_time_active_2 %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning">结束报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">结束报名</a>
             {% else %}
             （已结束）
-            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning">恢复报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 3 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">恢复报名</a>
             {% endif %}
         </td>
         {% else %}
@@ -154,10 +160,12 @@
             <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
             {% elif task.exam_time_active_3 %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning">结束报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">结束报名</a>
             {% else %}
             （已结束）
-            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning">恢复报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 4 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">恢复报名</a>
             {% endif %}
         </td>
         {% else %}
@@ -189,10 +197,12 @@
             <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
             {% elif task.exam_time_active_4 %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning">结束报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">结束报名</a>
             {% else %}
             （已结束）
-            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning">恢复报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 5 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">恢复报名</a>
             {% endif %}
         </td>
         {% else %}
@@ -220,10 +230,12 @@
             <a href="{% url 'zzbm:change_start_turn' task.id 6 %}" class="btn btn-warning"
                style="pointer-events: none; opacity: 0.4;">恢复报名</a>
             {% elif task.exam_time_active_5 %}
-            <a href="{% url 'zzbm:change_start_turn' task.id 6 %}" class="btn btn-warning">结束报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 6 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">结束报名</a>
             {% else %}
             （已结束）
-            <a href="{% url 'zzbm:change_start_turn' task.id 6 %}" class="btn btn-warning">恢复报名</a>
+            <a href="{% url 'zzbm:change_start_turn' task.id 6 %}" class="btn btn-warning"
+               onclick="return confirm('确定执行此项操作吗？')">恢复报名</a>
             {% endif %}
         </td>
         {% else %}
@@ -269,60 +281,78 @@
 <table>
     <tr>
         <td><a href="{% url 'zzbm:change_date' task.id %}"
-               class="btn btn-success btn-lg li26">更改截止日期</a></td>
+               class="btn btn-success btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">更改截止日期</a></td>
         <td><a href="{% url 'zzbm:change_active' task.id %}"
-               class="btn btn-warning btn-lg li26">{{ btn_name }}</a></td>
+               class="btn btn-warning btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">{{ btn_name }}</a></td>
     </tr>
     <tr>
         <td><a href="{% url 'zzbm:list_put' task.id 0 %}"
-               class="btn btn-info btn-lg li26">查看已报名考生</a></td>
+               class="btn btn-info btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">查看已报名考生</a></td>
         <td><a href="{% url 'zzbm:set_len' task.id %}"
-               class="btn btn-primary btn-lg li26">分考场</a></td>
+               class="btn btn-primary btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">分考场</a></td>
     </tr>
     <tr>
         <td><a href="{% url 'zzbm:set_time' task.id %}"
                style="background-color:#DD33DD; color:#FFFFFF;"
-               class="btn btn-default btn-lg li26">设置考试时间</a></td>
+               class="btn btn-default btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">设置考试时间</a></td>
         <td><a href="{% url 'zzbm:change_open' task.id %}"
-               class="btn btn-success btn-lg li26">{{ open_btn }}</a></td>
+               class="btn btn-success btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">{{ open_btn }}</a></td>
     </tr>
     <tr>
         <td><a href="{% url 'zzbm:score_manage' task.id %}"
-               class="btn btn-warning btn-lg li26">成绩管理</a></td>
+               class="btn btn-warning btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">成绩管理</a></td>
         <td><a href="{% url 'zzbm:change_give' task.id %}"
-               class="btn btn-info btn-lg li26">{{ give_btn }}</a></td>
+               class="btn btn-info btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">{{ give_btn }}</a></td>
     </tr>
     <tr>
         <td><a href="{% url 'zzbm:reset_task_num' task.id %}"
                style="pointer-events: none; opacity: 0.4;"
-               class="btn btn-primary btn-lg li26">重置考场分配</a></td>
+               class="btn btn-primary btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">重置考场分配</a></td>
         <td><a href="{% url 'zzbm:multi_export' task.id %}"
                style="background-color:#DD33DD; color:#FFFFFF;"
-               class="btn btn-default btn-lg li26">导入现场报名考生</a></td>
+               class="btn btn-default btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">导入现场报名考生</a></td>
     </tr>
     <tr>
         <td><a href="{% url 'zzbm:export_score' task.id 0 %}"
-               class="btn btn-default btn-lg li26">导出成绩单</a></td>
+               class="btn btn-default btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">导出成绩单</a></td>
         <td><a href="{% url 'zzbm:none_score' task.id %}"
-               class="btn btn-default btn-lg li26">导出无成绩考生</a></td>
+               class="btn btn-default btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">导出无成绩考生</a></td>
     </tr>
     <tr>
         <td><a href="{% url 'zzbm:de_repeat' task.id 0 %}"
-               class="btn btn-default btn-lg li26">导出去重成绩单</a></td>
+               class="btn btn-default btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">导出去重成绩单</a></td>
         <td><a href="{% url 'zzbm:show_repeat' task.id %}"
-               class="btn btn-default btn-lg li26">导出重复考生</a></td>
+               class="btn btn-default btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">导出重复考生</a></td>
     </tr>
     <tr>
         <td><a href="{% url 'zzbm:export_score' task.id 1 %}"
-               class="btn btn-default btn-lg li26">导出对外公布成绩单</a></td>
+               class="btn btn-default btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">导出对外公布成绩单</a></td>
         <td><a href="{% url 'zzbm:de_repeat' task.id 1 %}"
-               class="btn btn-default btn-lg li26">导出对外公布去重成绩单</a></td>
+               class="btn btn-default btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">导出对外公布去重成绩单</a></td>
     </tr>
     <tr>
         <td><a href="{% url 'zzbm:room_pwd_manage' task.id %}"
-               class="btn btn-success btn-lg li26">考场密码管理</a></td>
+               class="btn btn-success btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">考场密码管理</a></td>
         <td><a href="{% url 'zzbm:que_ctrl' task.id %}"
-               class="btn btn-warning btn-lg li26">查成绩开关</a></td>
+               class="btn btn-warning btn-lg li26"
+               onclick="return confirm('确定执行此项操作吗？')">查成绩开关</a></td>
     </tr>
 </table>
 <p class="err-color">{{ err }}</p>

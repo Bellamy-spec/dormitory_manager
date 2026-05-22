@@ -11,7 +11,7 @@ from io import BytesIO
 from datetime import datetime
 from .models import Task, Student
 from .tools import DataTool
-from .forms import TaskForm, PutNameForm, FileUploadForm, StudentsUploadForm, ChangeInfoForm, ChangePutForm
+from .forms import TaskForm, PutNameForm, FileUploadForm, StudentsUploadForm, ChangeInfoForm, ChangePutForm, MentionUploadForm
 import os
 from PIL import Image, ImageDraw, ImageFont
 import fitz
@@ -3419,3 +3419,28 @@ def room_pwd_update(request, task_id):
 
     # 重定向至考场密码管理页
     return HttpResponseRedirect(reverse('zzbm:room_pwd_manage', args=[task_id]))
+
+
+def mark_mention(request, task_id):
+    """标记需要提醒后备生平台注册的考生"""
+    # 禁止非管理员用户访问此页
+    if request.user.username not in DT.managers:
+        raise Http404
+
+    # 确保服务器上进入正确的目录，可正常运行
+    if os.name != 'nt':
+        os.chdir('/root/dormitory_manager/dm')
+
+    # 取出任务对象
+    task = Task.objects.get(id=task_id)
+
+    if request.method != 'POST':
+        # 未提交数据，创建新的文件上传表单
+        form = MentionUploadForm()
+    else:
+        # 对上传的文件作出处理
+        form = MentionUploadForm(request.POST, request.FILES)
+
+        # TODO:数据处理
+
+    context = {'task': task, 'form': form}

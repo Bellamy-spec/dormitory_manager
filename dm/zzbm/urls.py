@@ -156,4 +156,7 @@ urlpatterns = [
 
     # 考场密码更新
     path('room_pwd_update/<int:task_id>/', views.room_pwd_update, name='room_pwd_update'),
+
+    # 标记可能未在后备生平台注册的考生
+    path('mark_mention/<int:task_id>/', views.mark_mention, name='mark_mention'),
 ]

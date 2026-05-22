@@ -81,6 +81,11 @@ class StudentsUploadForm(forms.Form):
     file = forms.FileField(label='模板批量导入考生')
 
 
+class MentionUploadForm(forms.Form):
+    """上传平台注册学生名单"""
+    file = forms.FileField(label='上传后备生平台意向学生名单')
+
+
 class ChangeInfoForm(forms.ModelForm):
     """用于修改导入考生信息的表单"""
 

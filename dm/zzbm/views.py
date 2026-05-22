@@ -423,6 +423,26 @@ def random_sample_json(file_path, sample_size=100):
     return dict(sampled_items)
 
 
+def normalize_school(school_name):
+    """学校名称规范化函数"""
+    # 统一“返郑报考”
+    if '返郑' in school_name or '零星' in school_name:
+        return '返郑报考'
+
+    # 去除常见前缀（可扩展）
+    prefixes = ['郑州市', '郑州', '河南省', '河南']
+    for pre in prefixes:
+        if school_name.startswith(pre):
+            school_name = school_name[len(pre):]
+            break
+
+    # 统一括号为英文括号
+    school_name = school_name.replace('（', '(').replace('）', ')')
+
+    # 去除尾部空格
+    return school_name.strip()
+
+
 # Create your views here.
 def index(request):
     """主页"""
@@ -1643,6 +1663,7 @@ def export_students(request, task_id):
     st['M2'].value = '是否缺考'
     st['N2'].value = '报名时间'
     st['O2'].value = '初中学校备注'
+    st['P2'].value = '后备生平台相关'
 
     # 标题和表头字体格式
     st['A1'].font = Font(size=14, bold=True)
@@ -1680,6 +1701,10 @@ def export_students(request, task_id):
 
         # 初中学校备注（仅外地考生有）
         st.cell(row=row, column=15).value = student.middle_school_desc
+
+        # 后备生平台匹配情况
+        if student.mention:
+            st.cell(row=row, column=16).value = '未注册或未选意向学校'
 
         # 下一行
         row += 1
@@ -3441,6 +3466,59 @@ def mark_mention(request, task_id):
         # 对上传的文件作出处理
         form = MentionUploadForm(request.POST, request.FILES)
 
-        # TODO:数据处理
+        if form.is_valid():
+            # 临时保存文件
+            upload_file = form.cleaned_data['file']
+            file_path = 'media/temp/' + upload_file.name
 
-    context = {'task': task, 'form': form}
+            # 保存到指定路径
+            with open(file_path, 'wb') as f:
+                for chunk in upload_file.chunks():
+                    f.write(chunk)
+
+            # 处理上传的文件
+            try:
+                wb = load_workbook(file_path)
+                st = wb.active
+            except InvalidFileException:
+                # 删除临时文件
+                os.remove(file_path)
+
+                # 错误提示信息
+                return render_ht(request, 'zzbm/mark_mention.html', context={
+                    'task': task,
+                    'form': form,
+                    'err': '文件格式必须为xlsx',
+                })
+
+            # 删除临时文件
+            os.remove(file_path)
+
+            # 开始读取数据
+            pre_list = []
+            for row in range(2, st.max_row + 1):
+                # 依次读取姓名、性别、毕业学校
+                name = st.cell(row=row, column=1).value
+                gender = st.cell(row=row, column=2).value
+                middle_school = st.cell(row=row, column=3).value
+
+                # 毕业学校特殊化处理
+                middle_school = normalize_school(middle_school)
+
+                # 以三元组形式加入
+                pre_list.append((name, gender, middle_school))
+
+            # 开始遍历考生记录
+            for student in Student.objects.filter(task_belong=task):
+                standard_school_name = normalize_school(student.middle_school)
+                stuple = (student.name, student.gender, standard_school_name)
+
+                # 判断是否在意向列表中
+                if stuple in pre_list:
+                    student.mention = False
+                else:
+                    student.mention = True
+                student.save()
+
+    context = {'task': task, 'form': form, 'err': ''}
+    return render_ht(request, 'zzbm/mark_mention.html', context)

@@ -29,6 +29,7 @@
         <th>准考证号</th>
         <th>成绩</th>
         <th>是否缺考</th>
+        <th>后备生平台相关</th>
         <th>报名时间</th>
         <th>操作</th>
     </tr>
@@ -50,6 +51,11 @@
         <td style="vertical-align: middle;">{{ st.score }}</td>
         {% if st.miss %}
         <td style="vertical-align: middle;">缺考</td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        {% if st.mention %}
+        <td style="vertical-align: middle;">未注册或未选意向学校</td>
         {% else %}
         <td></td>
         {% endif %}

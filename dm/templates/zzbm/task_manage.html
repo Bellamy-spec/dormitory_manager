@@ -354,6 +354,10 @@
                class="btn btn-warning btn-lg li26"
                onclick="return confirm('确定执行此项操作吗？')">查成绩开关</a></td>
     </tr>
+    <tr>
+        <td><a href="{% url 'zzbm:mark_mention' task.id %}"
+               class="btn btn-info btn-lg li26">检查后备生平台注册情况</a></td>
+    </tr>
 </table>
 <p class="err-color">{{ err }}</p>
 <p>

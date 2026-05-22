@@ -1,0 +1,20 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>检查体育艺术后备生平台注册情况</h3>
+<div class="tip-color">
+  <p>说明：格式如下：</p>
+  <p>A列：姓名</p>
+  <p>B列：性别</p>
+  <p>C列：毕业学校</p>
+  <p>从第二行开始读取有效数据</p>
+</div>
+<form role="form" action="{% url 'zzbm:mark_mention' task.id %}" method="post"
+      enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" value="确定上传" class="btn btn-warning" style="margin-top: 10px;">
+</form>
+<p><a href="{% url 'zzbm:task_manage' task.id %}">返回上一页</a></p>
+{% endblock %}

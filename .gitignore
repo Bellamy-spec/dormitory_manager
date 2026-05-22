@@ -7,3 +7,5 @@ dm/media/
 *.txt
 dm/db.sqlite3
 dm/nohup.out
+dm/exam_time.json
+dm/text.json

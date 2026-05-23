@@ -429,6 +429,15 @@ def normalize_school(school_name):
     if '返郑' in school_name or '零星' in school_name:
         return '返郑报考'
 
+    # 统一几所学校的名称
+    key_words = ['勤礼', '一八', '励德', '建业', '中州', '宏泰', '沪华', '实验外国语学校北校区',
+                 '锦江中学', '莲湖', '惠济区实验', '英才', '创新']
+    for key_word in key_words:
+        if key_word in school_name:
+            return key_word
+    if school_name == '郑州经济技术开发区八一中学':
+        return '经开区八一中学'
+
     # 去除常见前缀（可扩展）
     prefixes = ['郑州市', '郑州', '河南省', '河南']
     for pre in prefixes:
@@ -2230,7 +2239,7 @@ def multi_temp(request):
     # 初始行
     row = 4
 
-    for i in range(500):
+    for i in range(50):
         # 生成准考证号
         ex = num_head + DT.str_three(i)
 
@@ -2423,7 +2432,7 @@ def write_students(request, task_id):
                 continue
 
             # 读取性别
-            gender = st.cell(row=row, column=3).value
+            gender = st.cell(row=row, column=3).value.strip()
 
             if gender not in ['男', '女']:
                 st.cell(row=row, column=8).value = '性别只能是"男"或"女"'
@@ -2434,7 +2443,7 @@ def write_students(request, task_id):
                 continue
 
             # 读取身份证号
-            id_number = str(st.cell(row=row, column=4).value)
+            id_number = str(st.cell(row=row, column=4).value).strip().replace('x', 'X')
 
             if not id_number:
                 # 身份证号暂时缺失，先记作‘0’，待完善
@@ -3280,9 +3289,9 @@ def get_year_room():
 
 def load_miss_main(request):
     """登记缺考考场选择"""
-    # # 禁止非管理员用户访问此页
-    # if request.user.username not in DT.managers:
-    #     raise Http404
+    # 禁止非管理员用户访问此页
+    if request.user.username not in DT.managers:
+        raise Http404
 
     # 确保服务器上进入正确的目录，可正常运行
     if os.name != 'nt':
@@ -3511,9 +3520,10 @@ def mark_mention(request, task_id):
                 pre_list.append((name, gender, middle_school))
 
             # 开始遍历考生记录
+            stuple_list = []
             for student in Student.objects.filter(task_belong=task):
                 standard_school_name = normalize_school(student.middle_school)
-                stuple = (student.name, student.gender, standard_school_name)
+                stuple = (student.name.strip(), student.gender.strip(), standard_school_name)
 
                 # 判断是否在意向列表中
                 if stuple in pre_list:
@@ -3521,6 +3531,28 @@ def mark_mention(request, task_id):
                 else:
                     student.mention = True
                 student.save()
+
+                # 记录报名测试的考生信息
+                stuple_list.append(stuple)
+
+            # 再过一遍后备生平台意向表格
+            for row in range(2, st.max_row + 1):
+                # 依次读取姓名、性别、毕业学校
+                name = st.cell(row=row, column=1).value
+                gender = st.cell(row=row, column=2).value
+                middle_school = st.cell(row=row, column=3).value
+
+                # 毕业学校特殊化处理
+                middle_school = normalize_school(middle_school)
+
+                # 对未报名测试的作标注
+                yellow_fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
+                if (name, gender, middle_school) not in stuple_list:
+                    st.cell(row=row, column=4).value = '未报名测试'
+                    st.cell(row=row, column=4).fill = yellow_fill
+
+            # 输出
+            return write_out(wb)
 
     context = {'task': task, 'form': form, 'err': ''}
     return render_ht(request, 'zzbm/mark_mention.html', context)

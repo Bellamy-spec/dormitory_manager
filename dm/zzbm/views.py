@@ -1529,7 +1529,7 @@ def get_seat_table(request, task_id):
         os.mkdir(os.path.join('media', 'seat_table'))
 
     # 大标题
-    big_title = '{}{}中考美术加试座次表'.format(settings.USER_NAME, task.year)
+    big_title = '{}{}中考美术测试座次表'.format(settings.USER_NAME, task.year)
 
     # 标题样式
     title_font = ImageFont.truetype('font/simhei.ttf', 36)
@@ -1540,7 +1540,7 @@ def get_seat_table(request, task_id):
     # 循环遍历所有考场
     for rm in task.all_room(e8='0'):
         # 分段下载
-        if int(rm[1:]) > 1:
+        if int(rm[1:]) > 10:
             continue
 
         # 判断考场科目

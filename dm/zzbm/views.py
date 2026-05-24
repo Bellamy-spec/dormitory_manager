@@ -11,7 +11,8 @@ from io import BytesIO
 from datetime import datetime
 from .models import Task, Student
 from .tools import DataTool
-from .forms import TaskForm, PutNameForm, FileUploadForm, StudentsUploadForm, ChangeInfoForm, ChangePutForm, MentionUploadForm
+from .forms import TaskForm, PutNameForm, FileUploadForm, StudentsUploadForm, ChangeInfoForm, \
+    ChangePutForm, MentionUploadForm
 import os
 from PIL import Image, ImageDraw, ImageFont
 import fitz
@@ -1538,10 +1539,10 @@ def get_seat_table(request, task_id):
     font = ImageFont.truetype('font/simsun.ttc', 20)
 
     # 循环遍历所有考场
-    for rm in task.all_room(e8='0'):
-        # 分段下载
-        if int(rm[1:]) > 10:
-            continue
+    for rm in task.all_room(e8='1'):
+        # # 分段下载
+        # if int(rm[1:]) > 10:
+        #     continue
 
         # 判断考场科目
         sub = task.judge_type(rm)
@@ -1684,6 +1685,9 @@ def export_students(request, task_id):
     # 初始行
     row = 3
 
+    # 特殊标记格式
+    yellow_fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
+
     # 循环遍历每个已报名考生，写入表格
     for student in Student.objects.filter(task_belong=task).order_by('num'):
         st.cell(row=row, column=1).value = student.num
@@ -1716,6 +1720,7 @@ def export_students(request, task_id):
         # 后备生平台匹配情况
         if student.mention:
             st.cell(row=row, column=16).value = '未注册或未选意向学校'
+            st.cell(row=row, column=16).fill = yellow_fill
 
         # 下一行
         row += 1
@@ -3522,6 +3527,10 @@ def mark_mention(request, task_id):
             # 开始遍历考生记录
             stuple_list = []
             for student in Student.objects.filter(task_belong=task):
+                # # 更改为正确的初中学校名称
+                # if 202601500 <= int(student.exam_id) <= 202601999:
+                #     student.middle_school = '郑州市金水区第一中学'
+
                 standard_school_name = normalize_school(student.middle_school)
                 stuple = (student.name.strip(), student.gender.strip(), standard_school_name)
 

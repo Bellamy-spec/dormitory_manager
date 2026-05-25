@@ -457,6 +457,7 @@ def write_msg(st, student, row, show_symbol):
     """将学生student的信息写入st表的第row行"""
     # 特殊标记格式
     yellow_fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
+    green_fill = PatternFill(start_color='00FF00', end_color='00FF00', fill_type='solid')
 
     # 未匹配到重复身份证号，正常写入
     st.cell(row=row, column=1).value = student.num
@@ -489,11 +490,15 @@ def write_msg(st, student, row, show_symbol):
     st.cell(row=row, column=15).value = student.middle_school_desc
 
     # 后备生平台匹配情况
-    if student.mention:
-        st.cell(row=row, column=16).value = '未注册或未选意向学校'
-        st.cell(row=row, column=16).fill = yellow_fill
+    if student.white_name:
+        st.cell(row=row, column=16).value = '确定已注册'
+        st.cell(row=row, column=16).fill = green_fill
     else:
-        st.cell(row=row, column=16).value = ''
+        if student.mention:
+            st.cell(row=row, column=16).value = '未注册或未选意向学校'
+            st.cell(row=row, column=16).fill = yellow_fill
+        else:
+            st.cell(row=row, column=16).value = ''
 
     # 写入显示优先级
     st.cell(row=row, column=17).value = show_symbol

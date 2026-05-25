@@ -54,10 +54,14 @@
         {% else %}
         <td></td>
         {% endif %}
+        {% if st.white_name %}
+        <td style="vertical-align: middle;">确定已注册</td>
+        {% else %}
         {% if st.mention %}
         <td style="vertical-align: middle;">未注册或未选意向学校</td>
         {% else %}
         <td></td>
+        {% endif %}
         {% endif %}
         <td style="vertical-align: middle;">{{ st.datetime_added|date:'Y-m-d H:i:s' }}</td>
         <td style="vertical-align: middle;" id="op{{ st.id }}">

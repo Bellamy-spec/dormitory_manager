@@ -453,6 +453,52 @@ def normalize_school(school_name):
     return school_name.strip()
 
 
+def write_msg(st, student, row, show_symbol):
+    """将学生student的信息写入st表的第row行"""
+    # 特殊标记格式
+    yellow_fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
+
+    # 未匹配到重复身份证号，正常写入
+    st.cell(row=row, column=1).value = student.num
+    st.cell(row=row, column=2).value = student.name
+    st.cell(row=row, column=3).value = student.gender
+    st.cell(row=row, column=4).value = student.id_number
+    st.cell(row=row, column=5).value = student.phone_number
+    st.cell(row=row, column=6).value = student.middle_school
+    st.cell(row=row, column=7).value = student.subject
+    st.cell(row=row, column=8).value = student.pwd
+    st.cell(row=row, column=9).value = student.room
+    st.cell(row=row, column=10).value = student.seat
+    st.cell(row=row, column=11).value = student.exam_id
+
+    # 写入成绩
+    if student.score != 'O':
+        st.cell(row=row, column=12).value = student.score
+
+    # 写入缺考状态
+    if student.miss:
+        st.cell(row=row, column=13).value = '缺考'
+    else:
+        st.cell(row=row, column=13).value = ''
+
+    # 日期格式化为字符串再写入
+    dt = datetime.strftime(student.datetime_added, '%Y-%m-%d %H:%M:%S')
+    st.cell(row=row, column=14).value = dt
+
+    # 初中学校备注（仅外地考生有）
+    st.cell(row=row, column=15).value = student.middle_school_desc
+
+    # 后备生平台匹配情况
+    if student.mention:
+        st.cell(row=row, column=16).value = '未注册或未选意向学校'
+        st.cell(row=row, column=16).fill = yellow_fill
+    else:
+        st.cell(row=row, column=16).value = ''
+
+    # 写入显示优先级
+    st.cell(row=row, column=17).value = show_symbol
+
+
 # Create your views here.
 def index(request):
     """主页"""
@@ -1539,7 +1585,7 @@ def get_seat_table(request, task_id):
     font = ImageFont.truetype('font/simsun.ttc', 20)
 
     # 循环遍历所有考场
-    for rm in task.all_room(e8='1'):
+    for rm in task.all_room(e8='3'):
         # # 分段下载
         # if int(rm[1:]) > 10:
         #     continue
@@ -1676,6 +1722,7 @@ def export_students(request, task_id):
     st['N2'].value = '报名时间'
     st['O2'].value = '初中学校备注'
     st['P2'].value = '后备生平台相关'
+    st['Q2'].value = '显示优先级'
 
     # 标题和表头字体格式
     st['A1'].font = Font(size=14, bold=True)
@@ -1685,42 +1732,53 @@ def export_students(request, task_id):
     # 初始行
     row = 3
 
-    # 特殊标记格式
-    yellow_fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
+    # 记录已读入的考生对象
+    id_list = []
 
     # 循环遍历每个已报名考生，写入表格
     for student in Student.objects.filter(task_belong=task).order_by('num'):
-        st.cell(row=row, column=1).value = student.num
-        st.cell(row=row, column=2).value = student.name
-        st.cell(row=row, column=3).value = student.gender
-        st.cell(row=row, column=4).value = student.id_number
-        st.cell(row=row, column=5).value = student.phone_number
-        st.cell(row=row, column=6).value = student.middle_school
-        st.cell(row=row, column=7).value = student.subject
-        st.cell(row=row, column=8).value = student.pwd
-        st.cell(row=row, column=9).value = student.room
-        st.cell(row=row, column=10).value = student.seat
-        st.cell(row=row, column=11).value = student.exam_id
-
-        # 写入成绩
-        if student.score != 'O':
-            st.cell(row=row, column=12).value = student.score
-
-        # 写入缺考状态
-        if student.miss:
-            st.cell(row=row, column=13).value = '缺考'
-
-        # 日期格式化为字符串再写入
-        dt = datetime.strftime(student.datetime_added, '%Y-%m-%d %H:%M:%S')
-        st.cell(row=row, column=14).value = dt
-
-        # 初中学校备注（仅外地考生有）
-        st.cell(row=row, column=15).value = student.middle_school_desc
-
-        # 后备生平台匹配情况
+        # TODO:辅助列：显示优先级
         if student.mention:
-            st.cell(row=row, column=16).value = '未注册或未选意向学校'
-            st.cell(row=row, column=16).fill = yellow_fill
+            if student.miss:
+                show_symbol = 3
+            else:
+                show_symbol = 2
+        else:
+            if student.miss:
+                show_symbol = 1
+            else:
+                show_symbol = 0
+
+        # 匹配标志
+        matched = False
+
+        # 与已有的优先级数据进行比较
+        id_ob = (student.id_number, show_symbol, row)
+        for ob in id_list:
+            if id_ob[0] == ob[0]:
+                # 出现重复身份证号，只保留显示优先级较低的
+                if id_ob[1] < ob[1]:
+                    # 新对象优先级较低，替换老对象
+                    ri = ob[2]
+                    id_list.remove(ob)
+                    id_ob = (student.id_number, show_symbol, ri)
+                    id_list.append(id_ob)
+                    write_msg(st, student, ri, show_symbol)
+                # else:
+                #     # 老对象优先级较低，直接过掉
+                #     pass
+
+                # 匹配到，可以跳出内层循环
+                matched = True
+                break
+
+        if matched:
+            # 匹配到的情况下，已做出处理，直接下一个
+            continue
+
+        # 未匹配到重复身份证号，正常写入
+        write_msg(st, student, row, show_symbol)
+        id_list.append(id_ob)
 
         # 下一行
         row += 1
@@ -3527,9 +3585,9 @@ def mark_mention(request, task_id):
             # 开始遍历考生记录
             stuple_list = []
             for student in Student.objects.filter(task_belong=task):
-                # # 更改为正确的初中学校名称
-                # if 202601500 <= int(student.exam_id) <= 202601999:
-                #     student.middle_school = '郑州市金水区第一中学'
+                # 更改为正确的初中学校名称
+                if 202601315 <= int(student.exam_id) <= 202601345:
+                    student.middle_school = '郑州市第七十五中学'
 
                 standard_school_name = normalize_school(student.middle_school)
                 stuple = (student.name.strip(), student.gender.strip(), standard_school_name)
@@ -3557,8 +3615,8 @@ def mark_mention(request, task_id):
                 # 对未报名测试的作标注
                 yellow_fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
                 if (name, gender, middle_school) not in stuple_list:
-                    st.cell(row=row, column=4).value = '未报名测试'
-                    st.cell(row=row, column=4).fill = yellow_fill
+                    st.cell(row=row, column=5).value = '未报名测试'
+                    st.cell(row=row, column=5).fill = yellow_fill
 
             # 输出
             return write_out(wb)

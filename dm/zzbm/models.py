@@ -473,6 +473,9 @@ class Student(models.Model):
     # 是否需要提示
     mention = models.BooleanField(default=False)
 
+    # 白名单：确认不需要提示
+    white_name = models.BooleanField(default=False)
+
     def __str__(self):
         """返回模型的字符串表示"""
         return '{}{}'.format(self.id_number, self.name)

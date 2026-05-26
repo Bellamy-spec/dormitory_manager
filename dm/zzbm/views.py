@@ -1585,10 +1585,10 @@ def get_seat_table(request, task_id):
     font = ImageFont.truetype('font/simsun.ttc', 20)
 
     # 循环遍历所有考场
-    for rm in task.all_room(e8='3'):
-        # # 分段下载
-        # if int(rm[1:]) > 10:
-        #     continue
+    for rm in task.all_room(e8='5'):
+        # 分段下载
+        if int(rm[1:]) <= 7:
+            continue
 
         # 判断考场科目
         sub = task.judge_type(rm)

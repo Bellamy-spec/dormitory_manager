@@ -103,7 +103,7 @@ class ChangeInfoForm(forms.ModelForm):
         widgets = {
             'phone_number': forms.TextInput(attrs={'type': 'number'}),
             'name': forms.TextInput(attrs={'autocomplete': 'off'}),
-            'middle_school': forms.TextInput(attrs={'autocomplete': 'off'}),
+            'middle_school': forms.Select(attrs={'id': 'middle_school'}),
             'id_number': forms.TextInput(attrs={'autocomplete': 'off'}),
         }
 
@@ -123,6 +123,7 @@ class ChangePutForm(forms.ModelForm):
             'subject',
             'photo',
             'exam_id',
+            'white_name',
         ]
         labels = {
             'name': '姓名',
@@ -134,10 +135,11 @@ class ChangePutForm(forms.ModelForm):
             'subject': '选考科目',
             'photo': '上传个人一寸照片',
             'exam_id': '准考证号',
+            'white_name': '确认已在后备生平台注册',
         }
         widgets = {
             'phone_number': forms.TextInput(attrs={'type': 'number'}),
             'name': forms.TextInput(attrs={'autocomplete': 'off'}),
-            'middle_school': forms.TextInput(attrs={'autocomplete': 'off'}),
+            'middle_school': forms.Select(attrs={'id': 'middle_school'}),
             'id_number': forms.TextInput(attrs={'autocomplete': 'off'}),
         }

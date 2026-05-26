@@ -457,6 +457,7 @@ def write_msg(st, student, row, show_symbol):
     """将学生student的信息写入st表的第row行"""
     # 特殊标记格式
     yellow_fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
+    green_fill = PatternFill(start_color='00FF00', end_color='00FF00', fill_type='solid')
 
     # 未匹配到重复身份证号，正常写入
     st.cell(row=row, column=1).value = student.num
@@ -489,11 +490,15 @@ def write_msg(st, student, row, show_symbol):
     st.cell(row=row, column=15).value = student.middle_school_desc
 
     # 后备生平台匹配情况
-    if student.mention:
-        st.cell(row=row, column=16).value = '未注册或未选意向学校'
-        st.cell(row=row, column=16).fill = yellow_fill
+    if student.white_name:
+        st.cell(row=row, column=16).value = '确定已注册'
+        st.cell(row=row, column=16).fill = green_fill
     else:
-        st.cell(row=row, column=16).value = ''
+        if student.mention:
+            st.cell(row=row, column=16).value = '未注册或未选意向学校'
+            st.cell(row=row, column=16).fill = yellow_fill
+        else:
+            st.cell(row=row, column=16).value = ''
 
     # 写入显示优先级
     st.cell(row=row, column=17).value = show_symbol
@@ -2863,6 +2868,9 @@ def change_info(request, student_id):
     # 生成标题
     title = '修改准考证号{}的考生信息'.format(student.exam_id)
 
+    # 获取初中学校列表
+    middle_school_list = DT.get_middle_school_list(simple=True)
+
     if request.method != 'POST':
         # 未提交数据，用考生原有信息填充表单
         form = ChangeInfoForm(instance=student)
@@ -2909,6 +2917,15 @@ def change_info(request, student_id):
                     'title': title,
                     'form': form,
                     'err': '手机号格式错误！',
+                })
+
+            # 检验初中毕业学校
+            if to_change.middle_school not in middle_school_list:
+                return render_ht(request, 'zzbm/chang_info.html', context={
+                    'student': student,
+                    'title': title,
+                    'form': form,
+                    'err': '请从下拉选项当中选择初中毕业学校！',
                 })
 
             # 通过检验，修改考生信息
@@ -2960,6 +2977,9 @@ def edit_student(request, student_id):
     # 取出考生对象及所属任务对象
     student = Student.objects.get(id=student_id)
     task = student.task_belong
+
+    # 取得初中毕业学校列表
+    middle_school_list = DT.get_middle_school_list()
 
     if request.method != 'POST':
         # 未提交数据，用当前考生填充表单
@@ -3018,6 +3038,15 @@ def edit_student(request, student_id):
                         'err': '邮箱格式有误！',
                     })
 
+            # 检验初中毕业学校
+            if editor.middle_school not in middle_school_list:
+                return render_ht(request, 'zzbm/edit_student.html', context={
+                    'task': task,
+                    'student': student,
+                    'form': form,
+                    'err': '请从下拉选项当中选择初中毕业学校！',
+                })
+
             # # 一寸照片必须上传
             # if not editor.photo:
             #     return render(request, 'zzbm/edit_student.html', context={
@@ -3046,6 +3075,11 @@ def edit_student(request, student_id):
             #             'form': form,
             #             'err': '准考证号格式不符合规范',
             #         })
+
+            # 对白名单者直接免去提醒
+            student.white_name = editor.white_name
+            if student.white_name:
+                student.mention = False
 
             # 根据表单填写内容修改考生对象字段
             student.name = editor.name
@@ -3592,11 +3626,13 @@ def mark_mention(request, task_id):
                 standard_school_name = normalize_school(student.middle_school)
                 stuple = (student.name.strip(), student.gender.strip(), standard_school_name)
 
-                # 判断是否在意向列表中
+                # 判断是否给予标记
                 if stuple in pre_list:
                     student.mention = False
                 else:
                     student.mention = True
+                if student.white_name:
+                    student.mention = False
                 student.save()
 
                 # 记录报名测试的考生信息

@@ -3,6 +3,7 @@
 
 {% block content %}
 <h3>{{ title }}</h3>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
 <form role="form" action="{% url 'zzbm:change_info' student.id %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
@@ -14,4 +15,14 @@
     <a href="{% url 'zzbm:see_multi' student.task_belong.id %}">返回上一页</a> -
     <a href="{% url 'zzbm:task_main' student.task_belong.id %}">返回任务主页</a>
 </p>
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script>
+    new Choices('#middle_school', {
+        searchEnabled: true,
+        searchPlaceholderValue: '输入关键词搜索',
+        searchResultLimit: 12,
+        itemSelectText: '',
+        shouldSort: false
+    });
+</script>
 {% endblock %}

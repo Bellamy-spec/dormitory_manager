@@ -501,7 +501,8 @@ def write_msg(st, student, row, show_symbol):
             st.cell(row=row, column=16).value = ''
 
     # 写入显示优先级
-    st.cell(row=row, column=17).value = show_symbol
+    if show_symbol >= 0:
+        st.cell(row=row, column=17).value = show_symbol
 
 
 # Create your views here.
@@ -3659,3 +3660,67 @@ def mark_mention(request, task_id):
 
     context = {'task': task, 'form': form, 'err': ''}
     return render_ht(request, 'zzbm/mark_mention.html', context)
+
+
+def simple_export(request, task_id):
+    """简单导出"""
+    # 禁止非管理员用户访问此页
+    if request.user.username not in DT.managers:
+        raise Http404
+
+    # 取出任务对象，生成标题
+    task = Task.objects.get(id=task_id)
+    title = '{}{}中考美术加试报名信息'.format(settings.USER_NAME, task.year)
+
+    # 打开新的工作表
+    wb = Workbook()
+    st = wb.active
+
+    # 写入标题
+    st['A1'].value = title
+    st.merge_cells(range_string='A1:N1')
+
+    # 写入表头
+    st['A2'].value = '序号'
+    st['B2'].value = '姓名'
+    st['C2'].value = '性别'
+    st['D2'].value = '身份证号'
+    st['E2'].value = '手机号'
+    st['F2'].value = '初中毕业学校'
+    st['G2'].value = '选考科目'
+    st['H2'].value = '报名序号'
+    st['I2'].value = '考场号'
+    st['J2'].value = '座位号'
+    st['K2'].value = '准考证号'
+    st['L2'].value = '成绩'
+    st['M2'].value = '是否缺考'
+    st['N2'].value = '报名时间'
+    st['O2'].value = '初中学校备注'
+    st['P2'].value = '后备生平台相关'
+
+    # 标题和表头字体格式
+    st['A1'].font = Font(size=14, bold=True)
+    for c in range(1, 13):
+        st.cell(row=2, column=c).font = Font(size=12, bold=True)
+
+    # 初始行
+    row = 3
+
+    # 循环遍历每个已报名考生，写入表格
+    for student in Student.objects.filter(task_belong=task).order_by('num'):
+        # 未匹配到重复身份证号，正常写入
+        write_msg(st, student, row, -1)
+
+        # 下一行
+        row += 1
+
+    # 添加边框
+    add_border(st, start_row=2, start_column=1, end_row=row - 1, end_column=15)
+
+    # 设置合适的列宽
+    width_dict = {'A': 6, 'B': 9, 'C': 6, 'D': 20, 'E': 12, 'F': 24, 'G': 12,
+                  'H': 12, 'I': 8, 'J': 8, 'K': 15, 'L': 7, 'M': 9, 'N': 20, 'O': 12}
+    set_width_dict(st, width_dict)
+
+    # 输出
+    return write_out(wb)

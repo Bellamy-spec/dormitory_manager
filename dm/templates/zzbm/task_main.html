@@ -34,12 +34,24 @@
     </tr>
     {% endif %}
     <tr>
+        {% if task.can_que or is_manager %}
         <td><a href="{% url 'zzbm:get_score_input' task.id %}"
                style="background-color:#DD33DD; color:#FFFFFF;"
                class="btn btn-default btn-lg li2">查询成绩</a></td>
+        {% else %}
+        <td><a href="{% url 'zzbm:get_score_input' task.id %}"
+               style="background-color:#DD33DD; color:#FFFFFF; pointer-events:none; opacity:0.4;"
+               class="btn btn-default btn-lg li2">查询成绩</a></td>
+        {% endif %}
+        {% if is_manager %}
         <td><a href="{% url 'zzbm:get_in' task.id %}"
                style="background-color:#33DDDD; color:#FFFFFF;"
                class="btn btn-default btn-lg li2">核对信息</a></td>
+        {% else %}
+        <td><a href="{% url 'zzbm:get_in' task.id %}"
+               style="background-color:#33DDDD; color:#FFFFFF; pointer-events:none; opacity:0.4;"
+               class="btn btn-default btn-lg li2">核对信息</a></td>
+        {% endif %}
     </tr>
     {% if is_operator %}
     <tr>

@@ -162,4 +162,10 @@ urlpatterns = [
 
     # 简单导出
     path('simple_export/<int:task_id>/', views.simple_export, name='simple_export'),
+
+    # 修改成绩
+    path('change_score/<int:student_id>/', views.change_score, name='change_score'),
+
+    # 后备生平台未注册情况输出
+    path('strong_mention/<int:task_id>/', views.strong_mention, name='strong_mention'),
 ]

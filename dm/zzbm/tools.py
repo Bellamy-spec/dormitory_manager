@@ -32,6 +32,16 @@ class DataTool:
             'D': '不合格',
             'O': '未设置',
         }
+        self.scores_2026 = {
+            'A': '合格',
+            'D': '不合格',
+            'O': '未设置',
+        }
+        self.score_choices_2026 = {
+            'A': 'A(合格)',
+            'D': 'D(不合格)',
+            'O': 'O(未设置)',
+        }
 
         # 成绩对应逻辑分值
         self.score_int = {

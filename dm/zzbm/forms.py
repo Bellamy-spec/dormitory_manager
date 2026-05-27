@@ -86,6 +86,11 @@ class MentionUploadForm(forms.Form):
     file = forms.FileField(label='上传后备生平台意向学生名单')
 
 
+class StrongMentionForm(forms.Form):
+    """用于输出后备生平台未注册的表单"""
+    file = forms.FileField(label='上传未注册学生身份证信息')
+
+
 class ChangeInfoForm(forms.ModelForm):
     """用于修改导入考生信息的表单"""
 
@@ -143,3 +148,11 @@ class ChangePutForm(forms.ModelForm):
             'middle_school': forms.Select(attrs={'id': 'middle_school'}),
             'id_number': forms.TextInput(attrs={'autocomplete': 'off'}),
         }
+
+
+class ChangeScoreForm(forms.ModelForm):
+    """用于修改成绩的表单"""
+    class Meta:
+        model = Student
+        fields = ['score']
+        labels = {'score': ''}

@@ -27,6 +27,7 @@
         <th>姓名</th>
         <th>成绩</th>
         <th>备注</th>
+        <th>操作</th>
     </tr>
     {% for ob in students %}
     <tr>
@@ -40,6 +41,8 @@
         {% else %}
         <td></td>
         {% endif %}
+        <td><a href="{% url 'zzbm:change_score' ob.id %}"
+               class="btn btn-warning">修改成绩</a></td>
     </tr>
     {% endfor %}
 </table>

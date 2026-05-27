@@ -357,6 +357,8 @@
     <tr>
         <td><a href="{% url 'zzbm:mark_mention' task.id %}"
                class="btn btn-info btn-lg li26">检查后备生平台注册情况</a></td>
+        <td><a href="{% url 'zzbm:strong_mention' task.id %}"
+               class="btn btn-primary btn-lg li26">后备生平台未注册情况输出</a></td>
     </tr>
 </table>
 <p class="err-color">{{ err }}</p>

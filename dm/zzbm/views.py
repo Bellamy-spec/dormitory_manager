@@ -12,7 +12,7 @@ from datetime import datetime
 from .models import Task, Student
 from .tools import DataTool
 from .forms import TaskForm, PutNameForm, FileUploadForm, StudentsUploadForm, ChangeInfoForm, \
-    ChangePutForm, MentionUploadForm
+    ChangePutForm, MentionUploadForm, ChangeScoreForm, StrongMentionForm
 import os
 from PIL import Image, ImageDraw, ImageFont
 import fitz
@@ -474,7 +474,7 @@ def write_msg(st, student, row, show_symbol):
 
     # 写入成绩
     if student.score != 'O':
-        st.cell(row=row, column=12).value = student.score
+        st.cell(row=row, column=12).value = DT.scores_2026[student.score]
 
     # 写入缺考状态
     if student.miss:
@@ -1847,7 +1847,7 @@ def get_score(request, student_id, pwd):
     # 标题
     title = '{}{}年美术后备生测试成绩'.format(settings.USER_NAME, student.task_belong.year)
 
-    context = {'student': student, 'title': title, 'score': DT.scores_2025[student.score]}
+    context = {'student': student, 'title': title, 'score': DT.scores_2026[student.score]}
     return render_ht(request, 'zzbm/student_score.html', context)
 
 
@@ -1864,7 +1864,7 @@ def download_temp(request, task_id):
     title = '{}{}中考美术加试成绩模板'.format(settings.USER_NAME, task.year)
 
     # 定制说明内容
-    tip_msg = '说明：请勿更改表格格式，仅在E列填写考生成绩即可\n成绩只可填写‘A’，‘B’，‘C’或‘D’'
+    tip_msg = '说明：请勿更改表格格式，仅在G列填写考生成绩即可\n成绩只可填写‘A’或‘D’'
 
     # 打开文件，定位工作表
     wb = Workbook()
@@ -1902,7 +1902,7 @@ def download_temp(request, task_id):
     row = 4
 
     # 循环遍历所有考生写入信息
-    for student in Student.objects.filter(task_belong=task).order_by('exam_id'):
+    for student in Student.objects.filter(task_belong=task, miss=False).order_by('exam_id'):
         st.cell(row=row, column=1).value = student.room
         st.cell(row=row, column=2).value = student.seat
         st.cell(row=row, column=3).value = student.exam_id
@@ -1922,11 +1922,11 @@ def download_temp(request, task_id):
         row += 1
 
     # 为E列添加下拉选项
-    options = ['A', 'B', 'C', 'D']
+    options = ['A', 'D']
     validation = DataValidation(type='list', formula1='"' + ','.join(options) + '"',
                                 allow_blank=True)
     for r in range(4, row):
-        validation.add('E' + str(r))
+        validation.add('G' + str(r))
     st.add_data_validation(validation)
 
     # 调整列宽
@@ -2002,8 +2002,8 @@ def write_score(request, task_id):
         # 错误提示填充
         yellow_fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
 
-        # 从第2行开始逐行读取
-        for row in range(2, st.max_row + 1):
+        # 从第4行开始逐行读取
+        for row in range(4, st.max_row + 1):
             # 读取准考证号
             exam_id = st.cell(row=row, column=3).value
 
@@ -2055,14 +2055,30 @@ def write_score(request, task_id):
 
             # 缺考直接跳过
             if st.cell(row=row, column=8).value == '缺考':
-                student.miss = True
-                student.save()
+                # student.miss = True
+                # student.save()
+
+                # 写出错误提示
+                st.cell(row=row, column=9).value = '备注列提示缺考，请进一步确认'
+                st.cell(row=row, column=9).fill = yellow_fill
+
+                # 失败数加一
+                fail += 1
                 continue
 
             # 成绩格式不合要求
-            if score not in ['A', 'B', 'C', 'D', 'O']:
+            if score not in DT.scores_2026.keys():
                 # 写出错误提示
-                st.cell(row=row, column=9).value = '成绩值只能为A、B、C、D、O其中之一'
+                st.cell(row=row, column=9).value = '成绩值不符合要求'
+                st.cell(row=row, column=9).fill = yellow_fill
+
+                # 失败数加一
+                fail += 1
+                continue
+
+            if student.miss:
+                # 写出错误提示
+                st.cell(row=row, column=9).value = '考生在系统内登记缺考，请进一步确认'
                 st.cell(row=row, column=9).fill = yellow_fill
 
                 # 失败数加一
@@ -2071,7 +2087,7 @@ def write_score(request, task_id):
 
             # 通过所有检验，可进行成绩赋值
             student.score = score
-            student.miss = False
+            # student.miss = False
             student.save()
 
             # 成功数加一
@@ -2682,6 +2698,10 @@ def get_score_input(request, task_id):
     # 取出任务对象
     task = Task.objects.get(id=task_id)
 
+    # 未开放成绩查询的情况
+    if not task.can_que and request.user.username not in DT.managers:
+        raise Http404
+
     # 生成标题
     title = '查询{}{}年美术后备生测试成绩'.format(settings.USER_NAME, task.year)
 
@@ -3147,11 +3167,7 @@ def export_score(request, task_id, pub):
             st.cell(row=row, column=2).value = ob.name
             st.cell(row=row, column=3).value = ob.id_number
             st.cell(row=row, column=4).value = ob.subject
-            if pub:
-                st.cell(row=row, column=5).value = DT.scores_2025[ob.score]
-            else:
-                st.cell(row=row, column=5).value = ob.score
-
+            st.cell(row=row, column=5).value = DT.scores_2026[ob.score]
             row += 1
 
     return write_out(wb)
@@ -3229,10 +3245,7 @@ def de_repeat(request, task_id, pub):
         st.cell(row=row, column=2).value = student.name
         st.cell(row=row, column=3).value = student.id_number
         st.cell(row=row, column=4).value = student.subject
-        if pub:
-            st.cell(row=row, column=5).value = DT.scores_2025[student.score]
-        else:
-            st.cell(row=row, column=5).value = student.score
+        st.cell(row=row, column=5).value = DT.scores_2026[student.score]
 
         row += 1
 
@@ -3276,7 +3289,7 @@ def show_repeat(request, task_id):
                 st.cell(row=row, column=2).value = ob.name
                 st.cell(row=row, column=3).value = ob.id_number
                 st.cell(row=row, column=4).value = ob.subject
-                st.cell(row=row, column=5).value = ob.score
+                st.cell(row=row, column=5).value = DT.scores_2026[ob.score]
 
                 row += 1
 
@@ -3724,3 +3737,117 @@ def simple_export(request, task_id):
 
     # 输出
     return write_out(wb)
+
+
+def change_score(request, student_id):
+    """修改考生的成绩"""
+    # 禁止非管理员用户访问此页
+    if request.user.username not in DT.managers:
+        raise Http404
+
+    # 取出要修改成绩的考生对象
+    student = Student.objects.get(id=student_id)
+
+    # 生成提示信息
+    tip_title = '修改{}号考生{}的成绩'.format(student.exam_id, student.name)
+
+    if request.method != 'POST':
+        # 未提交数据，创建新的表单
+        form = ChangeScoreForm(instance=student)
+    else:
+        # 对POST提交的数据作出处理
+        form = ChangeScoreForm(data=request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+
+            # 重定向至成绩管理页
+            return HttpResponseRedirect(reverse('zzbm:score_manage', args=[student.task_belong.id]))
+
+    context = {'student': student, 'title': tip_title, 'form': form}
+    return render_ht(request, 'zzbm/change_score.html', context)
+
+
+def strong_mention(request, task_id):
+    """后备生平台未注册情况输出"""
+    # 禁止非管理员用户访问此页
+    if request.user.username not in DT.managers:
+        raise Http404
+
+    # 确保服务器上进入正确的目录，可正常运行
+    if os.name != 'nt':
+        os.chdir('/root/dormitory_manager/dm')
+
+    # 取出相应的任务对象
+    task = Task.objects.get(id=task_id)
+
+    if request.method != 'POST':
+        # 未提交数据，创建新的表单
+        form = StrongMentionForm()
+    else:
+        # 对上传的文件作出处理
+        form = StrongMentionForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            # 临时保存文件
+            upload_file = form.cleaned_data['file']
+            file_path = 'media/temp/' + upload_file.name
+
+            # 保存到指定路径
+            with open(file_path, 'wb') as f:
+                for chunk in upload_file.chunks():
+                    f.write(chunk)
+
+            # 处理上传的文件
+            try:
+                wb = load_workbook(file_path)
+                st = wb.active
+            except InvalidFileException:
+                # 删除临时文件
+                os.remove(file_path)
+
+                # 错误提示信息
+                return render_ht(request, 'zzbm/strong_mention.html', context={
+                    'task': task,
+                    'form': form,
+                    'err': '文件格式必须为xlsx',
+                })
+
+            # 删除临时文件
+            os.remove(file_path)
+
+            # 打开新的用于输出的表格
+            wb_out = Workbook()
+            st_out = wb_out.active
+
+            # 写入输出信息的表头
+            st_out['A1'].value = '身份证号'
+            st_out['B1'].value = '姓名'
+            st_out['C1'].value = '性别'
+            st_out['D1'].value = '手机号'
+            st_out['E1'].value = '初中毕业学校'
+            st_out['F1'].value = '准考证号'
+            st_out['G1'].value = '问题类型'
+
+            # 从第二行开始读取信息
+            for row in range(2, st.max_row + 1):
+                # 读取身份证号和问题类型
+                id_num = st.cell(row=row, column=1).value
+                tp = st.cell(row=row, column=2).value
+
+                # 匹配数据库当中的学生对象
+                student = Student.objects.filter(task_belong=task, id_number=id_num, miss=False)[0]
+
+                # 写入输出信息
+                st_out.cell(row=row, column=1).value = id_num
+                st_out.cell(row=row, column=2).value = student.name
+                st_out.cell(row=row, column=3).value = student.gender
+                st_out.cell(row=row, column=4).value = student.phone_number
+                st_out.cell(row=row, column=5).value = student.middle_school
+                st_out.cell(row=row, column=6).value = student.exam_id
+                st_out.cell(row=row, column=7).value = tp
+
+            # 输出
+            return write_out(wb_out)
+
+    context = {'task': task, 'form': form, 'err': ''}
+    return render_ht(request, 'zzbm/strong_mention.html', context)

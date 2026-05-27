@@ -1,0 +1,14 @@
+{% extends "zzbm/base.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>后备生平台未注册情况输出</h3>
+<p class="tip-color">请将身份证号置于A列，问题类型置于B列，从第二行开始读取有效数据</p>
+<form role="form" action="{% url 'zzbm:strong_mention' task.id %}" method="post"
+      enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" value="确定上传" class="btn btn-warning" style="margin-top: 10px;">
+</form>
+<p><a href="{% url 'zzbm:task_manage' task.id %}">返回上一页</a></p>
+{% endblock %}

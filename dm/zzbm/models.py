@@ -462,7 +462,7 @@ class Student(models.Model):
     datetime_added = models.DateTimeField(auto_now_add=True)
 
     # 考试成绩
-    score = models.CharField(max_length=1, choices=tuple(DT.scores_2025.items()), default='O')
+    score = models.CharField(max_length=1, choices=tuple(DT.score_choices_2026.items()), default='O')
 
     # 添加方式
     add_method = models.IntegerField(choices=DT.add_method, default=1)

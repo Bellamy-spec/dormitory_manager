@@ -12,7 +12,7 @@ from datetime import datetime
 from .models import Task, Student
 from .tools import DataTool
 from .forms import TaskForm, PutNameForm, FileUploadForm, StudentsUploadForm, ChangeInfoForm, \
-    ChangePutForm, MentionUploadForm, ChangeScoreForm, StrongMentionForm
+    ChangePutForm, MentionUploadForm, ChangeScoreForm, StrongMentionForm, FinalScoreForm
 import os
 from PIL import Image, ImageDraw, ImageFont
 import fitz
@@ -3851,3 +3851,84 @@ def strong_mention(request, task_id):
 
     context = {'task': task, 'form': form, 'err': ''}
     return render_ht(request, 'zzbm/strong_mention.html', context)
+
+
+def final_score(request, task_id):
+    """导出最终版成绩单"""
+    # 禁止非管理员用户访问此页
+    if request.user.username not in DT.managers:
+        raise Http404
+
+    # 确保服务器上进入正确的目录，可正常运行
+    if os.name != 'nt':
+        os.chdir('/root/dormitory_manager/dm')
+
+    # 取出相应的任务对象
+    task = Task.objects.get(id=task_id)
+
+    if request.method != 'POST':
+        # 未提交数据，创建新的表单
+        form = FinalScoreForm()
+    else:
+        # 对POST提交的数据作出处理
+        form = FinalScoreForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            # 临时保存文件
+            upload_file = form.cleaned_data['file']
+            file_path = 'media/temp/' + upload_file.name
+
+            # 保存到指定路径
+            with open(file_path, 'wb') as f:
+                for chunk in upload_file.chunks():
+                    f.write(chunk)
+
+            # 处理上传的文件
+            try:
+                wb = load_workbook(file_path)
+                st = wb.active
+            except InvalidFileException:
+                # 删除临时文件
+                os.remove(file_path)
+
+                # 错误提示信息
+                return render_ht(request, 'zzbm/final_score.html', context={
+                    'task': task,
+                    'form': form,
+                    'err': '文件格式必须为xlsx',
+                })
+
+            # 删除临时文件
+            os.remove(file_path)
+
+            # 打开新的用于输出的表格
+            wb_out = Workbook()
+            st_out = wb_out.active
+
+            # 写入输出信息的表头
+            st_out['A1'].value = '身份证号'
+            st_out['B1'].value = '姓名'
+            st_out['C1'].value = '性别'
+            st_out['D1'].value = '初中毕业学校'
+            st_out['E1'].value = '成绩'
+
+            # 从第二行开始读取信息
+            for row in range(2, st.max_row + 1):
+                # 读取身份证号和问题类型
+                id_num = st.cell(row=row, column=1).value
+
+                # 匹配数据库当中的学生对象
+                student = Student.objects.filter(task_belong=task, id_number=id_num, miss=False)[0]
+
+                # 写入输出信息
+                st_out.cell(row=row, column=1).value = id_num
+                st_out.cell(row=row, column=2).value = student.name
+                st_out.cell(row=row, column=3).value = student.gender
+                st_out.cell(row=row, column=4).value = student.middle_school
+                st_out.cell(row=row, column=5).value = DT.scores_2026[student.score]
+
+            # 输出
+            return write_out(wb_out)
+
+    context = {'task': task, 'form': form, 'err': ''}
+    return render_ht(request, 'zzbm/final_score.html', context)

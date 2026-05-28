@@ -168,4 +168,7 @@ urlpatterns = [
 
     # 后备生平台未注册情况输出
     path('strong_mention/<int:task_id>/', views.strong_mention, name='strong_mention'),
+
+    # 导出最终版
+    path('final_score/<int:task_id>/', views.final_score, name='final_score'),
 ]

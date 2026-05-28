@@ -91,6 +91,11 @@ class StrongMentionForm(forms.Form):
     file = forms.FileField(label='上传未注册学生身份证信息')
 
 
+class FinalScoreForm(forms.Form):
+    """用于导出最终成绩的表单"""
+    file = forms.FileField(label='上传通过学生的身份证信息')
+
+
 class ChangeInfoForm(forms.ModelForm):
     """用于修改导入考生信息的表单"""
 

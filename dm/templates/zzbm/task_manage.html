@@ -360,6 +360,11 @@
         <td><a href="{% url 'zzbm:strong_mention' task.id %}"
                class="btn btn-primary btn-lg li26">后备生平台未注册情况输出</a></td>
     </tr>
+    <tr>
+        <td><a style="background-color:#DD33DD; color:#FFFFFF;"
+               href="{% url 'zzbm:final_score' task.id %}"
+               class="btn btn-default btn-lg li26">导出最终双注册成绩单（公示版）</a></td>
+    </tr>
 </table>
 <p class="err-color">{{ err }}</p>
 <p>

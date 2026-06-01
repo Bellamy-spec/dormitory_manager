@@ -3911,6 +3911,7 @@ def final_score(request, task_id):
             st_out['C1'].value = '性别'
             st_out['D1'].value = '初中毕业学校'
             st_out['E1'].value = '成绩'
+            st_out['F1'].value = '手机号'
 
             # 从第二行开始读取信息
             for row in range(2, st.max_row + 1):
@@ -3926,6 +3927,7 @@ def final_score(request, task_id):
                 st_out.cell(row=row, column=3).value = student.gender
                 st_out.cell(row=row, column=4).value = student.middle_school
                 st_out.cell(row=row, column=5).value = DT.scores_2026[student.score]
+                st_out.cell(row=row, column=6).value = student.phone_number
 
             # 输出
             return write_out(wb_out)

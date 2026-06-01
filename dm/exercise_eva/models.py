@@ -52,7 +52,7 @@ class ExerciseScore(models.Model):
     # 旷操人数 = 应跑操人数 - 短假人数 - 学生会工作人员人数 - 实到人数
     escape = models.IntegerField(default=0)
 
-    # 总分 = 质量分 - 旷操人数 - （迟到人数 + 未校服人数） * 0.1
+    # 总分 = 质量分 - 旷操人数 * 0.2 - （迟到人数 + 未校服人数） * 0.1
     total_score = models.DecimalField(decimal_places=2, max_digits=3)
 
     # TODO:操作权限验证
@@ -87,7 +87,7 @@ class ExerciseScore(models.Model):
         if self.escape < 0:
             # 不存在旷操人数为负的情况
             self.escape = 0
-        self.total_score = self.quality_score - Decimal(self.escape) \
+        self.total_score = self.quality_score - Decimal(self.escape * 0.2) \
                            - Decimal((self.late_come + self.no_wear) * 0.1)
 
 

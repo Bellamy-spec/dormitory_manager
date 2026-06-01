@@ -315,9 +315,9 @@ def del_short_abst(request, student_id):
 
 def short_abst_dates(request):
     """短假学生日期列表"""
-    # 验证权限
-    if request.user.username not in DT.super_users:
-        raise Http404
+    # # 验证权限
+    # if request.user.username not in DT.super_users:
+    #     raise Http404
 
     # 取得日期列表
     date_list = []

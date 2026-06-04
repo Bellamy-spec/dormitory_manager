@@ -169,6 +169,9 @@ class GoHomeStudent(models.Model):
     # 走读原因
     reason = models.CharField(max_length=100, blank=True)
 
+    # 所属班级
+    gc = models.CharField(max_length=5, blank=True, default='', choices=DT.get_gc())
+
     # TODO:以下字段通过前端填写数据处理合成
     # 走读学生
     student_relative = models.ForeignKey(NewStudent, on_delete=models.DO_NOTHING)

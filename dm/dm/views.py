@@ -2679,8 +2679,9 @@ def sep_cd_temp(request, grade_year):
     # 依次写入原宿舍
     row = 2
     for dorm in models.get_dorms(grade_year):
-        st.cell(row=row, column=1).value = dorm
-        row += 1
+        if dorm != '000':
+            st.cell(row=row, column=1).value = dorm
+            row += 1
 
     # 输出
     return write_out(wb, fn='sep_cd.xlsx')
@@ -2977,6 +2978,10 @@ def dm_power(request):
         tip_list.append(tip_msg)
 
     for dor in st_more:
+        # 跳过000宿舍
+        if dor == '000':
+            continue
+
         # 获取宿舍年级
         grade = DT.grade_dict[DT.get_grade_by_dorm(dor)]
 

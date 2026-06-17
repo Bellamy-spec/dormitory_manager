@@ -832,10 +832,18 @@ def fs(grade, start_date, total_days):
             #         dor = DT.change_dorm_2[dor]
             #     elif dor in DT.change_dorm_1.keys():
             #         dor = DT.change_dorm_1[dor]
-            if record.date_group < datetime.date(2025, 6, 17) and grade == 2:
-                dor = DT.get_old_new(2)[dor]
-            elif record.date_group < datetime.date(2025, 6, 19) and grade == 1:
-                dor = DT.get_old_new(1)[dor]
+            if record.date_group < datetime.date(2026, 6, 16) and grade == 2:
+                try:
+                    dor = DT.get_old_new(2)[dor]
+                except KeyError:
+                    # 不在轨迹中，宿舍未搬迁，忽略即可，不用进行任何操作
+                    pass
+            elif record.date_group < datetime.date(2026, 6, 16) and grade == 1:
+                try:
+                    dor = DT.get_old_new(1)[dor]
+                except KeyError:
+                    # 不在轨迹中，宿舍未搬迁，忽略即可，不用进行任何操作
+                    pass
 
             monthtogether_dict[dor][record.tp][bed] += 1
             if dor in praise_list:
@@ -2776,6 +2784,8 @@ def sep_cd(request, grade_year):
         # 对该年级学生逐个操作
         done = {}
         for student in models.NewStudent.objects.filter(grade_year=grade_year, graduated=False):
+            # 记录原宿舍
+            odd = student.dorm
             try:
                 student.dorm = old_new[student.dorm][0]
             except KeyError:
@@ -2787,11 +2797,11 @@ def sep_cd(request, grade_year):
                 student.save()
 
                 # 记录实际搬迁情况
-                if student.dorm not in done.keys():
-                    done[student.dorm] = old_new[student.dorm][0]
+                if odd not in done.keys():
+                    done[odd] = old_new[odd][0]
 
                     # 输出文件中搬迁成功提示
-                    st.cell(row=old_new[student.dorm][1], column=3).value = '搬迁成功'
+                    st.cell(row=old_new[odd][1], column=3).value = '搬迁成功'
 
         # 读取原宿管信息
         with open('media/dorm_manager.json', encoding='gbk') as fi:
@@ -2814,10 +2824,10 @@ def sep_cd(request, grade_year):
         year = datetime.datetime.now().year
         filepath = 'media/old_new_{}.json'.format(year)
 
-        # 打开文件之前确定文件存在，否则写入空字典列表
-        if not os.path.exists(filepath):
-            with open(file_path, 'w') as f:
-                f.write(json.dumps([{}, {}]))
+        # # 打开文件之前确定文件存在，否则写入空字典列表
+        # if not os.path.exists(filepath):
+        #     with open(file_path, 'w') as f:
+        #         f.write(json.dumps([{}, {}]))
 
         old_new_d_l = DT.get_old_new()
 

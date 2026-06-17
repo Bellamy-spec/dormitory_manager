@@ -787,6 +787,11 @@ class Data:
             year = datetime.datetime.now().year
         filepath = 'media/old_new_{}.json'.format(year)
 
+        # 打开文件之前确定文件存在，否则写入空字典列表
+        if not os.path.exists(filepath):
+            with open(filepath, 'w') as f:
+                f.write(json.dumps([{}, {}]))
+
         # 读取字典或列表
         with open(filepath) as f:
             if grade:

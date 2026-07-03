@@ -937,7 +937,7 @@ def stay_send_up(request, task_id, err):
                 'st_house': st_house,
                 'err': '请选择班级',
                 'gc_selected': '',
-                'image': DT.current_captcha_str,
+                # 'image': DT.current_captcha_str,
             })
 
         # 读取学生对象id存为列表
@@ -956,73 +956,73 @@ def stay_send_up(request, task_id, err):
                 'st_house': st_house,
                 'err': '请至少勾选一个学生',
                 'gc_selected': gc,
-                'image': DT.current_captcha_str,
+                # 'image': DT.current_captcha_str,
             })
 
-        if DT.tr < DT.max_tr:
-            # 试验次数加1
-            DT.tr += 1
-
-            # 用户名、密码、验证码
-            un = 'admin'
-            pwd = 'Ffkj-102064'
-            captcha = request.POST.get('captcha', '').lower()
-
-            try:
-                # 依次输入
-                DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]'
-                                                     '/div[1]/input').send_keys(un)
-                DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]'
-                                                     '/div[2]/input').send_keys(pwd)
-                DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]'
-                                                     '/div[3]/input').send_keys(captcha)
-
-                # 点击登录
-                DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]/button').click()
-            except AttributeError:
-                # 重试
-                return HttpResponseRedirect(reverse('long_leave:stay_send_up', args=[task_id, 2]))
-            except MaxRetryError:
-                # 也重试
-                return HttpResponseRedirect(reverse('long_leave:stay_send_up', args=[task_id, 2]))
-            else:
-                time.sleep(2)
-
-            # 判断是否成功登入
-            if '登录' in DT.b.page_source:
-                # 未成功登录，返回验证码错误提示
-                return HttpResponseRedirect(reverse('long_leave:stay_send_up', args=[task_id, 1]))
-            else:
-                # 成功登录，记录正确的验证码
-                captcha_str = DT.current_captcha_str
-                bank_path = os.path.join('media', 'captcha_bank.json')
-
-                # 首次使用确定文件存在
-                if not os.path.exists(bank_path):
-                    # print('首次创建！')
-                    with open(bank_path, 'w', encoding='utf-8') as ff:
-                        ff.write(json.dumps({}))
-
-                with open(bank_path, encoding='utf-8') as cfi:
-                    captcha_bank_ds = cfi.read()
-
-                try:
-                    captcha_bank_dict = json.loads(captcha_bank_ds)
-                except json.JSONDecodeError:
-                    # 出现未知原因错误，跳过记录验证码，直接显示获取结果
-                    pass
-                else:
-                    if captcha_str not in captcha_bank_dict.keys():
-                        captcha_bank_dict[captcha_str] = captcha
-                        with open(bank_path, 'w', encoding='utf-8') as cfo:
-                            cfo.write(json.dumps(captcha_bank_dict))
-
-                # 退出浏览器
-                time.sleep(2)
-                DT.b.quit()
-        else:
-            # 重置试验次数之后直接放行
-            DT.tr = 0
+        # if DT.tr < DT.max_tr:
+        #     # 试验次数加1
+        #     DT.tr += 1
+        #
+        #     # 用户名、密码、验证码
+        #     un = 'admin'
+        #     pwd = 'Ffkj-102064'
+        #     captcha = request.POST.get('captcha', '').lower()
+        #
+        #     try:
+        #         # 依次输入
+        #         DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]'
+        #                                              '/div[1]/input').send_keys(un)
+        #         DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]'
+        #                                              '/div[2]/input').send_keys(pwd)
+        #         DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]'
+        #                                              '/div[3]/input').send_keys(captcha)
+        #
+        #         # 点击登录
+        #         DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]/button').click()
+        #     except AttributeError:
+        #         # 重试
+        #         return HttpResponseRedirect(reverse('long_leave:stay_send_up', args=[task_id, 2]))
+        #     except MaxRetryError:
+        #         # 也重试
+        #         return HttpResponseRedirect(reverse('long_leave:stay_send_up', args=[task_id, 2]))
+        #     else:
+        #         time.sleep(2)
+        #
+        #     # 判断是否成功登入
+        #     if '登录' in DT.b.page_source:
+        #         # 未成功登录，返回验证码错误提示
+        #         return HttpResponseRedirect(reverse('long_leave:stay_send_up', args=[task_id, 1]))
+        #     else:
+        #         # 成功登录，记录正确的验证码
+        #         captcha_str = DT.current_captcha_str
+        #         bank_path = os.path.join('media', 'captcha_bank.json')
+        #
+        #         # 首次使用确定文件存在
+        #         if not os.path.exists(bank_path):
+        #             # print('首次创建！')
+        #             with open(bank_path, 'w', encoding='utf-8') as ff:
+        #                 ff.write(json.dumps({}))
+        #
+        #         with open(bank_path, encoding='utf-8') as cfi:
+        #             captcha_bank_ds = cfi.read()
+        #
+        #         try:
+        #             captcha_bank_dict = json.loads(captcha_bank_ds)
+        #         except json.JSONDecodeError:
+        #             # 出现未知原因错误，跳过记录验证码，直接显示获取结果
+        #             pass
+        #         else:
+        #             if captcha_str not in captcha_bank_dict.keys():
+        #                 captcha_bank_dict[captcha_str] = captcha
+        #                 with open(bank_path, 'w', encoding='utf-8') as cfo:
+        #                     cfo.write(json.dumps(captcha_bank_dict))
+        #
+        #         # 退出浏览器
+        #         time.sleep(2)
+        #         DT.b.quit()
+        # else:
+        #     # 重置试验次数之后直接放行
+        #     DT.tr = 0
 
         # 逐个创建留宿学生记录对象
         for id_num in checked_id_list:
@@ -1049,35 +1049,35 @@ def stay_send_up(request, task_id, err):
 
         # 重定向至任务主页
         return HttpResponseRedirect(reverse('long_leave:task_main', args=[task_id]))
-    else:
-        # 打开新的无头浏览器
-        DT.refresh_browser()
-
-        # 进入登录页面
-        login_url = 'https://www.12kcool.com/#/102064'
-        DT.b.get(login_url)
-
-        # 获取验证码图像
-        captcha_ele = DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]/div[4]/img')
-        captcha_binary = captcha_ele.screenshot_as_png
-        captcha_binary = base64.b64encode(captcha_binary)
-        captcha_str = captcha_binary.decode(encoding='utf-8')
-        DT.current_captcha_str = captcha_str
-
-        # 提示信息
-        if err == 1:
-            err_msg = '验证码错误！'
-        elif err == 2:
-            err_msg = '获取数据失败，请再次尝试'
-        else:
-            err_msg = ''
+    # else:
+    #     # 打开新的无头浏览器
+    #     DT.refresh_browser()
+    #
+    #     # 进入登录页面
+    #     login_url = 'https://www.12kcool.com/#/102064'
+    #     DT.b.get(login_url)
+    #
+    #     # 获取验证码图像
+    #     captcha_ele = DT.b.find_element(by=By.XPATH, value='//*[@id="app"]/section/main/div/div[2]/div[4]/img')
+    #     captcha_binary = captcha_ele.screenshot_as_png
+    #     captcha_binary = base64.b64encode(captcha_binary)
+    #     captcha_str = captcha_binary.decode(encoding='utf-8')
+    #     DT.current_captcha_str = captcha_str
+    #
+    #     # 提示信息
+    #     if err == 1:
+    #         err_msg = '验证码错误！'
+    #     elif err == 2:
+    #         err_msg = '获取数据失败，请再次尝试'
+    #     else:
+    #         err_msg = ''
 
     context = {
         'task': task,
         'gc_options': gc_options,
         'st_house': st_house,
-        'err': err_msg,
+        'err': '',
         'gc_selected': '',
-        'image': captcha_str
+        # 'image': captcha_str,
     }
     return render_ht(request, 'long_leave/stay_send_up.html', context)

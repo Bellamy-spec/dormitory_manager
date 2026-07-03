@@ -17,11 +17,11 @@
     <p id="st_check">
         <label>选择留宿学生：</label>
     </p>
-    <p>
-        <input name="captcha" placeholder="请输入看到的验证码">
-        <img src="data:image/png;base64,{{ image }}">
-        <a href="{% url 'long_leave:stay_send_up' task.id 0 %}" style="font-size: 16px">看不清，换一张</a>
-    </p>
+<!--    <p>-->
+<!--        <input name="captcha" placeholder="请输入看到的验证码">-->
+<!--        <img src="data:image/png;base64,{{ image }}">-->
+<!--        <a href="{% url 'long_leave:stay_send_up' task.id 0 %}" style="font-size: 16px">看不清，换一张</a>-->
+<!--    </p>-->
     <p class="err-color">{{ err }}</p>
     <button name="submit" type="submit" class="btn btn-primary">提交</button>
 </form>

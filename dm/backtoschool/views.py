@@ -194,9 +194,9 @@ def edit_class(request, class_id, err):
         # 未提交数据，创建一个新表单
         form = ClassForm(instance=cs)
 
-        # 获取新的验证码图像
-        DT.refresh_browser()
-        DT.get_captcha_str()
+        # # 获取新的验证码图像
+        # DT.refresh_browser()
+        # DT.get_captcha_str()
     else:
         # 对提交对数据进行处理
         form = ClassForm(request.POST)
@@ -214,46 +214,46 @@ def edit_class(request, class_id, err):
                     'absents': abst,
                     'err': '班级总人数必须大于0',
                     'st_list': tuple(st_list),
-                    'image': DT.current_captcha_str,
+                    # 'image': DT.current_captcha_str,
                 })
 
-            if DT.tr < DT.max_tr:
-                # 尝试登录并获取登录码
-                login_code = DT.try_to_login(request.POST.get('captcha', '').lower())
-
-                if login_code == 1:
-                    # 验证码错误的情况，重新获取并加载页面
-                    DT.refresh_browser()
-                    DT.get_captcha_str()
-
-                    return render_ht(request, 'backtoschool/edit.html', context={
-                        'form': form,
-                        'form2': StudentForm(),
-                        'cs': cs,
-                        'title': title,
-                        'absents': abst,
-                        'err': '验证码错误！',
-                        'st_list': tuple(st_list),
-                        'image': DT.current_captcha_str,
-                    })
-                elif login_code == 2:
-                    # 未知原因的失败，重新获取并加载页面
-                    DT.refresh_browser()
-                    DT.get_captcha_str()
-
-                    return render_ht(request, 'backtoschool/edit.html', context={
-                        'form': form,
-                        'form2': StudentForm(),
-                        'cs': cs,
-                        'title': title,
-                        'absents': abst,
-                        'err': '获取数据失败，请再次尝试',
-                        'st_list': tuple(st_list),
-                        'image': DT.current_captcha_str,
-                    })
-            else:
-                # 重置试验次数之后直接放行
-                DT.tr = 0
+            # if DT.tr < DT.max_tr:
+            #     # 尝试登录并获取登录码
+            #     login_code = DT.try_to_login(request.POST.get('captcha', '').lower())
+            #
+            #     if login_code == 1:
+            #         # 验证码错误的情况，重新获取并加载页面
+            #         DT.refresh_browser()
+            #         DT.get_captcha_str()
+            #
+            #         return render_ht(request, 'backtoschool/edit.html', context={
+            #             'form': form,
+            #             'form2': StudentForm(),
+            #             'cs': cs,
+            #             'title': title,
+            #             'absents': abst,
+            #             'err': '验证码错误！',
+            #             'st_list': tuple(st_list),
+            #             'image': DT.current_captcha_str,
+            #         })
+            #     elif login_code == 2:
+            #         # 未知原因的失败，重新获取并加载页面
+            #         DT.refresh_browser()
+            #         DT.get_captcha_str()
+            #
+            #         return render_ht(request, 'backtoschool/edit.html', context={
+            #             'form': form,
+            #             'form2': StudentForm(),
+            #             'cs': cs,
+            #             'title': title,
+            #             'absents': abst,
+            #             'err': '获取数据失败，请再次尝试',
+            #             'st_list': tuple(st_list),
+            #             'image': DT.current_captcha_str,
+            #         })
+            # else:
+            #     # 重置试验次数之后直接放行
+            #     DT.tr = 0
 
             # 计算未到人数
             if cs.absent_students != '无':
@@ -277,7 +277,7 @@ def edit_class(request, class_id, err):
         'absents': abst,
         'err': err,
         'st_list': tuple(st_list),
-        'image': DT.current_captcha_str,
+        # 'image': DT.current_captcha_str,
     }
     return render_ht(request, 'backtoschool/edit.html', context)
 

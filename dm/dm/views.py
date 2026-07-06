@@ -838,7 +838,7 @@ def fs(grade, start_date, total_days):
                 except KeyError:
                     # 不在轨迹中，宿舍未搬迁，忽略即可，不用进行任何操作
                     pass
-            elif record.date_group < datetime.date(2026, 6, 16) and grade == 1:
+            elif record.date_group < datetime.date(2026, 6, 17) and grade == 1:
                 try:
                     dor = DT.get_old_new(1)[dor]
                 except KeyError:
@@ -1033,9 +1033,9 @@ def make_title(grade, month_str=None, date_info=None):
 
 def export_fs(request, grade, start_date, total_days, title=''):
     """导出一个年级自定义时间段总结"""
-    # # 毕业提示
-    # if DT.change_dorm and grade == 3:
-    #     return HttpResponse('高三年级已毕业')
+    # 毕业提示
+    if DT.change_dorm and grade == 3:
+        return HttpResponse('高三年级已毕业')
 
     # 无标题参数，为直接外部访问情况
     if not title:
@@ -1153,9 +1153,9 @@ def export_grade_month(request, grade, month_str):
 
 def show_fs(request, grade, start_date, total_days, title=''):
     """查看一个年级自定义时间段总结"""
-    # # 毕业提示
-    # if DT.change_dorm and grade == 3:
-    #     return HttpResponse('高三年级已毕业')
+    # 毕业提示
+    if DT.change_dorm and grade == 3:
+        return HttpResponse('高三年级已毕业')
 
     # 无标题参数，为直接外部访问情况
     if not title:
@@ -1230,9 +1230,9 @@ def make_visual_title(grade_str, month_str=None, date_info=None):
 
 def visual_fs(request, grade, start_date, total_days, month_info=''):
     """一个年级自定义时间段总结图表"""
-    # # 毕业提示
-    # if DT.change_dorm and grade == 3:
-    #     return HttpResponse('高三年级已毕业')
+    # 毕业提示
+    if DT.change_dorm and grade == 3:
+        return HttpResponse('高三年级已毕业')
 
     # 处理年级
     grade_str = DT.grade_dict[grade]

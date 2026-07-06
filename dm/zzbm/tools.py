@@ -141,6 +141,9 @@ class DataTool:
         self.captcha_dict = {}
         self.captcha_dict_str = ''
 
+        # 是否直接通过身份证号标记后备生平台注册情况
+        self.simple_mark = True
+
     @staticmethod
     def str_three(n):
         """整数n格式化为三位数字字符串"""

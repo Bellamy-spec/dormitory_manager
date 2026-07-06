@@ -3611,6 +3611,7 @@ def mark_mention(request, task_id):
                     'task': task,
                     'form': form,
                     'err': '文件格式必须为xlsx',
+                    'simple_mark': DT.simple_mark,
                 })
 
             # 删除临时文件
@@ -3619,26 +3620,33 @@ def mark_mention(request, task_id):
             # 开始读取数据
             pre_list = []
             for row in range(2, st.max_row + 1):
-                # 依次读取姓名、性别、毕业学校
-                name = st.cell(row=row, column=1).value
-                gender = st.cell(row=row, column=2).value
-                middle_school = st.cell(row=row, column=3).value
+                if DT.simple_mark:
+                    # 简单模式下，直接通过身份证号判断
+                    pre_list.append(st.cell(row=row, column=1).value)
+                else:
+                    # 依次读取姓名、性别、毕业学校
+                    name = st.cell(row=row, column=1).value
+                    gender = st.cell(row=row, column=2).value
+                    middle_school = st.cell(row=row, column=3).value
 
-                # 毕业学校特殊化处理
-                middle_school = normalize_school(middle_school)
+                    # 毕业学校特殊化处理
+                    middle_school = normalize_school(middle_school)
 
-                # 以三元组形式加入
-                pre_list.append((name, gender, middle_school))
+                    # 以三元组形式加入
+                    pre_list.append((name, gender, middle_school))
 
             # 开始遍历考生记录
             stuple_list = []
             for student in Student.objects.filter(task_belong=task):
-                # 更改为正确的初中学校名称
-                if 202601315 <= int(student.exam_id) <= 202601345:
-                    student.middle_school = '郑州市第七十五中学'
+                # # 更改为正确的初中学校名称
+                # if 202601315 <= int(student.exam_id) <= 202601345:
+                #     student.middle_school = '郑州市第七十五中学'
 
-                standard_school_name = normalize_school(student.middle_school)
-                stuple = (student.name.strip(), student.gender.strip(), standard_school_name)
+                if DT.simple_mark:
+                    stuple = student.id_number
+                else:
+                    standard_school_name = normalize_school(student.middle_school)
+                    stuple = (student.name.strip(), student.gender.strip(), standard_school_name)
 
                 # 判断是否给予标记
                 if stuple in pre_list:
@@ -3650,7 +3658,11 @@ def mark_mention(request, task_id):
                 student.save()
 
                 # 记录报名测试的考生信息
-                stuple_list.append(stuple)
+                if not DT.simple_mark:
+                    stuple_list.append(stuple)
+
+            if DT.simple_mark:
+                return HttpResponse('已完成标记！')
 
             # 再过一遍后备生平台意向表格
             for row in range(2, st.max_row + 1):
@@ -3671,7 +3683,7 @@ def mark_mention(request, task_id):
             # 输出
             return write_out(wb)
 
-    context = {'task': task, 'form': form, 'err': ''}
+    context = {'task': task, 'form': form, 'err': '', 'simple_mark': DT.simple_mark}
     return render_ht(request, 'zzbm/mark_mention.html', context)
 
 

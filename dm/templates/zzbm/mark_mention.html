@@ -5,9 +5,13 @@
 <h3>检查体育艺术后备生平台注册情况</h3>
 <div class="tip-color">
   <p>说明：格式如下：</p>
+  {% if simple_mark %}
+  <p>当前为简单模式，仅将身份证号置于A列即可</p>
+  {% else %}
   <p>A列：姓名</p>
   <p>B列：性别</p>
   <p>C列：毕业学校</p>
+  {% endif %}
   <p>从第二行开始读取有效数据</p>
 </div>
 <form role="form" action="{% url 'zzbm:mark_mention' task.id %}" method="post"

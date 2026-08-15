@@ -2470,6 +2470,11 @@ def sep_que(request):
                 'err': '不存在身份证号为{}的学生'.format(id_number),
             })
         else:
+            if st.graduated:
+                return render_ht(request, 'sep_que.html', context={
+                    'err': '身份证号为{}的学生已毕业'.format(id_number),
+                })
+
             # 获取原始班级字符串
             rgc = DT.get_original_gc(st.gc)
 

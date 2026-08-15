@@ -409,7 +409,7 @@ class Data:
 
         # 开放查询
         self.can_que = True
-        self.que_start_time = datetime.datetime(2026, 8, 16, 6, 0)
+        self.que_start_time = datetime.datetime(2026, 8, 16, 5, 55)
 
         # 运行着的无头浏览器，默认不打开
         self.b = None

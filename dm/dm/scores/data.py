@@ -65,9 +65,10 @@ class Data:
         # 宿管员与负责宿舍性别对应
         self.teacher_gender = {
             # 男生宿管
-            '雷勤': 'boy',
-            '张莲花': 'boy',
+            # '雷勤': 'boy',
+            # '张莲花': 'boy',
             '张红': 'boy',
+            '李桂枝': 'boy',
 
             # 女生宿管
             '苏月兰': 'girl',
@@ -80,6 +81,8 @@ class Data:
             '谢婉娜': 'girl',
             '王春霞': 'girl',
             '张连红': 'girl',
+            '宋小霞': 'girl',
+            '潘成萍': 'girl',
         }
         self.dorm_gender = (('boy', 'boy'), ('girl', 'girl'))
         self.gdc = (('男', '男'), ('女', '女'))

@@ -65,8 +65,8 @@ class Data:
         # 宿管员与负责宿舍性别对应
         self.teacher_gender = {
             # 男生宿管
-            # '雷勤': 'boy',
-            # '张莲花': 'boy',
+            '雷勤': 'boy',
+            '张莲花': 'boy',
             '张红': 'boy',
             '李桂枝': 'boy',
 

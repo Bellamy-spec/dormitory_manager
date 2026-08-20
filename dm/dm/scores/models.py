@@ -244,12 +244,15 @@ class GoHomeStudent(models.Model):
         return True
 
 
-def get_students(gc, logic=True, include_id=False):
+def get_students(gc, logic=True, include_id=False, correct=False):
     """以列表形式返回一个班级所有学生"""
     if not logic:
         # 班级字符串转为逻辑班级字符串
         grade = gc[:2]
-        lgd = DT.logic_grade[grade]
+        if correct:
+            lgd = DT.logic_grade_correct[grade]
+        else:
+            lgd = DT.logic_grade[grade]
         cs = gc[2:-1]
         if len(cs) < 2:
             cs = '0' + cs

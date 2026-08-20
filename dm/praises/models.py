@@ -91,7 +91,7 @@ class ClassSubmit(models.Model):
 
     def fill_students(self):
         """获取班级人数和学生名单"""
-        student_list = get_students(self.gc, logic=False)
+        student_list = get_students(self.gc, logic=False, correct=True)
         self.student_list = json.dumps(student_list)
         self.total = len(student_list)
 

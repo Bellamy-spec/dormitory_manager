@@ -391,6 +391,10 @@ class Data:
         self.logic_grade = {'高一': '2026级', '高二': '2025级', '高三': '2024级'}
         self.logic_grade_reverse = {'2026级': '高一', '2025级': '高二', '2024级': '高三'}
 
+        # 上个版本的逻辑年级对应
+        self.logic_grade_correct = {'高一': '2025级', '高二': '2024级', '高三': '2023级'}
+        self.logic_grade_reverse_correct = {'2025级': '高一', '2024级': '高二', '2023级': '高三'}
+
         # 问题区域
         self.ap = (
             (0, '公共区域'),

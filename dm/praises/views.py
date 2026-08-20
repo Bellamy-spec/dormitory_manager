@@ -1281,11 +1281,22 @@ def export_print_temp(request, task_id):
         os.mkdir(temp_dir)
 
     # 循环遍历所有学生对象，获奖证书打印模板加入临时目录
-    for class_submit in ClassSubmit.objects.filter(task_belong=task):
+    class_submit_list = list(ClassSubmit.objects.filter(task_belong=task))
+    class_submit_list.sort(key=lambda x: x.cs)
+    class_submit_list.sort(key=lambda x: x.grade_num)
+    for class_submit in class_submit_list:
         for student in StudentSubmit.objects.filter(class_belong=class_submit):
-            im = Image.open(student.cert_simple)
+            try:
+                im = Image.open(student.cert_simple)
+            except FileNotFoundError:
+                student.make_cert()
+                im = Image.open(student.cert_simple)
             temp_path = os.path.join(temp_dir, os.path.basename(str(student.cert_simple)))
-            im.save(temp_path)
+            try:
+                im.save(temp_path)
+            except FileNotFoundError:
+                time.sleep(2)
+                im.save(temp_path)
             im.close()
 
     # 图片合成pdf

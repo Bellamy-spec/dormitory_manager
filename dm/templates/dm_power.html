@@ -20,11 +20,19 @@
 {% for dmp in dm_dict %}
 <table class="table table-bordered">
     <tr><th colspan="3">{{ dmp.0 }}老师管理的宿舍
-        <button class="btn btn-default" onclick="show_add('fm{{ dmp.1.1 }}')">添加</button>
+        <button class="btn btn-default" onclick="show_add('fm{{ dmp.1.1 }}')">添加</button> -
+        <button class="btn btn-warning" onclick="show_add('rename{{ dmp.1.1 }}')">更改姓名</button>
         <form id="fm{{ dmp.1.1 }}" role="form" action="{% url 'dmp_add' %}" method="post"
               style="display:none;">
             {% csrf_token %}
             <input placeholder="请输入宿舍号" name="ipt">
+            <input type="hidden" name="teacher" value="{{ dmp.0 }}">
+            <button name="submit" type="submit" class="btn btn-primary">提交</button>
+        </form>
+        <form id="rename{{ dmp.1.1 }}" role="form" action="{% url 'dmp_rename' %}" method="post"
+              style="display:none;">
+            {% csrf_token %}
+            <input placeholder="请输入新宿管老师姓名" name="ipt">
             <input type="hidden" name="teacher" value="{{ dmp.0 }}">
             <button name="submit" type="submit" class="btn btn-primary">提交</button>
         </form>

@@ -227,6 +227,9 @@ urlpatterns = [
     # 宿舍管理权限添加
     path('dmp_add/', views.dmp_add, name='dmp_add'),
 
+    # 更改宿管老师姓名
+    path('dmp_rename/', views.dmp_rename, name='dmp_rename'),
+
     # 宿舍管理权限删除
     path('dmp_del/<str:dorm>/', views.dmp_del, name='dmp_del'),
 

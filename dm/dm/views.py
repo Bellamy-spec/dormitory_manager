@@ -3065,6 +3065,49 @@ def dmp_add(request):
     return HttpResponseRedirect(reverse('dm_power'))
 
 
+def dmp_rename(request):
+    """更改宿管老师姓名"""
+    # 限制用户权限
+    if request.user.username not in DT.manager:
+        raise Http404
+
+    # 禁止非POST方法访问此页
+    if request.method != 'POST':
+        raise Http404
+
+    # 确保服务器上进入正确的目录，可正常运行
+    if os.name != 'nt':
+        os.chdir('/root/dormitory_manager/dm')
+
+    # 前端读取老师和新姓名
+    teacher = request.POST.get('teacher', '')
+    new_name = request.POST.get('ipt', '')
+
+    # 读取原宿管信息
+    with open('media/dorm_manager.json', encoding='gbk') as fi:
+        dm_dict = json.loads(fi.read())
+
+    # 检验新姓名是否已存在
+    if new_name in dm_dict.keys():
+        # 前端显示格式
+        sep_dict = get_sep_dict(dm_dict)
+
+        return render_ht(request, 'dm_power.html', context={
+            'dm_dict': tuple(sep_dict.items()),
+            'err': '已存在姓名为{}的老师'.format(new_name),
+        })
+
+    # 执行改名操作
+    dm_dict[new_name] = dm_dict.pop(teacher)
+
+    # 写入新宿管信息
+    with open('media/dorm_manager.json', 'w', encoding='gbk') as fo:
+        fo.write(json.dumps(dm_dict, ensure_ascii=False))
+
+    # 重定向至宿管权限页
+    return HttpResponseRedirect(reverse('dm_power'))
+
+
 def dmp_del(request, dorm):
     """删除宿舍管理权限"""
     # 限制用户权限

@@ -139,10 +139,10 @@ def add(request):
                 return render_ht(request, 'long_leave/add.html', context={
                     'form': form,
                     'err': '截止日期不能早于今天',
-                    'st_house': format_gc_students(grades=('高一', '高二')),
-                    'all_students': all_students(grades=('高一', '高二')),
+                    'st_house': format_gc_students(grades=tuple(DT.grades)),
+                    'all_students': all_students(grades=tuple(DT.grades)),
                     'lg': Data().logic_grade,
-                    'st_gc': st_gc(grades=('高一', '高二')),
+                    'st_gc': st_gc(grades=tuple(DT.grades)),
                 })
 
             # 年级班级信息的进一步完善
@@ -156,10 +156,10 @@ def add(request):
     return render_ht(request, 'long_leave/add.html', context={
         'form': form,
         'err': '',
-        'st_house': format_gc_students(grades=('高一', '高二')),
-        'all_students': all_students(grades=('高一', '高二')),
+        'st_house': format_gc_students(grades=tuple(DT.grades)),
+        'all_students': all_students(grades=tuple(DT.grades)),
         'lg': Data().logic_grade,
-        'st_gc': st_gc(grades=('高一', '高二')),
+        'st_gc': st_gc(grades=tuple(DT.grades)),
     })
 
 

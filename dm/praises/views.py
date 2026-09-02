@@ -1170,6 +1170,18 @@ def download_cert(request, student_id):
     return im_out(str(student.cert), fn=student.name)
 
 
+def download_cert_simple(request, student_id):
+    """下载打印模板"""
+    # 非操作员用户不允许访问
+    DT.check_operator(request.user)
+
+    # 取出学生对象
+    student = StudentSubmit.objects.get(id=student_id)
+
+    # 输出
+    return im_out(str(student.cert_simple), fn=student.name)
+
+
 def export_class_cert(request, class_id):
     """以压缩包形式导出班级学生获奖电子证书"""
     # 非操作员用户不允许访问

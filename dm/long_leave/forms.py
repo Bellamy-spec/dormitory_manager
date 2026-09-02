@@ -8,17 +8,20 @@ class LongLeaveForm(forms.ModelForm):
     """用于新增人员的表单"""
     class Meta:
         model = LongLeaveRecord
-        fields = ['name', 'class_and_grade', 'end_date', 'tp', 'desc']
+        fields = ['class_and_grade', 'name', 'end_date', 'tp', 'desc']
         labels = {
-            'name': '姓名',
             'class_and_grade': '班级',
+            'name': '姓名',
             'end_date': '截止日期',
             'tp': '是否留在教室',
             'desc': '备注',
         }
         widgets = {
             'end_date': forms.DateInput(attrs={'type': 'date'}),
-            # 'name': forms.Select(attrs={'id': 'name', 'onchange': 'config_gc()'}),
+            'name': forms.Select(attrs={
+                'id': 'name',
+                # 'onchange': 'config_gc()',
+            }),
             'class_and_grade': forms.Select(attrs={'id': 'gc', 'onchange': 'reload_students()'}),
         }
 

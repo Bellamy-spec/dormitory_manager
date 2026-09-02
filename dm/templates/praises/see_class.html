@@ -36,7 +36,8 @@
         <td>{{ student.name }}</td>
         <td>{{ student.praise_name }}</td>
         <td>
-            <a href="{% url 'praises:download_cert' student.id %}" class="btn btn-success">下载电子获奖证书</a>
+            <a href="{% url 'praises:download_cert' student.id %}" class="btn btn-success">下载电子获奖证书</a> -
+            <a href="{% url 'praises:download_cert_simple' student.id %}" class="btn btn-info">证书打印模板</a>
             {% if active %}
              - <a href="{% url 'praises:delete_student' student.id %}"
                   class="btn btn-danger" onclick="return confirm('确定删除？')">删除</a>

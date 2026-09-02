@@ -10,7 +10,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 class DataTool:
     def __init__(self):
         # 年级列表
-        self.grades = ['高一', '高二']
+        self.grades = ['高一', '高二', '高三']
 
         # 年级与数字对应
         self.grades_dict = {'高一': 1, '高二': 2, '高三': 3}

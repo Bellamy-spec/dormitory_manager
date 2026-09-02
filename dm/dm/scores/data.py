@@ -81,8 +81,8 @@ class Data:
             '谢婉娜': 'girl',
             '王春霞': 'girl',
             '张连红': 'girl',
-            '宋小霞': 'girl',
-            '潘成萍': 'girl',
+            '闪爱华': 'girl',
+            '徐红玲': 'girl',
         }
         self.dorm_gender = (('boy', 'boy'), ('girl', 'girl'))
         self.gdc = (('男', '男'), ('女', '女'))

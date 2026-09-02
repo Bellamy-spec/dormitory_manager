@@ -53,6 +53,9 @@ urlpatterns = [
     # 下载学生的电子获奖证书
     path('download_cert/<int:student_id>/', views.download_cert, name='download_cert'),
 
+    # 下载证书打印模板
+    path('download_cert_simple/<int:student_id>/', views.download_cert_simple, name='download_cert_simple'),
+
     # 以压缩包形式导出班级获奖电子证书
     path('export_class_cert/<int:class_id>/', views.export_class_cert, name='export_class_cert'),
 

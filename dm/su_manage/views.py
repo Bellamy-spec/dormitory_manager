@@ -1440,8 +1440,9 @@ def output_pwd(request, school_year_id):
     # 写入表头
     st['A1'].value = '部门'
     st['B1'].value = '代号'
-    st['C1'].value = '姓名'
-    st['D1'].value = '检查码'
+    st['C1'].value = '班级'
+    st['D1'].value = '姓名'
+    st['E1'].value = '检查码'
 
     # 表头加粗
     for c in range(1, 5):
@@ -1452,8 +1453,9 @@ def output_pwd(request, school_year_id):
     for member in Member.objects.filter(school_year=school_year):
         st.cell(row=row, column=1).value = member.department.name
         st.cell(row=row, column=2).value = member.code
-        st.cell(row=row, column=3).value = member.name
-        st.cell(row=row, column=4).value = member.pwd
+        st.cell(row=row, column=3).value = member.class_and_grade
+        st.cell(row=row, column=4).value = member.name
+        st.cell(row=row, column=5).value = member.pwd
 
         # 下一行
         row += 1
@@ -1463,7 +1465,7 @@ def output_pwd(request, school_year_id):
         st.row_dimensions[r].height = 20
 
     # 列宽统一设置为10
-    for cl in ['A', 'B', 'C', 'D']:
+    for cl in ['A', 'B', 'C', 'D', 'E']:
         st.column_dimensions[cl].width = 10
 
     # 输出

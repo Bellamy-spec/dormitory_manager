@@ -9,7 +9,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, Side, Border, Alignment
 from io import BytesIO
 from django.contrib.auth.views import login_required
-from dm.scores.models import format_gc_students, all_students, st_gc, NewStudent
+from dm.scores.models import format_gc_students, all_students, st_gc, NewStudent, get_students
 from dm.scores.data import Data
 from django.conf import settings
 from exercise_eva.models import ExerciseScore
@@ -270,6 +270,13 @@ def consult_all():
         leaver_list, abst_list, normal, total = consult(gc[0])
         leaver_str = ', '.join(leaver_list)
         abst_str = ', '.join(abst_list)
+
+        # 班主任未上报时的显示
+        if total < 0:
+            total_ori = len(get_students(gc[0], logic=False))
+            normal = total_ori - len(leaver_list) - len(abst_list)
+            total = '班主任未上报，系统默认{}'.format(total_ori)
+
         leaver_dict[gc[0]] = (total, leaver_str, abst_str, normal)
 
     return leaver_dict

@@ -3648,3 +3648,45 @@ def go_home_manage(request):
 
     context = {'go_home_students': go_home_students}
     return render_ht(request, 'go_home_manage.html', context)
+
+
+def my_export(request):
+    """自定义导出"""
+    # 限制权限
+    if request.user.username != 'zz106dyc':
+        raise Http404
+
+    # 新建工作表
+    wb = Workbook()
+    st = wb.active
+
+    # 写入表头
+    st['A1'].value = '日期'
+    st['B1'].value = '班级'
+    st['C1'].value = '宿舍号'
+    st['D1'].value = '床铺号'
+    st['E1'].value = '对应学生'
+    st['F1'].value = '时间类型'
+    st['G1'].value = '问题类型'
+    st['H1'].value = '扣分原因'
+
+    # 初始行
+    row = 2
+
+    for record in models.Record.objects.filter(grade=1):
+        if record.date_group.year == 2026 and 3 <= record.date_group.month <= 7:
+            # 写入主体信息
+            st.cell(row=row, column=1).value = record.date_group_str
+            st.cell(row=row, column=2).value = record.class_and_grade
+            st.cell(row=row, column=3).value = record.dormitory
+            st.cell(row=row, column=4).value = record.bed
+            st.cell(row=row, column=5).value = record.student
+            st.cell(row=row, column=6).value = record.tm
+            st.cell(row=row, column=7).value = record.tp
+            st.cell(row=row, column=8).value = record.reason
+
+            # 下一行
+            row += 1
+
+    # 输出
+    return write_out(wb)

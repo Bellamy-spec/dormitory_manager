@@ -16,6 +16,8 @@
     {% if user.username == 'zz106dyc' %}
     <li><a href="{% url 'records' %}" class="btn btn-primary btn-lg btn-block">
         查看所有宿舍扣分记录</a></li><br>
+    <li><a href="{% url 'my_export' %}" class="btn btn-default btn-lg btn-block">
+        自定义导出</a></li><br>
     {% endif %}
     <li><a href="{% url 'dates' %}" class="btn btn-primary btn-lg btn-block">
         按日期查看</a></li><br>

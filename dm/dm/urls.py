@@ -35,6 +35,9 @@ urlpatterns = [
     # 显示所有扣分记录的页面
     path('records/', views.all_records, name='records'),
 
+    # 自定义导出
+    path('my_export/', views.my_export, name='my_export'),
+
     # 新增扣分记录的页面
     path('add/', views.new_record, name='add'),
 

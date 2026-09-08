@@ -15,18 +15,10 @@
   {% for item in data %}
   <tr>
     <td>{{ item.0 }}</td>
-    {% if item.1.0 < 0 %}
-    <td>未上报</td>
-    {% else %}
     <td>{{ item.1.0 }}</td>
-    {% endif %}
     <td>{{ item.1.1 }}</td>
     <td>{{ item.1.2 }}</td>
-    {% if item.1.3 < 0 %}
-    <td>未上报</td>
-    {% else %}
     <td>{{ item.1.3 }}</td>
-    {% endif %}
   </tr>
   {% endfor %}
 </table>

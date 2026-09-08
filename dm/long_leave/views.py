@@ -335,6 +335,7 @@ def export(request):
 
     # 初始行
     row = 3
+    special_rows = []
 
     # 开始循环遍历写入数据
     for gc, data in consult_all().items():
@@ -342,10 +343,10 @@ def export(request):
         st.cell(row=row, column=1).value = gc
 
         # 写入应到人数
-        if data[0] < 0:
-            st.cell(row=row, column=2).value = '未上报'
-        else:
-            st.cell(row=row, column=2).value = data[0]
+        st.cell(row=row, column=2).alignment = Alignment(wrap_text=True)
+        st.cell(row=row, column=2).value = data[0]
+        if str(type(data[0])) == "<class 'str'>":
+            special_rows.append(row)
 
         # 写入长期假人员
         st.cell(row=row, column=3).alignment = Alignment(wrap_text=True)
@@ -356,10 +357,7 @@ def export(request):
         st.cell(row=row, column=4).value = data[2]
 
         # 写入正常跑操人数
-        if data[3] < 0:
-            st.cell(row=row, column=5).value = '未上报'
-        else:
-            st.cell(row=row, column=5).value = data[3]
+        st.cell(row=row, column=5).value = data[3]
 
         # 设置字体格式
         for c in range(1, 6):
@@ -376,11 +374,16 @@ def export(request):
 
     # TODO:调整行高
     for r in range(2, row):
-        st.row_dimensions[r].height = 26
+        if r in special_rows:
+            st.row_dimensions[r].height = 42
+        else:
+            st.row_dimensions[r].height = 26
 
     # 设置页边距（单位：英寸）
     st.page_margins.left = 0.25
     st.page_margins.right = 0.25
+    st.page_margins.top = 0.6
+    st.page_margins.bottom = 0.6
 
     return write_out(wb)
 

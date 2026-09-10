@@ -129,7 +129,7 @@ class StayRecord(models.Model):
     cs = models.IntegerField()
 
     # 关联学生对象，系统匹配
-    student_related = models.ForeignKey(NewStudent, on_delete=models.DO_NOTHING)
+    student_related = models.ForeignKey(NewStudent, on_delete=models.SET_NULL, null=True, blank=True)
 
     # 宿舍号与床铺，系统设置
     dorm = models.CharField(max_length=8)

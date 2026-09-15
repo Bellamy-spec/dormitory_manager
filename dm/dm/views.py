@@ -760,8 +760,8 @@ def month_together(request):
     # 做到此月即可（不超过此年月）
     ym_last = (ndt.year, ndt.month)
 
-    # 初始年月固定为2024年8月
-    ym = [2024, 8]
+    # 初始年月固定为2026年8月
+    ym = [2026, 8]
     ym_list = []
 
     # 年份小于或当年份等于时月份小于

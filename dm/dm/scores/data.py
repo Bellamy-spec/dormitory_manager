@@ -81,7 +81,7 @@ class Data:
             '谢婉娜': 'girl',
             '王春霞': 'girl',
             '张连红': 'girl',
-            '赵秀芹': 'girl',
+            '冯然然': 'girl',
             '徐红玲': 'girl',
         }
         self.dorm_gender = (('boy', 'boy'), ('girl', 'girl'))
@@ -552,6 +552,9 @@ class Data:
         for dorm in self.all_dormitory(gender=gender):
             try:
                 if self.get_grade_by_dorm(dorm) == grade:
+                    # 跳过走读宿舍代号
+                    if dorm == '000':
+                        continue
                     dorms.append(dorm)
             except IndexError:
                 # 该宿舍没有学生入住，直接跳过即可
@@ -577,6 +580,9 @@ class Data:
         # 加入宿舍
         for student in students:
             if student.dorm not in dorms:
+                # 跳过走读宿舍代号
+                if student.dorm == '000':
+                    continue
                 dorms.append(student.dorm)
 
         return dorms
@@ -587,6 +593,9 @@ class Data:
         for dorm in self.all_dormitory(gender=gender):
             # print(dorm)
             if gc in self.get_classes(dorm):
+                # 跳过走读宿舍代号
+                if dorm == '000':
+                    continue
                 dorms.append(dorm)
         return dorms
 

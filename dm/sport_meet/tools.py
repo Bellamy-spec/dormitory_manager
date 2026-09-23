@@ -157,7 +157,7 @@ class DataTool:
         self.max_cols = 8
 
         # 是否允许报名
-        self.active = True
+        self.active = False
 
     def get_class(self):
         """生成所有班级字符串"""

@@ -332,7 +332,7 @@ class Data:
         # }
 
         # 是否在搬宿舍到下一学年期间
-        self.change_dorm = True
+        self.change_dorm = False
 
         # 问卷选项
         self.paper_options = (

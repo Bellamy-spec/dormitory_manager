@@ -1,0 +1,12 @@
+{% extends "cm_eva/base_no_login.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>选择班级</h3>
+<ul class="list-unstyled">
+    {% for gs in gss %}
+    <li><a href="{% url 'cm_eva:up_load' gs.1 %}">{{ gs.0 }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'cm_eva:index' %}">返回上一页</a></p>
+{% endblock %}

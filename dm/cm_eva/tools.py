@@ -30,3 +30,13 @@ class DataTool:
             return '0' + str(n)
         else:
             return str(n)
+
+    def get_gc_str(self):
+        """返回班级汉字与数字链接字符串对应字典"""
+        gc_str_dict = {}
+        for grade, grade_num in self.grades_num.items():
+            for cs in range(1, 13):
+                gc = grade + str(cs) + '班'
+                gc_str = '{}-{}'.format(grade_num, cs)
+                gc_str_dict[gc] = gc_str
+        return gc_str_dict

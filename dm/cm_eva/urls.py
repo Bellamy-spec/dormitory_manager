@@ -38,4 +38,7 @@ urlpatterns = [
 
     # 删除班会评分记录
     path('delete_score/<int:score_id>/', views.delete_score, name='delete_score'),
+
+    # 数据补录
+    path('upload/', views.upload, name='upload'),
 ]

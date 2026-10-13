@@ -69,4 +69,7 @@ urlpatterns = [
 
     # 导出仪容仪表不合格名单
     path('yryb_export/<int:grade_num>/<str:date_str>/', views.yryb_export, name='yryb_export'),
+
+    # 数据补录
+    path('upload/', views.upload, name='upload'),
 ]

@@ -416,3 +416,9 @@ def delete_score(request, score_id):
 
     # 重定向至当日页面
     return HttpResponseRedirect(reverse('cm_eva:day', args=[date_str]))
+
+
+def upload(request):
+    """数据补录主页"""
+    context = {'gss': tuple(DT.get_gc_str().items())}
+    return render_ht(request, 'cm_eva/upload.html', context)

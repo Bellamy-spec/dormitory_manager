@@ -1,0 +1,12 @@
+{% extends "base_no_login.html" %}
+{% block ht %}{{ head_title }}{% endblock %}
+
+{% block content %}
+<h3>请选择班级</h3>
+<ul class="list-unstyled">
+    {% for gs in gss %}
+    <li><a href="{% url 'classclean:up_load' gs.1 %}">{{ gs.0 }}</a></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'classclean:index' %}">返回上一页</a></p>
+{% endblock %}

@@ -845,3 +845,9 @@ def yryb_export(request, grade_num, date_str):
 
     # 输出
     return write_out(wb)
+
+
+def upload(request):
+    """学生会检查数据补录"""
+    context = {'gss': tuple(DT.get_gc_str().items())}
+    return render_ht(request, 'classclean/upload.html', context)

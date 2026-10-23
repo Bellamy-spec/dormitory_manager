@@ -6,7 +6,7 @@ class DataTool:
     """静态数据类"""
     def __init__(self):
         # 项目管理员
-        self.manager = ['zz106dyc', '李宪伟', '王春']
+        self.manager = ['zz106dyc', '李宪伟', '王春', '刘明杰']
         self.su = ['zz106dyc']
 
         # 年级

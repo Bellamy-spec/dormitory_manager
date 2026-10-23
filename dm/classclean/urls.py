@@ -72,4 +72,7 @@ urlpatterns = [
 
     # 数据补录
     path('upload/', views.upload, name='upload'),
+
+    # 仪容仪表数据补录
+    path('upload_yryb/', views.upload_yryb, name='upload_yryb'),
 ]

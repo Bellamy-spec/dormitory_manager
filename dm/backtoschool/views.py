@@ -327,7 +327,7 @@ def add_absent_student(request, class_id):
                 })
 
             # 宿舍号只能含有数字且必须为三位
-            if not (new_student.dorm.isdigit() and len(new_student.dorm) == 3):
+            if not (new_student.dorm.isdigit() and len(new_student.dorm) == 3 or new_student.dorm == '无'):
                 return render_ht(request, 'backtoschool/add.html', context={
                     'form': form,
                     'cs': cs,

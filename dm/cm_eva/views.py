@@ -63,7 +63,10 @@ def index(request):
     if student_group in request.user.groups.all():
         logout(request)
 
-    context = {'title': '{}班会评价系统'.format(settings.USER_NAME)}
+    context = {
+        'title': '{}班会评价系统'.format(settings.USER_NAME),
+        'is_manager': request.user.username in DT.super_users,
+    }
     return render_ht(request, 'cm_eva/index.html', context)
 
 

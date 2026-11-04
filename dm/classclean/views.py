@@ -211,7 +211,7 @@ def count(grade, ym):
         # 保留位数，记录总分
         mtd[gc][0] = round(mtd[gc][0], 2)
         mtd[gc][1] = round(mtd[gc][1], 2)
-        mtd[gc].append(sum(mtd[gc]))
+        mtd[gc].append(round(sum(mtd[gc]), 2))
 
     return mtd
 
@@ -223,7 +223,7 @@ def mt_main(request):
     ym_last = (today.year, today.month)
 
     # 初始年月固定为2023年3月
-    ym = [2023, 3]
+    ym = [2025, 9]
     ym_list = []
 
     # 年份小于或当年份等于时月份小于

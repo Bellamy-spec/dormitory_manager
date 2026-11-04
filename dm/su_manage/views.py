@@ -1649,10 +1649,11 @@ def config_worker(request, sy_id):
 
             # print(worker_codes)
 
-            # 其余均非工作人员，全部标记“否”
+            # 其余均非工作人员，全部标记“否”，并且不再显示工作内容
             for ob in Member.objects.filter(school_year=school_year):
                 if ob.code not in worker_codes:
                     ob.work_abst2 = False
+                    ob.main_work = ''
                     ob.save()
 
             # 生成提示信息

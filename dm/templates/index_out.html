@@ -49,6 +49,11 @@
         <td colspan="2"><a href="{% url 'captcha_manage' %}" class="btn btn-success btn-lg li1">
             验证码管理</a></td>
     </tr>
+    {% else %}
+    <tr>
+        <td colspan="2"><a href="{% url 'su_manage:index' %}"
+               class="btn btn-primary btn-lg li1">学生会管理系统</a></td>
+    </tr>
     {% endif %}
 </table>
 <img class="img-responsive" src="{% static weekday %}"><br>
